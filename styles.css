@@ -11,7 +11,7 @@ html {
 }
 
 body {
-    font-family: 'Sukhumvit Set', Arial, sans-serif;
+    font-family: 'Kanit', Arial, sans-serif;
     background-color: #000000;
     min-height: 100vh;
 }
@@ -29,7 +29,7 @@ a:hover {
 
 button
 {
-    font-family: 'Sukhumvit Set', Arial, sans-serif;
+    font-family: 'Kanit', Arial, sans-serif;
 }
 
 /* ================================================= */
