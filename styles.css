@@ -423,7 +423,6 @@ button
 .top-fixed-image .menu_bar div{
     position: absolute;
     font-size: clamp(50%, 2vw, 200%);
-    font-weight: bold;
     color: #000000;
     
 }
