@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player - Multimedia TRU</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Athiti:wght@400;600&display=swap" />
+</head>
+<body>
+    <div class="top-fixed-image"> 
+        <img src="images/mobile_tab_background.png" alt="Top Image">
+        <div class="menu_bar">
+            <div><a href="index.html"><img src="images/logo_multimedia.png" alt="Logo"></a></div>
+            <div><a href="index.html#about">เกี่ยวกับ</a></div>
+            <div><a href="index.html#course">หลักสูตร</a></div>
+            <div><a href="index.html#workings">ผลงาน</a></div>
+            <div><a href="index.html#contract">ติดต่อเรา</a></div>
+            <div>MULTIMEDIA TECHNOLOGY</div>
+        </div>
+    </div>
+
+    <div class="video-player-wrapper">
+        <div class="video-player-container" id="video-player-content">
+            <!-- Video player and details will be injected here by player.js -->
+            <div id="player-frame" class="player-frame"></div>
+            <div class="video-details">
+                <h1 id="video-title" class="video-title"></h1>
+                <p id="video-description" class="video-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="website-footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 สาขาวิชาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี | All rights reserved</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/multimedia.tru" target="_blank" class="social-link">
+                        <span>📘 Facebook</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/player.js"></script>
+</body>
+</html>

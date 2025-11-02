@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Check LocalStorage</title>
+</head>
+<body>
+    <h1>LocalStorage Check</h1>
+    <div id="result"></div>
+    <script>
+        const stored = localStorage.getItem('multimedia_videos');
+        const resultDiv = document.getElementById('result');
+        
+        if (stored) {
+            try {
+                const videos = JSON.parse(stored);
+                resultDiv.innerHTML = '<h2>✅ พบวิดีโอ ' + videos.length + ' รายการ</h2><pre>' + JSON.stringify(videos, null, 2) + '</pre>';
+            } catch (e) {
+                resultDiv.innerHTML = '<h2>❌ Error: ' + e.message + '</h2>';
+            }
+        } else {
+            resultDiv.innerHTML = '<h2>⚠️ ไม่มีข้อมูลใน localStorage</h2><p>กรุณาไปที่ <a href="admin/index.html">Admin Panel</a> เพื่อเพิ่มวิดีโอ</p>';
+        }
+    </script>
+</body>
+</html>
