@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือแก้ไขปัญหาวิดีโอ - Multimedia TRU</title>
+    <style>
+        body {
+            font-family: 'Kanit', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid #ecf0f1;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        .step {
+            background: white;
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid #27ae60;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background: #27ae60;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .code {
+            background: #2d3748;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success { background: #27ae60; }
+        .btn-success:hover { background: #229954; }
+        
+        .btn-warning { background: #f39c12; }
+        .btn-warning:hover { background: #d68910; }
+        
+        .btn-danger { background: #e74c3c; }
+        .btn-danger:hover { background: #c0392b; }
+        
+        .quick-links {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quick-links a {
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 คู่มือแก้ไขปัญหาวิดีโอ YouTube</h1>
+        <p style="text-align: center; font-size: 1.2em; color: #7f8c8d;">
+            สาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี
+        </p>
+
+        <div class="quick-links">
+            <h3>🚀 ลิงค์ด่วน</h3>
+            <a href="index.html" class="btn">🏠 หน้าหลัก</a>
+            <a href="admin.html" class="btn btn-success">🔧 Admin Panel</a>
+            <a href="video-test.html" class="btn btn-warning">🧪 ทดสอบวิดีโอ</a>
+        </div>
+
+        <div class="section">
+            <h2>🎯 ปัญหาที่พบบ่อย</h2>
+            
+            <h3>1. วิดีโอที่เพิ่มใน Admin Panel ไม่แสดงในหน้าหลัก</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>ตรวจสอบว่าได้บันทึกวิดีโอแล้ว:</strong> กดปุ่ม "เพิ่มวิดีโอ" ใน Admin Panel และดูว่ามีข้อความ "เพิ่มวิดีโอสำเร็จ" หรือไม่
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>รีเฟรชหน้าเว็บ:</strong> กด F5 หรือรีเฟรชหน้าเว็บหลัก
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>กดปุ่ม "รีเฟรชแกลเลอรี่":</strong> ในหน้าหลัก หาปุ่ม 🔄 รีเฟรชแกลเลอรี่ และคลิก
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>ตรวจสอบ Console:</strong> กด F12 เปิด Developer Tools แล้วดูข้อความใน Console tab
+            </div>
+
+            <h3>2. วิดีโอแสดงเป็นกรอบเปล่า</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>ตรวจสอบลิงค์ YouTube:</strong> ให้แน่ใจว่าลิงค์ YouTube ถูกต้องและเปิดได้
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>ตรวจสอบ Video ID:</strong> ตรวจสอบว่า Video ID ยาว 11 ตัวอักษรและไม่มีตัวอักษรพิเศษ
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>ลองวิดีโอใหม่:</strong> ทดสอบด้วยวิดีโอ YouTube อื่นที่แน่ใจว่าใช้งานได้
+            </div>
+
+            <h3>3. Admin Panel ไม่ทำงาน</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>ตรวจสอบ Browser:</strong> ใช้ Chrome, Firefox, หรือ Safari เวอร์ชันใหม่
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>เคลียร์ Cache:</strong> กด Ctrl+Shift+R (Windows) หรือ Cmd+Shift+R (Mac)
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>ตรวจสอบ JavaScript:</strong> ให้แน่ใจว่า JavaScript ไม่ถูกบล็อค
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ เครื่องมือแก้ไขปัญหา</h2>
+            
+            <h3>การใช้ Console Commands</h3>
+            <p>เปิด Developer Tools (F12) และพิมพ์คำสั่งเหล่านี้ใน Console:</p>
+            
+            <div class="code">
+// ตรวจสอบสถานะระบบ
+debugVideoGallery()
+
+// บังคับโหลดวิดีโอใหม่
+forceReloadVideos()
+
+// ตรวจสอบปัญหา
+checkVideoLoadingIssues()
+
+// ดูสถานะ Video Gallery Manager
+getVideoGalleryStatus()
+            </div>
+
+            <h3>การแก้ไขปัญหาด้วย Video Test Page</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                เปิด <a href="video-test.html" target="_blank">หน้าทดสอบวิดีโอ</a>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                คลิก "ตรวจสอบ Storage" เพื่อดูข้อมูลที่บันทึกไว้
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                คลิก "เพิ่มวิดีโอทดสอบ" เพื่อทดสอบการทำงาน
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                คลิก "โหลดจาก Storage" เพื่อดูผลลัพธ์
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📋 ขั้นตอนการแก้ไขปัญหาทีละขั้น</h2>
+            
+            <div class="warning">
+                <strong>⚠️ ข้อควรระวัง:</strong> ก่อนเริ่มแก้ไขปัญหา ให้สำรองข้อมูลวิดีโอที่มีอยู่เสียก่อน
+            </div>
+
+            <h3>ขั้นตอนที่ 1: การตรวจสอบเบื้องต้น</h3>
+            <ol>
+                <li>เปิด Admin Panel และตรวจสอบว่ามีวิดีโอที่ต้องการหรือไม่</li>
+                <li>ลองเพิ่มวิดีโอใหม่และดูว่ามีข้อความสำเร็จหรือไม่</li>
+                <li>รีเฟรชหน้าเว็บหลักและดูผลลัพธ์</li>
+                <li>หากยังไม่แสดง ไปขั้นตอนที่ 2</li>
+            </ol>
+
+            <h3>ขั้นตอนที่ 2: การตรวจสอบระบบ</h3>
+            <ol>
+                <li>เปิด Developer Tools (กด F12)</li>
+                <li>ไปที่ Console tab</li>
+                <li>พิมพ์ <span class="highlight">debugVideoGallery()</span> และกด Enter</li>
+                <li>ดูข้อความที่แสดงออกมา</li>
+            </ol>
+
+            <h3>ขั้นตอนที่ 3: การแก้ไขปัญหา</h3>
+            
+            <div class="step">
+                <span class="step-number">A</span>
+                <strong>หากไม่พบข้อมูลใน Storage:</strong>
+                <ul>
+                    <li>กลับไป Admin Panel และเพิ่มวิดีโอใหม่</li>
+                    <li>ตรวจสอบว่ากดปุ่ม "เพิ่มวิดีโอ" แล้ว</li>
+                    <li>ดูข้อความยืนยันการบันทึก</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">B</span>
+                <strong>หากพบข้อมูลแต่วิดีโอไม่แสดง:</strong>
+                <ul>
+                    <li>พิมพ์ <span class="highlight">forceReloadVideos()</span> ใน Console</li>
+                    <li>รอสักครู่และดูผลลัพธ์</li>
+                    <li>หากยังไม่ได้ผล ลองรีเฟรชหน้าเว็บ</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">C</span>
+                <strong>หากวิดีโอแสดงแต่เป็นกรอบเปล่า:</strong>
+                <ul>
+                    <li>ตรวจสอบลิงค์ YouTube ใน Admin Panel</li>
+                    <li>ลองคัดลอกลิงค์ไปเปิดใน Browser ใหม่</li>
+                    <li>หากเปิดไม่ได้ ให้เปลี่ยนเป็นวิดีโออื่น</li>
+                </ul>
+            </div>
+
+            <h3>ขั้นตอนที่ 4: การรีเซ็ตระบบ (กรณีฉุกเฉิน)</h3>
+            <div class="error">
+                <strong>⚠️ คำเตือน:</strong> การดำเนินการนี้จะลบวิดีโอทั้งหมดใน Admin Panel
+            </div>
+            
+            <ol>
+                <li>เปิด Console (F12)</li>
+                <li>พิมพ์ <span class="highlight">localStorage.clear()</span></li>
+                <li>รีเฟรชหน้าเว็บ</li>
+                <li>เพิ่มวิดีโอใหม่ใน Admin Panel</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>✅ การตรวจสอบว่าแก้ไขปัญหาสำเร็จ</h2>
+            
+            <div class="success">
+                <h4>ระบบทำงานปกติเมื่อ:</h4>
+                <ul>
+                    <li>✅ วิดีโอที่เพิ่มใน Admin Panel แสดงในหน้าหลัก</li>
+                    <li>✅ วิดีโอโหลดได้ (ไม่ใช่กรอบเปล่า)</li>
+                    <li>✅ ระบบกรองหมวดหมู่ทำงาน</li>
+                    <li>✅ การอัปเดตวิดีโอทำงานแบบเรียลไทม์</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📞 ติดต่อขอความช่วยเหลือ</h2>
+            <p>หากยังไม่สามารถแก้ไขปัญหาได้ กรุณาติดต่อ:</p>
+            <ul>
+                <li>📧 Email: <a href="mailto:tru.multimedia666@gmail.com">tru.multimedia666@gmail.com</a></li>
+                <li>📘 Facebook: <a href="https://www.facebook.com/multimedia.tru" target="_blank">Multimedia TRU</a></li>
+                <li>📱 โทรศัพท์: 036-427494</li>
+            </ul>
+            
+            <div class="warning">
+                <strong>💡 เมื่อติดต่อขอความช่วยเหลือ กรุณาแนบข้อมูลต่อไปนี้:</strong>
+                <ul>
+                    <li>ภาพหน้าจอของปัญหา</li>
+                    <li>ข้อความใน Console (F12 → Console)</li>
+                    <li>Browser ที่ใช้ (Chrome, Firefox, Safari)</li>
+                    <li>ขั้นตอนที่ทำมาแล้ว</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #ecf0f1; border-radius: 10px;">
+            <p style="margin: 0; color: #7f8c8d;">
+                © 2025 สาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี<br>
+                พัฒนาโดยระบบจัดการเนื้อหาอัตโนมัติ
+            </p>
+        </div>
+    </div>
+</body>
+</html>

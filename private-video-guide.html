@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 คู่มือจัดการ Private Video</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(108, 117, 125, 0.2);
+            border-radius: 10px;
+            border: 2px solid #6c757d;
+        }
+        
+        h1 { font-size: 2.5em; margin-bottom: 10px; }
+        h2 { color: #FFD700; margin-bottom: 15px; margin-top: 30px; }
+        h3 { color: #87CEEB; margin-bottom: 10px; }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .section.error {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .section.success {
+            border-left-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .section.warning {
+            border-left-color: #ffc107;
+            background: rgba(255, 193, 7, 0.1);
+        }
+        
+        .section.info {
+            border-left-color: #17a2b8;
+            background: rgba(23, 162, 184, 0.1);
+        }
+        
+        .video-type {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .video-type-icon {
+            font-size: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-type-content h4 {
+            margin: 0 0 5px 0;
+            color: #FFD700;
+        }
+        
+        .video-type-content p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            width: 30px;
+            height: 30px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover { transform: translateY(-2px); }
+        .btn.primary { background: linear-gradient(45deg, #007bff, #0056b3); }
+        .btn.success { background: linear-gradient(45deg, #28a745, #20c997); }
+        
+        .tip {
+            background: rgba(23, 162, 184, 0.2);
+            border: 1px solid #17a2b8;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tip::before {
+            content: "💡 ";
+            font-size: 1.2em;
+        }
+        
+        .warning-box {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 15px; margin: 10px; }
+            .video-type { grid-template-columns: 1fr; text-align: center; }
+            .step { padding-left: 15px; }
+            .step::before { position: relative; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 คู่มือจัดการ Private Video</h1>
+            <p style="font-size: 1.2em;">คู่มือสำหรับการตรวจสอบและจัดการวิดีโอ YouTube ที่เป็น Private, ถูกลบ หรือไม่สามารถเข้าถึงได้</p>
+            <div style="background: rgba(40, 167, 69, 0.2); border: 2px solid #28a745; border-radius: 8px; padding: 15px; margin-top: 15px;">
+                <strong>💡 เคล็ดลับพิเศษ:</strong> ใช้การตั้งค่า "ไม่เป็นสาธารณะ" (Unlisted) เพื่อให้วิดีโอไม่แสดงใน YouTube แต่ยังใช้ในเว็บไซต์ได้!
+            </div>
+        </div>
+        
+        <div class="section info">
+            <h2>📋 ภาพรวม Private Video System</h2>
+            <p>ระบบ Private Video Handler ถูกออกแบบมาเพื่อ:</p>
+            <ul>
+                <li>🔍 ตรวจสอบวิดีโอ YouTube ที่ไม่สามารถเข้าถึงได้</li>
+                <li>🔒 ระบุประเภทของปัญหา (Private, Deleted, Restricted)</li>
+                <li>🎨 สร้าง Fallback UI ที่สวยงามแทนวิดีโอที่มีปัญหา</li>
+                <li>🔄 ตรวจสอบวิดีโอใหม่อัตโนมัติ</li>
+                <li>📊 รายงานสถานะและสถิติ</li>
+            </ul>
+        </div>
+        
+        <div class="section error">
+            <h2>🚫 ประเภท Private Video ที่รองรับ</h2>
+            
+            <div class="video-type">
+                <div class="video-type-icon">🔒</div>
+                <div class="video-type-content">
+                    <h4>Private Video</h4>
+                    <p><strong>สาเหตุ:</strong> เจ้าของวิดีโอตั้งค่าเป็นส่วนตัว<br>
+                    <strong>ข้อความ:</strong> "This video is private"<br>
+                    <strong>การแก้ไข:</strong> ขอสิทธิ์เข้าถึงจากเจ้าของหรือหาวิดีโออื่นแทน</p>
+                </div>
+            </div>
+            
+            <div class="video-type">
+                <div class="video-type-icon">❌</div>
+                <div class="video-type-content">
+                    <h4>Deleted Video</h4>
+                    <p><strong>สาเหตุ:</strong> วิดีโอถูกลบโดยเจ้าของหรือ YouTube<br>
+                    <strong>ข้อความ:</strong> "This video has been removed"<br>
+                    <strong>การแก้ไข:</strong> หาวิดีโอสำรองหรืออัพโหลดใหม่</p>
+                </div>
+            </div>
+            
+            <div class="video-type">
+                <div class="video-type-icon">⛔</div>
+                <div class="video-type-content">
+                    <h4>Restricted Video</h4>
+                    <p><strong>สาเหตุ:</strong> วิดีโอถูกจำกัดในพื้นที่หรือกลุ่มอายุ<br>
+                    <strong>ข้อความ:</strong> "Video unavailable"<br>
+                    <strong>การแก้ไข:</strong> ใช้ VPN หรือหาวิดีโออื่นที่ไม่ถูกจำกัด</p>
+                </div>
+            </div>
+            
+            <div class="video-type">
+                <div class="video-type-icon">🚫</div>
+                <div class="video-type-content">
+                    <h4>Unavailable Video</h4>
+                    <p><strong>สาเหตุ:</strong> ปัญหาทางเทคนิคหรือการเข้าถึง<br>
+                    <strong>ข้อความ:</strong> "Video unavailable"<br>
+                    <strong>การแก้ไข:</strong> ตรวจสอบการเชื่อมต่อหรือลองใหม่ในภายหลัง</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="border-left-color: #28a745;">
+            <h2>🔑 วิธีแก้ปัญหา: การตั้งค่า "ไม่เป็นสาธารณะ" (Unlisted)</h2>
+            <p>📌 <strong>วิธีที่แนะนำสำหรับการใช้วิดีโอในเว็บไซต์โดยไม่ให้แสดงใน YouTube:</strong></p>
+            
+            <div class="video-type" style="border: 2px solid #28a745;">
+                <div class="video-type-icon">🔓</div>
+                <div class="video-type-content">
+                    <h4 style="color: #28a745;">Unlisted Video (ไม่เป็นสาธารณะ)</h4>
+                    <p><strong>ข้อดี:</strong><br>
+                    ✅ ไม่แสดงในหน้าช่องของคุณ (Channel page)<br>
+                    ✅ ไม่แสดงในผลการค้นหาของ YouTube<br>
+                    ✅ ไม่มีการแจ้งเตือน (Notification) ให้ผู้ติดตาม<br>
+                    ✅ สามารถฝังในเว็บไซต์ได้ปกติ<br>
+                    ✅ คนที่มีลิงก์โดยตรงสามารถดูได้</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🎬 วิธีตั้งค่าเป็น Unlisted:</h3>
+                <ol>
+                    <li><strong>อัปโหลดวิดีโอใหม่:</strong> เลือก "ไม่เป็นสาธารณะ" (Unlisted) ในขั้นตอนการอัปโหลด</li>
+                    <li><strong>วิดีโอที่มีอยู่:</strong> ไปที่ YouTube Studio → เลือกวิดีโอ → เปลี่ยนการมองเห็นเป็น "Unlisted"</li>
+                    <li><strong>ได้โค้ด Embed:</strong> คัดลอกโค้ด iframe มาใส่ในเว็บไซต์</li>
+                </ol>
+            </div>
+
+            <div class="code-example">
+                <h4>📝 ตัวอย่างโค้ด Embed สำหรับ Unlisted Video:</h4>
+                <pre><code>&lt;iframe 
+    src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1" 
+    frameborder="0" 
+    allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+                <p><strong>หมายเหตุ:</strong> VIDEO_ID จะทำงานปกติแม้วิดีโอจะเป็น Unlisted</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 วิธีใช้งานระบบ</h2>
+            
+            <h3>📱 การใช้งานบนหน้าเว็บหลัก:</h3>
+            <div class="step-list">
+                <div class="step">
+                    <h4>เปิดหน้าเว็บ</h4>
+                    <p>เปิดไฟล์ <code>index.html</code> ระบบจะตรวจสอบ private video อัตโนมัติภายใน 3 วินาที</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ตรวจสอบด้วยตนเอง</h4>
+                    <p>คลิกปุ่ม <strong>🔒 ตรวจสอบ Private Video</strong> ในส่วน Load More Button</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ดูผลลัพธ์</h4>
+                    <p>วิดีโอ private จะถูกแทนที่ด้วย Fallback UI พร้อมข้อมูลและลิงค์ไปยัง YouTube</p>
+                </div>
+            </div>
+            
+            <h3>🔧 การใช้งานเครื่องมือขั้นสูง:</h3>
+            <div class="step-list">
+                <div class="step">
+                    <h4>เปิดเครื่องมือจัดการ</h4>
+                    <p>คลิกปุ่ม <strong>🔒 จัดการ Private Video</strong> หรือเปิดไฟล์ <code>private-video-manager.html</code></p>
+                </div>
+                
+                <div class="step">
+                    <h4>ตรวจสอบสถานะ</h4>
+                    <p>ดูสถิติวิดีโอทั้งหมด, private video, และ fallback elements</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ทดสอบวิดีโอ</h4>
+                    <p>ใช้ช่อง "ทดสอบวิดีโอเดียว" เพื่อตรวจสอบ Video ID เฉพาะ</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ส่งออกรายงาน</h4>
+                    <p>บันทึกรายงาน private video เป็นไฟล์ JSON สำหรับการวิเคราะห์</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section warning">
+            <h2>⚙️ การตั้งค่าและปรับแต่ง</h2>
+            
+            <h3>🔧 การตั้งค่าระบบ:</h3>
+            <div class="code-example">
+const PRIVATE_VIDEO_CONFIG = {
+    CHECK_DELAY: 3000,           // เวลารอก่อนตรวจสอบ (ms)
+    MAX_CHECK_ATTEMPTS: 3,       // จำนวนครั้งที่พยายาม
+    RETRY_DELAY: 2000,           // เวลารอระหว่างการลอง (ms)
+    
+    // ข้อความที่บ่งบอกปัญหา
+    ERROR_INDICATORS: [
+        'private', 'unavailable', 'deleted', 'removed',
+        'blocked', 'restricted', 'not available'
+    ]
+};
+            </div>
+            
+            <h3>🎨 การปรับแต่ง Fallback UI:</h3>
+            <p>Fallback elements สร้างขึ้นด้วย CSS และ JavaScript แบบ dynamic สามารถปรับแต่ง:</p>
+            <ul>
+                <li>🎨 สีและธีม</li>
+                <li>📝 ข้อความและไอคอน</li>
+                <li>🔗 ปุ่มและลิงค์</li>
+                <li>📱 Responsive design</li>
+            </ul>
+            
+            <div class="tip">
+                <strong>เคล็ดลับ:</strong> สามารถแก้ไขฟังก์ชัน <code>createPrivateVideoFallback()</code> ในไฟล์ <code>private-video-handler.js</code> เพื่อปรับแต่ง UI
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 การ Debug และแก้ไขปัญหา</h2>
+            
+            <h3>📊 การตรวจสอบสถานะ:</h3>
+            <div class="code-example">
+// ตรวจสอบสถานะใน Console
+console.log(window.PrivateVideoHandler.status());
+
+// ตรวจสอบการทำงาน
+window.PrivateVideoHandler.check();
+
+// ดูการตั้งค่า
+console.log(window.PrivateVideoHandler.config);
+            </div>
+            
+            <h3>🐛 ปัญหาที่พบบ่อย:</h3>
+            
+            <div class="warning-box">
+                <strong>ปัญหา:</strong> ระบบไม่ตรวจสอบอัตโนมัติ<br>
+                <strong>สาเหตุ:</strong> สคริปต์โหลดไม่สำเร็จหรือ DOM ยังไม่พร้อม<br>
+                <strong>แก้ไข:</strong> ตรวจสอบ Console errors และเรียงลำดับสคริปต์ใหม่
+            </div>
+            
+            <div class="warning-box">
+                <strong>ปัญหา:</strong> API ตรวจสอบไม่ทำงาน<br>
+                <strong>สาเหตุ:</strong> CORS หรือ Rate limiting<br>
+                <strong>แก้ไข:</strong> ใช้ proxy หรือลดความถี่ในการตรวจสอบ
+            </div>
+            
+            <div class="warning-box">
+                <strong>ปัญหา:</strong> Fallback UI ไม่แสดงถูกต้อง<br>
+                <strong>สาเหตุ:</strong> CSS conflicts หรือ parent element constraints<br>
+                <strong>แก้ไข:</strong> ตรวจสอบ CSS และ DOM structure
+            </div>
+            
+            <h3>🛠️ เครื่องมือ Debug:</h3>
+            <ul>
+                <li>📊 <strong>Status Monitor:</strong> <code>window.PrivateVideoHandler.status()</code></li>
+                <li>🔄 <strong>Manual Check:</strong> <code>window.PrivateVideoHandler.check()</code></li>
+                <li>👁️ <strong>Is Checking:</strong> <code>window.PrivateVideoHandler.isChecking()</code></li>
+                <li>📋 <strong>Private Videos:</strong> <code>window.PrivateVideoHandler.privateVideos()</code></li>
+            </ul>
+        </div>
+        
+        <div class="section info">
+            <h2>🔗 การผสานรวมกับระบบอื่น</h2>
+            
+            <h3>🎬 Dynamic Video System:</h3>
+            <p>ระบบสามารถทำงานร่วมกับ Dynamic Video Loader โดยอัตโนมัติ:</p>
+            <ul>
+                <li>🔄 ตรวจสอบวิดีโอหลังจาก localStorage เปลี่ยนแปลง</li>
+                <li>👁️ ติดตามการเพิ่มวิดีโอใหม่</li>
+                <li>🔗 Hook เข้ากับ video gallery manager</li>
+            </ul>
+            
+            <h3>🚨 YouTube Error Fix System:</h3>
+            <p>ทำงานร่วมกับระบบแก้ไข YouTube errors:</p>
+            <ul>
+                <li>⚡ รันหลังจาก YouTube Video Fix</li>
+                <li>🔧 แก้ไขปัญหาที่เหลือหลัง Error 153 Fix</li>
+                <li>📊 รายงานสถานะรวม</li>
+            </ul>
+            
+            <div class="tip">
+                <strong>ลำดับการทำงาน:</strong><br>
+                1. Private Video Handler → 2. YouTube Video Fix → 3. Error 153 Fix → 4. Video Gallery Fix
+            </div>
+        </div>
+        
+        <div class="section success">
+            <h2>📈 การใช้งานขั้นสูง</h2>
+            
+            <h3>📊 Bulk Operations:</h3>
+            <div class="code-example">
+// ตรวจสอบวิดีโอทั้งหมดและส่งออกรายงาน
+async function bulkCheck() {
+    const result = await window.PrivateVideoHandler.check();
+    const report = {
+        timestamp: new Date().toISOString(),
+        summary: result,
+        details: window.PrivateVideoHandler.privateVideos()
+    };
+    console.log('📊 Bulk Check Report:', report);
+    return report;
+}
+            </div>
+            
+            <h3>🔄 Custom Fallback:</h3>
+            <div class="code-example">
+// สร้าง custom fallback function
+function customFallback(videoId, issue) {
+    return `
+        &lt;div class="custom-fallback"&gt;
+            &lt;h3&gt;Video Not Available&lt;/h3&gt;
+            &lt;p&gt;Video ID: ${videoId}&lt;/p&gt;
+            &lt;p&gt;Issue: ${issue}&lt;/p&gt;
+            &lt;button onclick="location.reload()"&gt;Try Again&lt;/button&gt;
+        &lt;/div&gt;
+    `;
+}
+            </div>
+            
+            <h3>📱 Mobile Optimization:</h3>
+            <p>Fallback UI ถูกออกแบบให้ responsive และทำงานดีบนมือถือ:</p>
+            <ul>
+                <li>📏 ปรับขนาดตาม viewport</li>
+                <li>👆 Touch-friendly buttons</li>
+                <li>🎨 Mobile-optimized layout</li>
+                <li>⚡ Fast loading</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Best Practices</h2>
+            
+            <h3>✅ สิ่งที่ควรทำ:</h3>
+            <ul>
+                <li>� <strong>ใช้ Unlisted Video แทน Private</strong> - เหมาะสำหรับเว็บไซต์</li>
+                <li>�🔍 ตรวจสอบ private video เป็นระยะๆ</li>
+                <li>📊 เก็บรายงานสำหรับการวิเคราะห์</li>
+                <li>🔄 อัพเดท Video ID ที่มีปัญหา</li>
+                <li>🎨 ปรับแต่ง fallback UI ให้เข้ากับเว็บไซต์</li>
+                <li>📱 ทดสอบบนอุปกรณ์หลากหลาย</li>
+            </ul>
+            
+            <h3>❌ สิ่งที่ไม่ควรทำ:</h3>
+            <ul>
+                <li>� <strong>ไม่ควรใช้ Private Video ในเว็บไซต์</strong> - ใช้ Unlisted แทน</li>
+                <li>�🚫 ไม่ควรตรวจสอบบ่อยเกินไป (API limitations)</li>
+                <li>⚠️ ไม่ควรแก้ไขสคริปต์หลักโดยไม่เข้าใจ</li>
+                <li>🔒 ไม่ควรใช้วิดีโอ private โดยไม่ได้รับอนุญาต</li>
+                <li>📱 ไม่ควรละเลยการทดสอบบนมือถือ</li>
+            </ul>
+            
+            <div style="background: rgba(40, 167, 69, 0.2); border: 2px solid #28a745; border-radius: 8px; padding: 15px; margin-top: 20px;">
+                <h4 style="color: #28a745;">💡 เคล็ดลับสำคัญ:</h4>
+                <p><strong>การเลือกใช้ประเภทวิดีโอ YouTube:</strong></p>
+                <ul style="margin: 10px 0;">
+                    <li>🟢 <strong>Unlisted</strong> - เหมาะสำหรับฝังในเว็บไซต์ (แนะนำ)</li>
+                    <li>🔴 <strong>Private</strong> - ใช้สำหรับวิดีโอส่วนตัวเท่านั้น</li>
+                    <li>🟡 <strong>Public</strong> - จะแสดงในช่อง YouTube และผลการค้นหา</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section info">
+            <h2>📞 การขอความช่วยเหลือ</h2>
+            
+            <h3>🆘 เมื่อต้องการความช่วยเหลือ:</h3>
+            <div class="step-list">
+                <div class="step">
+                    <h4>เปิด Developer Console</h4>
+                    <p>กด F12 และดูข้อความ error ใน Console tab</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ตรวจสอบสถานะระบบ</h4>
+                    <p>รัน <code>window.PrivateVideoHandler.status()</code> และบันทึกผลลัพธ์</p>
+                </div>
+                
+                <div class="step">
+                    <h4>เก็บข้อมูล Debug</h4>
+                    <p>ส่งออกรายงานและบันทึก Console logs</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ติดต่อผู้พัฒนา</h4>
+                    <p>แนบไฟล์ข้อมูลและอธิบายปัญหาที่เกิดขึ้น</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="index.html" class="btn success">🏠 กลับหน้าหลัก</a>
+            <a href="private-video-manager.html" class="btn primary">🔧 เครื่องมือจัดการ</a>
+        </div>
+    </div>
+    
+    <script>
+        // แสดงสถานะระบบ
+        setTimeout(() => {
+            if (window.PrivateVideoHandler) {
+                console.log('✅ Private Video Handler พร้อมใช้งาน');
+                console.log('📊 สถานะปัจจุบัน:', window.PrivateVideoHandler.status());
+            } else {
+                console.log('⚠️ Private Video Handler ไม่พร้อมใช้งาน - เปิดหน้าหลักเพื่อโหลดระบบ');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

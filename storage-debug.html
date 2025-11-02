@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStorage Debugging Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        h1, h2 { text-align: center; margin-bottom: 20px; }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        
+        .btn:hover { transform: translateY(-2px); }
+        .btn.danger { background: linear-gradient(45deg, #f44336, #d32f2f); }
+        
+        #output {
+            background: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            height: 400px;
+            overflow-y: auto;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        
+        .video-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .video-id {
+            font-weight: bold;
+            color: #FFD700;
+            font-size: 18px;
+        }
+        
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .warning { color: #ff9800; }
+        .info { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 LocalStorage Debug Tool</h1>
+        <p style="text-align: center;">ตรวจสอบข้อมูล YouTube ID และการจัดเก็บใน localStorage</p>
+        
+        <div class="section">
+            <h2>📊 Storage Information</h2>
+            <button class="btn" onclick="checkStorage()">🔍 Check Storage</button>
+            <button class="btn" onclick="showAllKeys()">🗂️ Show All Keys</button>
+            <button class="btn" onclick="showVideoData()">🎬 Show Video Data</button>
+            <button class="btn" onclick="analyzeVideoIds()">🎯 Analyze Video IDs</button>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 Test Functions</h2>
+            <button class="btn" onclick="testYouTubeIdExtraction()">🎥 Test YouTube ID Extraction</button>
+            <button class="btn" onclick="testVideoSaving()">💾 Test Video Saving</button>
+            <button class="btn" onclick="simulateAddVideo()">➕ Simulate Add Video</button>
+        </div>
+        
+        <div class="section">
+            <h2>🛠️ Data Management</h2>
+            <button class="btn" onclick="exportData()">📤 Export Data</button>
+            <button class="btn" onclick="importTestData()">📥 Import Test Data</button>
+            <button class="btn danger" onclick="clearStorage()">🗑️ Clear Storage</button>
+        </div>
+        
+        <div class="section">
+            <h2>📺 Video Gallery</h2>
+            <div id="video-list">Click "Show Video Data" to see videos here</div>
+        </div>
+        
+        <div class="section">
+            <h2>🖥️ Console Output</h2>
+            <div id="output">Ready for debugging...</div>
+            <button class="btn" onclick="clearOutput()">🧹 Clear Output</button>
+        </div>
+    </div>
+    
+    <script>
+        const STORAGE_KEY = 'multimedia_videos';
+        const UPDATE_KEY = 'video_gallery_updated';
+        const output = document.getElementById('output');
+        const videoList = document.getElementById('video-list');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'info': '#2196F3',
+                'success': '#4CAF50',
+                'error': '#f44336',
+                'warning': '#ff9800'
+            };
+            const color = colors[type] || '#00ff00';
+            output.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span>\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function checkStorage() {
+            log('🔍 ตรวจสอบ localStorage...', 'info');
+            
+            // ตรวจสอบความสามารถของ localStorage
+            try {
+                const testKey = 'test_' + Date.now();
+                localStorage.setItem(testKey, 'test');
+                const testValue = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+                
+                if (testValue === 'test') {
+                    log('✅ localStorage ทำงานปกติ', 'success');
+                } else {
+                    log('❌ localStorage มีปัญหา', 'error');
+                }
+            } catch (e) {
+                log('❌ localStorage ไม่สามารถใช้งานได้: ' + e.message, 'error');
+                return;
+            }
+            
+            // ตรวจสอบข้อมูลวิดีโอ
+            const videoData = localStorage.getItem(STORAGE_KEY);
+            const updateSignal = localStorage.getItem(UPDATE_KEY);
+            
+            log(`📦 ข้อมูลวิดีโอ: ${videoData ? 'มี' : 'ไม่มี'}`, videoData ? 'success' : 'warning');
+            log(`🔄 สัญญาณอัพเดท: ${updateSignal || 'ไม่มี'}`, updateSignal ? 'success' : 'warning');
+            
+            if (videoData) {
+                try {
+                    const videos = JSON.parse(videoData);
+                    log(`📚 จำนวนวิดีโอ: ${videos.length} รายการ`, 'info');
+                    
+                    if (videos.length > 0) {
+                        log('🎬 วิดีโอล่าสุด: ' + videos[videos.length - 1].title, 'info');
+                    }
+                } catch (e) {
+                    log('❌ ข้อมูลวิดีโอเสียหาย: ' + e.message, 'error');
+                }
+            }
+            
+            // ตรวจสอบขนาด storage
+            let totalSize = 0;
+            for (let key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    totalSize += localStorage[key].length;
+                }
+            }
+            log(`📏 ขนาด localStorage: ${(totalSize / 1024).toFixed(2)} KB`, 'info');
+        }
+        
+        function showAllKeys() {
+            log('🗂️ แสดงทุก Keys ใน localStorage:', 'info');
+            
+            if (localStorage.length === 0) {
+                log('📭 localStorage ว่างเปล่า', 'warning');
+                return;
+            }
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                const size = value.length;
+                
+                log(`   ${i + 1}. "${key}" (${size} chars)`, 'info');
+                
+                // แสดงตัวอย่างค่า
+                if (size > 100) {
+                    log(`      → "${value.substring(0, 50)}..."`, 'info');
+                } else {
+                    log(`      → "${value}"`, 'info');
+                }
+            }
+        }
+        
+        function showVideoData() {
+            log('🎬 แสดงข้อมูลวิดีโอทั้งหมด:', 'info');
+            videoList.innerHTML = '';
+            
+            const videoData = localStorage.getItem(STORAGE_KEY);
+            if (!videoData) {
+                log('📭 ไม่มีข้อมูลวิดีโอใน localStorage', 'warning');
+                videoList.innerHTML = '<p style="color: #ff9800;">ไม่มีข้อมูลวิดีโอ</p>';
+                return;
+            }
+            
+            try {
+                const videos = JSON.parse(videoData);
+                log(`📚 พบวิดีโอ ${videos.length} รายการ:`, 'success');
+                
+                videos.forEach((video, index) => {
+                    log(`   ${index + 1}. "${video.title}"`, 'info');
+                    log(`      📹 Video ID: ${video.videoId}`, 'info');
+                    log(`      🔗 URL: ${video.videoUrl || video.url || 'ไม่มี'}`, 'info');
+                    log(`      👤 นักเรียน: ${video.studentName}`, 'info');
+                    log(`      📂 หมวดหมู่: ${video.category}`, 'info');
+                    log(`      📅 วันที่สร้าง: ${video.createdAt}`, 'info');
+                    log('', 'info'); // บรรทัดว่าง
+                    
+                    // แสดงในหน้าเว็บ
+                    const videoDiv = document.createElement('div');
+                    videoDiv.className = 'video-item';
+                    videoDiv.innerHTML = `
+                        <div class="video-id">🎬 ${video.title}</div>
+                        <p><strong>Video ID:</strong> <span style="color: #FFD700;">${video.videoId}</span></p>
+                        <p><strong>URL:</strong> ${video.videoUrl || video.url || 'ไม่มี'}</p>
+                        <p><strong>นักเรียน:</strong> ${video.studentName}</p>
+                        <p><strong>หมวดหมู่:</strong> ${video.category}</p>
+                        <p><strong>รายละเอียด:</strong> ${video.description || 'ไม่มี'}</p>
+                        <p><strong>วันที่:</strong> ${new Date(video.createdAt).toLocaleString('th-TH')}</p>
+                    `;
+                    videoList.appendChild(videoDiv);
+                });
+                
+            } catch (e) {
+                log('❌ ไม่สามารถอ่านข้อมูลวิดีโอได้: ' + e.message, 'error');
+                videoList.innerHTML = '<p style="color: #f44336;">ข้อมูลเสียหาย</p>';
+            }
+        }
+        
+        function analyzeVideoIds() {
+            log('🎯 วิเคราะห์ YouTube Video IDs:', 'info');
+            
+            const videoData = localStorage.getItem(STORAGE_KEY);
+            if (!videoData) {
+                log('📭 ไม่มีข้อมูลวิดีโอให้วิเคราะห์', 'warning');
+                return;
+            }
+            
+            try {
+                const videos = JSON.parse(videoData);
+                log(`🔍 วิเคราะห์ ${videos.length} วิดีโอ:`, 'info');
+                
+                const videoIds = videos.map(v => v.videoId);
+                const uniqueIds = [...new Set(videoIds)];
+                
+                log(`📊 Video IDs เฉพาะ: ${uniqueIds.length}/${videos.length}`, 'info');
+                
+                if (uniqueIds.length !== videos.length) {
+                    log('⚠️ พบ Video ID ซ้ำกัน!', 'warning');
+                }
+                
+                // ตรวจสอบรูปแบบ Video ID
+                uniqueIds.forEach((id, index) => {
+                    const isValid = /^[a-zA-Z0-9_-]{11}$/.test(id);
+                    const status = isValid ? '✅' : '❌';
+                    log(`   ${index + 1}. ${status} "${id}" (${id.length} ตัวอักษร)`, isValid ? 'success' : 'error');
+                });
+                
+                // แสดง URLs ที่เกี่ยวข้อง
+                log('🔗 URLs ที่เกี่ยวข้อง:', 'info');
+                videos.forEach((video, index) => {
+                    const url = video.videoUrl || video.url || 'ไม่มี URL';
+                    log(`   ${index + 1}. ${url}`, 'info');
+                });
+                
+            } catch (e) {
+                log('❌ ไม่สามารถวิเคราะห์ข้อมูลได้: ' + e.message, 'error');
+            }
+        }
+        
+        function testYouTubeIdExtraction() {
+            log('🎥 ทดสอบการแยก YouTube Video ID:', 'info');
+            
+            const testUrls = [
+                'https://www.youtube.com/watch?v=aqCBD2qg7b8',
+                'https://youtu.be/aqCBD2qg7b8',
+                'https://www.youtube.com/embed/aqCBD2qg7b8',
+                'https://www.youtube.com/watch?v=aqCBD2qg7b8&t=123',
+                'aqCBD2qg7b8',
+                'invalid-url',
+                'https://www.youtube.com/watch?v=',
+                'https://www.youtube.com/watch?v=invalid123'
+            ];
+            
+            testUrls.forEach((url, index) => {
+                const videoId = extractYouTubeId(url);
+                const status = videoId ? '✅' : '❌';
+                log(`   ${index + 1}. ${status} "${url}" → "${videoId || 'INVALID'}"`, videoId ? 'success' : 'error');
+            });
+        }
+        
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            
+            // ถ้าเป็น Video ID อยู่แล้ว
+            if (url.length === 11 && /^[a-zA-Z0-9_-]+$/.test(url)) {
+                return url;
+            }
+            
+            // แยกจาก URL รูปแบบต่างๆ
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+        
+        function testVideoSaving() {
+            log('💾 ทดสอบการบันทึกวิดีโอ:', 'info');
+            
+            const testVideo = {
+                id: 'test_' + Date.now(),
+                title: 'Test Video - Debug',
+                description: 'วิดีโอทดสอบสำหรับ debug',
+                studentName: 'Debug Tester',
+                category: 'animation',
+                videoId: 'aqCBD2qg7b8',
+                videoUrl: 'https://www.youtube.com/watch?v=aqCBD2qg7b8',
+                createdAt: new Date().toISOString()
+            };
+            
+            try {
+                // อ่านข้อมูลเดิม
+                const existingData = localStorage.getItem(STORAGE_KEY);
+                const videos = existingData ? JSON.parse(existingData) : [];
+                
+                // เพิ่มวิดีโอทดสอบ
+                videos.push(testVideo);
+                
+                // บันทึกข้อมูล
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
+                localStorage.setItem(UPDATE_KEY, Date.now().toString());
+                
+                log('✅ บันทึกวิดีโอทดสอบสำเร็จ', 'success');
+                log(`📹 Video ID: ${testVideo.videoId}`, 'info');
+                log(`🏷️ Title: ${testVideo.title}`, 'info');
+                
+                // ตรวจสอบการบันทึก
+                const saved = localStorage.getItem(STORAGE_KEY);
+                const savedVideos = JSON.parse(saved);
+                const foundVideo = savedVideos.find(v => v.id === testVideo.id);
+                
+                if (foundVideo) {
+                    log('✅ ตรวจสอบการบันทึก: พบวิดีโอที่เพิ่ม', 'success');
+                } else {
+                    log('❌ ตรวจสอบการบันทึก: ไม่พบวิดีโอที่เพิ่ม', 'error');
+                }
+                
+                // ลบวิดีโอทดสอบหลัง 5 วินาที
+                setTimeout(() => {
+                    removeTestVideo(testVideo.id);
+                    log('🗑️ ลบวิดีโอทดสอบแล้ว', 'info');
+                }, 5000);
+                
+            } catch (e) {
+                log('❌ ไม่สามารถบันทึกวิดีโอได้: ' + e.message, 'error');
+            }
+        }
+        
+        function removeTestVideo(testId) {
+            try {
+                const existingData = localStorage.getItem(STORAGE_KEY);
+                const videos = existingData ? JSON.parse(existingData) : [];
+                const filteredVideos = videos.filter(v => v.id !== testId);
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredVideos));
+                localStorage.setItem(UPDATE_KEY, Date.now().toString());
+            } catch (e) {
+                log('❌ ไม่สามารถลบวิดีโอทดสอบได้: ' + e.message, 'error');
+            }
+        }
+        
+        function simulateAddVideo() {
+            log('➕ จำลองการเพิ่มวิดีโอผ่าน Admin:', 'info');
+            
+            const videoUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            const videoId = extractYouTubeId(videoUrl);
+            
+            log(`🔗 URL: ${videoUrl}`, 'info');
+            log(`📹 Video ID ที่แยกได้: ${videoId}`, videoId ? 'success' : 'error');
+            
+            if (!videoId) {
+                log('❌ ไม่สามารถแยก Video ID ได้', 'error');
+                return;
+            }
+            
+            // สร้างข้อมูลวิดีโอ
+            const newVideo = {
+                id: Date.now().toString(),
+                title: 'Rick Astley - Never Gonna Give You Up',
+                description: 'วิดีโอทดสอบสำหรับระบบ Admin',
+                studentName: 'Rick Astley',
+                category: 'other',
+                videoId: videoId,
+                videoUrl: videoUrl,
+                createdAt: new Date().toISOString()
+            };
+            
+            try {
+                // ตรวจสอบ duplicate
+                const existingData = localStorage.getItem(STORAGE_KEY);
+                const videos = existingData ? JSON.parse(existingData) : [];
+                
+                if (videos.find(v => v.videoId === videoId)) {
+                    log('⚠️ วิดีโอนี้มีอยู่ในระบบแล้ว', 'warning');
+                    return;
+                }
+                
+                // เพิ่มวิดีโอ
+                videos.push(newVideo);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
+                localStorage.setItem(UPDATE_KEY, Date.now().toString());
+                
+                log('✅ เพิ่มวิดีโอสำเร็จ!', 'success');
+                log(`📚 จำนวนวิดีโอทั้งหมด: ${videos.length}`, 'info');
+                
+            } catch (e) {
+                log('❌ ไม่สามารถเพิ่มวิดีโอได้: ' + e.message, 'error');
+            }
+        }
+        
+        function exportData() {
+            const videoData = localStorage.getItem(STORAGE_KEY);
+            if (!videoData) {
+                log('📭 ไม่มีข้อมูลให้ export', 'warning');
+                return;
+            }
+            
+            const blob = new Blob([videoData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `multimedia_videos_${new Date().getTime()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            log('📤 Export ข้อมูลสำเร็จ', 'success');
+        }
+        
+        function importTestData() {
+            log('📥 นำเข้าข้อมูลทดสอบ:', 'info');
+            
+            const testVideos = [
+                {
+                    id: 'test1_' + Date.now(),
+                    title: 'Test Video 1',
+                    description: 'วิดีโอทดสอบ 1',
+                    studentName: 'Tester 1',
+                    category: 'animation',
+                    videoId: 'aqCBD2qg7b8',
+                    videoUrl: 'https://www.youtube.com/watch?v=aqCBD2qg7b8',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'test2_' + Date.now(),
+                    title: 'Test Video 2',
+                    description: 'วิดีโอทดสอบ 2',
+                    studentName: 'Tester 2',
+                    category: 'game',
+                    videoId: 'dQw4w9WgXcQ',
+                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(testVideos));
+                localStorage.setItem(UPDATE_KEY, Date.now().toString());
+                
+                log(`✅ นำเข้าข้อมูลทดสอบ ${testVideos.length} รายการ`, 'success');
+                
+            } catch (e) {
+                log('❌ ไม่สามารถนำเข้าข้อมูลได้: ' + e.message, 'error');
+            }
+        }
+        
+        function clearStorage() {
+            if (confirm('⚠️ คุณแน่ใจหรือว่าต้องการลบข้อมูลทั้งหมด?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(UPDATE_KEY);
+                videoList.innerHTML = '<p style="color: #ff9800;">ข้อมูลถูกลบแล้ว</p>';
+                log('🗑️ ลบข้อมูลทั้งหมดแล้ว', 'warning');
+            }
+        }
+        
+        function clearOutput() {
+            output.innerHTML = 'Output cleared...\n';
+        }
+        
+        // Auto-run initial check
+        setTimeout(() => {
+            log('🚀 เริ่มต้นตรวจสอบระบบ...', 'info');
+            checkStorage();
+        }, 1000);
+    </script>
+</body>
+</html>

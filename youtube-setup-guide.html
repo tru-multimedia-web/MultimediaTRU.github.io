@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 คู่มือตั้งค่า YouTube สำหรับเว็บไซต์</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+        
+        h1 { font-size: 2.5em; margin-bottom: 10px; }
+        h2 { color: #FFD700; margin-bottom: 15px; margin-top: 30px; }
+        h3 { color: #87CEEB; margin-bottom: 10px; }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section.success {
+            border-left-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .section.warning {
+            border-left-color: #ffc107;
+            background: rgba(255, 193, 7, 0.1);
+        }
+        
+        .section.danger {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .privacy-option {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .privacy-option.recommended {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.2);
+        }
+        
+        .privacy-option.not-recommended {
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.2);
+        }
+        
+        .privacy-icon {
+            font-size: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .privacy-content h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        .privacy-content .status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .status.recommended {
+            background: #28a745;
+            color: white;
+        }
+        
+        .status.not-recommended {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .status.neutral {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .step::before {
+            content: "ขั้นตอน " counter(step-counter);
+            font-weight: bold;
+            color: #FFD700;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1px;
+            background: #667eea;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .table-header {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .table-cell {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .table-cell.good {
+            background: rgba(40, 167, 69, 0.3);
+        }
+        
+        .table-cell.bad {
+            background: rgba(220, 53, 69, 0.3);
+        }
+        
+        .table-cell.neutral {
+            background: rgba(108, 117, 125, 0.3);
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .comparison-table { grid-template-columns: 1fr; }
+            .privacy-option { grid-template-columns: 1fr; text-align: center; }
+            .privacy-icon { font-size: 40px; }
+            h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">← กลับ</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🎬 คู่มือตั้งค่า YouTube สำหรับเว็บไซต์</h1>
+            <p style="font-size: 1.2em;">เลือกการตั้งค่าความเป็นส่วนตัวที่เหมาะสมสำหรับการนำไปใช้ในเว็บไซต์</p>
+        </div>
+        
+        <div class="highlight-box">
+            <h2 style="margin-top: 0; color: #FFD700;">🏆 คำแนะนำหลัก</h2>
+            <p style="font-size: 1.1em;"><strong>ใช้ "ไม่เป็นสาธารณะ" (Unlisted)</strong> สำหรับวิดีโอที่ต้องการฝังในเว็บไซต์</p>
+        </div>
+        
+        <div class="section">
+            <h2>📊 เปรียบเทียบประเภทการตั้งค่าความเป็นส่วนตัว</h2>
+            
+            <div class="comparison-table">
+                <div class="table-header">ประเภท</div>
+                <div class="table-header">แสดงใน YouTube</div>
+                <div class="table-header">ฝังในเว็บไซต์</div>
+                <div class="table-header">เหมาะสำหรับเว็บไซต์</div>
+                
+                <div class="table-cell"><strong>Public</strong></div>
+                <div class="table-cell bad">✅ แสดงในช่องและค้นหา</div>
+                <div class="table-cell good">✅ ฝังได้</div>
+                <div class="table-cell neutral">⚠️ อาจไม่เหมาะ</div>
+                
+                <div class="table-cell"><strong>Unlisted</strong></div>
+                <div class="table-cell good">❌ ไม่แสดง</div>
+                <div class="table-cell good">✅ ฝังได้</div>
+                <div class="table-cell good">✅ แนะนำ</div>
+                
+                <div class="table-cell"><strong>Private</strong></div>
+                <div class="table-cell good">❌ ไม่แสดง</div>
+                <div class="table-cell bad">❌ ฝังไม่ได้</div>
+                <div class="table-cell bad">❌ ไม่เหมาะ</div>
+                
+                <div class="table-cell"><strong>Scheduled</strong></div>
+                <div class="table-cell neutral">⏰ ตามเวลา</div>
+                <div class="table-cell neutral">⏰ ตามเวลา</div>
+                <div class="table-cell neutral">⚠️ ใช้เฉพาะกรณี</div>
+            </div>
+        </div>
+        
+        <div class="section success">
+            <h2>🎯 การตั้งค่าแต่ละประเภท</h2>
+            
+            <div class="privacy-option recommended">
+                <div class="privacy-icon">🔓</div>
+                <div class="privacy-content">
+                    <h4>ไม่เป็นสาธารณะ (Unlisted)</h4>
+                    <div class="status recommended">✅ แนะนำสำหรับเว็บไซต์</div>
+                    <p><strong>ข้อดี:</strong></p>
+                    <ul>
+                        <li>✅ ไม่แสดงในหน้าช่อง YouTube</li>
+                        <li>✅ ไม่แสดงในผลการค้นหา</li>
+                        <li>✅ ไม่มีการแจ้งเตือนผู้ติดตาม</li>
+                        <li>✅ ฝังในเว็บไซต์ได้ปกติ</li>
+                        <li>✅ คนที่มีลิงก์สามารถดูได้</li>
+                    </ul>
+                    <p><strong>เหมาะสำหรับ:</strong> วิดีโอในเว็บไซต์, วิดีโอสำหรับกลุ่มเฉพาะ</p>
+                </div>
+            </div>
+            
+            <div class="privacy-option">
+                <div class="privacy-icon">🌍</div>
+                <div class="privacy-content">
+                    <h4>สาธารณะ (Public)</h4>
+                    <div class="status neutral">⚠️ ใช้ได้แต่มีข้อควรระวัง</div>
+                    <p><strong>ข้อดี:</strong></p>
+                    <ul>
+                        <li>✅ ฝังในเว็บไซต์ได้</li>
+                        <li>✅ ช่วยในการ SEO</li>
+                        <li>✅ สร้างการมีส่วนร่วม</li>
+                    </ul>
+                    <p><strong>ข้อเสีย:</strong></p>
+                    <ul>
+                        <li>❌ จะแสดงในช่อง YouTube</li>
+                        <li>❌ จะแสดงในผลการค้นหา</li>
+                        <li>❌ อาจได้รับความสนใจที่ไม่ต้องการ</li>
+                    </ul>
+                    <p><strong>เหมาะสำหรับ:</strong> เนื้อหาที่ต้องการประชาสัมพันธ์</p>
+                </div>
+            </div>
+            
+            <div class="privacy-option not-recommended">
+                <div class="privacy-icon">🔒</div>
+                <div class="privacy-content">
+                    <h4>ส่วนตัว (Private)</h4>
+                    <div class="status not-recommended">❌ ไม่แนะนำสำหรับเว็บไซต์</div>
+                    <p><strong>ข้อดี:</strong></p>
+                    <ul>
+                        <li>✅ ไม่แสดงที่ไหนเลย</li>
+                        <li>✅ ความเป็นส่วนตัวสูงสุด</li>
+                    </ul>
+                    <p><strong>ข้อเสีย:</strong></p>
+                    <ul>
+                        <li>❌ ฝังในเว็บไซต์ไม่ได้</li>
+                        <li>❌ เฉพาะเจ้าของดูได้</li>
+                        <li>❌ จะแสดง "This video is private"</li>
+                    </ul>
+                    <p><strong>เหมาะสำหรับ:</strong> วิดีโอส่วนตัว, การทดสอบ</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📝 วิธีตั้งค่าเป็น Unlisted</h2>
+            
+            <h3>🆕 สำหรับวิดีโอใหม่:</h3>
+            <div class="step-list">
+                <div class="step">
+                    <h4>เริ่มอัปโหลดวิดีโอ</h4>
+                    <p>ไปที่ YouTube Studio และคลิก "CREATE" → "Upload videos"</p>
+                </div>
+                
+                <div class="step">
+                    <h4>เลือกไฟล์วิดีโอ</h4>
+                    <p>เลือกไฟล์วิดีโอที่ต้องการอัปโหลด</p>
+                </div>
+                
+                <div class="step">
+                    <h4>ตั้งค่าความเป็นส่วนตัว</h4>
+                    <p>ในส่วน "Visibility" เลือก <strong>"Unlisted"</strong></p>
+                </div>
+                
+                <div class="step">
+                    <h4>เสร็จสิ้นการอัปโหลด</h4>
+                    <p>คลิก "PUBLISH" เพื่อเสร็จสิ้น</p>
+                </div>
+            </div>
+            
+            <h3>🔄 สำหรับวิดีโอที่มีอยู่แล้ว:</h3>
+            <div class="step-list">
+                <div class="step">
+                    <h4>ไปที่ YouTube Studio</h4>
+                    <p>เข้าสู่ YouTube Studio ของคุณ</p>
+                </div>
+                
+                <div class="step">
+                    <h4>เลือกวิดีโอ</h4>
+                    <p>ไปที่ "Content" และเลือกวิดีโอที่ต้องการแก้ไข</p>
+                </div>
+                
+                <div class="step">
+                    <h4>แก้ไขการตั้งค่า</h4>
+                    <p>คลิกที่ไอคอนดินสอ → ไปที่ "Visibility" → เลือก <strong>"Unlisted"</strong></p>
+                </div>
+                
+                <div class="step">
+                    <h4>บันทึกการเปลี่ยนแปลง</h4>
+                    <p>คลิก "SAVE" เพื่อบันทึกการเปลี่ยนแปลง</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📋 การได้โค้ด Embed</h2>
+            
+            <div class="step-list">
+                <div class="step">
+                    <h4>ไปที่หน้าวิดีโอ</h4>
+                    <p>เปิดวิดีโอใน YouTube (ใช้ลิงก์โดยตรง)</p>
+                </div>
+                
+                <div class="step">
+                    <h4>คลิก Share</h4>
+                    <p>คลิกปุ่ม "Share" ใต้วิดีโอ</p>
+                </div>
+                
+                <div class="step">
+                    <h4>เลือก Embed</h4>
+                    <p>คลิก "Embed" เพื่อได้โค้ด iframe</p>
+                </div>
+                
+                <div class="step">
+                    <h4>คัดลอกโค้ด</h4>
+                    <p>คัดลอกโค้ด iframe และนำไปใช้ในเว็บไซต์</p>
+                </div>
+            </div>
+            
+            <div class="code-example">
+                <h4>📝 ตัวอย่างโค้ด Embed:</h4>
+                <pre><code>&lt;iframe width="560" height="315" 
+    src="https://www.youtube.com/embed/VIDEO_ID?rel=0&amp;modestbranding=1" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+            </div>
+        </div>
+        
+        <div class="section warning">
+            <h2>⚠️ ข้อควรระวัง</h2>
+            
+            <h3>🔍 สำหรับ Unlisted Video:</h3>
+            <ul>
+                <li>⚠️ คนที่มีลิงก์สามารถดูและแชร์ต่อได้</li>
+                <li>⚠️ อาจพบได้ถ้ามีคนแชร์ลิงก์</li>
+                <li>⚠️ ไม่ควรใส่ข้อมูลที่ละเอียดอ่อนมาก</li>
+            </ul>
+            
+            <h3>🛡️ การป้องกัน:</h3>
+            <ul>
+                <li>🔒 ใช้ชื่อวิดีโอที่ไม่เฉพาะเจาะจง</li>
+                <li>🔒 ไม่ใส่ข้อมูลส่วนตัวในคำอธิบาย</li>
+                <li>🔒 ตรวจสอบสิทธิ์การเข้าถึงเป็นระยะ</li>
+            </ul>
+        </div>
+        
+        <div class="section success">
+            <h2>✅ สรุปและคำแนะนำ</h2>
+            
+            <div class="highlight-box">
+                <h3 style="margin-top: 0;">🎯 สำหรับเว็บไซต์ Multimedia TRU</h3>
+                <p><strong>แนะนำ:</strong> ใช้ <strong>"Unlisted"</strong> สำหรับวิดีโอทั้งหมด</p>
+                <p><strong>เหตุผล:</strong></p>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>✅ วิดีโอจะทำงานในเว็บไซต์ได้ปกติ</li>
+                    <li>✅ ไม่รบกวนช่อง YouTube หลัก</li>
+                    <li>✅ ไม่มีการแจ้งเตือนผู้ติดตาม</li>
+                    <li>✅ เหมาะสำหรับผลงานนักศึกษา</li>
+                </ul>
+            </div>
+            
+            <h3>🔄 ขั้นตอนง่ายๆ:</h3>
+            <p>1. อัปโหลดวิดีโอ → 2. เลือก "Unlisted" → 3. ได้โค้ด Embed → 4. วางในเว็บไซต์</p>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 ลิงก์ที่เกี่ยวข้อง</h2>
+            <ul>
+                <li><a href="private-video-guide.html" style="color: #87CEEB;">📚 คู่มือจัดการ Private Video</a></li>
+                <li><a href="youtube-video-fix.html" style="color: #87CEEB;">🔧 เครื่องมือแก้ไขวิดีโอ YouTube</a></li>
+                <li><a href="index.html" style="color: #87CEEB;">🏠 กลับไปหน้าหลัก</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // เพิ่ม animation เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

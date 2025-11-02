@@ -554,11 +554,279 @@
         </div>
     </div>
 
-    <!-- <div style="height: 100px; background-color:  #0f0f0f;"> </div> -->
 
-    <div class="head_section" id="workings" style="height: 200px; background-color:  #0f0f0f;">
-        <div>ผลงานนักศึกษาสาขาเทคโนโลยีมัลติมีเดีย</div>
+    
+    <!-- Video Gallery Section -->
+    <div class="video-gallery-section">
+
+        <div class="head_section" id="workings" style="height: 150px; background-color:  #0f0f0f;">
+        <div>ผลงานนักศึกษาสาขาเทคโนโลยีมัลติมีเดีย</div></div>
+        <div class="container">
+            <div class="section-header">
+                <h4>รวมผลงานสร้างสรรค์และโครงการจบการศึกษาของ นักศึกษาสาขาเทคโนโลยีมัลติมีเดีย</h4>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="video-filters">
+                <button class="filter-btn active" data-category="all">ทั้งหมด</button>
+                <button class="filter-btn" data-category="animation">แอนิเมชัน</button>
+                <button class="filter-btn" data-category="game">เกม</button>
+                <button class="filter-btn" data-category="web">เว็บไซต์</button>
+                <button class="filter-btn" data-category="video">วิดีโอ</button>
+                <button class="filter-btn" data-category="graphic">กราฟิก</button>
+            </div>
+
+            <!-- Video Grid -->
+            <div class="video-grid">
+                <!-- Animation Projects -->
+                <div class="video-item" data-category="animation">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/PDws2gVYJq4?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="แอนิเมชัน 2D เรื่องเล่าจากอดีต">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>แอนิเมชัน 2D "เรื่องเล่าจากอดีต"</h4>
+                        <p>ผลงานการสร้างแอนิเมชัน 2D ที่เล่าเรื่องราวของประวัติศาสตร์ไทย</p>
+                        <span class="student-name">นักศึกษา: น.ส. สมใจ ใจดี</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="animation">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/wKJ9KzGQq0w?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="แอนิเมชัน 3D โลกแห่งจินตนาการ">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>แอนิเมชัน 3D "โลกแห่งจินตนาการ"</h4>
+                        <p>ผลงานแอนิเมชัน 3D ที่สร้างขึ้นด้วยโปรแกรม Blender</p>
+                        <span class="student-name">นักศึกษา: นายสมชาย ใจกล้า</span>
+                    </div>
+                </div>
+
+                <!-- Game Projects -->
+                <div class="video-item" data-category="game">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/loA756y-nLo?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เกมผจญภัย มหัศจรรย์ป่าไผ่">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เกมผจญภัย "มหัศจรรย์ป่าไผ่"</h4>
+                        <p>เกมผจญภัยแนว RPG ที่พัฒนาด้วย Unity Engine</p>
+                        <span class="student-name">นักศึกษา: น.ส. สุดา เก่งเกม</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="game">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/F2JCjVBcNVs?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เกมปริศนา ไขรหัสลับ">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เกมปริศนา "ไขรหัสลับ"</h4>
+                        <p>เกมแนวปริศนาที่ผสมผสานความสนุกกับการเรียนรู้</p>
+                        <span class="student-name">นักศึกษา: นายพิทักษ์ ฉลาดเกม</span>
+                    </div>
+                </div>
+
+                <!-- Web Projects -->
+                <div class="video-item" data-category="web">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/P233BJm6sIg?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เว็บไซต์ ท่องเที่ยวไทย">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เว็บไซต์ "ท่องเที่ยวไทย"</h4>
+                        <p>เว็บไซต์แนะนำสถานที่ท่องเที่ยวพร้อม Interactive Map</p>
+                        <span class="student-name">นักศึกษา: น.ส. มาลี เก่งเว็บ</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="web">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/HcOc7P5BMi4?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เว็บแอปพลิเคชัน บริหารจัดการร้านค้า">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เว็บแอปพลิเคชัน "บริหารจัดการร้านค้า"</h4>
+                        <p>ระบบจัดการร้านค้าออนไลน์แบบครบวงจร</p>
+                        <span class="student-name">นักศึกษา: นายวิชัย เก่งโค้ด</span>
+                    </div>
+                </div>
+
+                <!-- Video Production -->
+                <div class="video-item" data-category="video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/BQ0mxQXmLsk?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="สารคดีสั้น วิถีชาวบ้าน">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>สารคดีสั้น "วิถีชาวบ้าน"</h4>
+                        <p>สารคดีสั้นที่นำเสนอวิถีชีวิตของคนในท้องถิ่น</p>
+                        <span class="student-name">นักศึกษา: น.ส. สุพิน ใจศิลป์</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/9LfmrkyP81M?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="มิวสิกวิดีโอ ฝันสีเงิน">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>มิวสิกวิดีโอ "ฝันสีเงิน"</h4>
+                        <p>มิวสิกวิดีโอที่ผลิตขึ้นเองทั้งเพลงและภาพ</p>
+                        <span class="student-name">นักศึกษา: นายสมศักดิ์ เสียงใส</span>
+                    </div>
+                </div>
+
+                <!-- Graphic Design -->
+                <div class="video-item" data-category="graphic">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/rJaYQ7Qx2kE?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="Motion Graphics อนาคตเทคโนโลยี">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>Motion Graphics "อนาคตเทคโนโลยี"</h4>
+                        <p>ผลงาน Motion Graphics ที่นำเสนอเทคโนโลยีในอนาคต</p>
+                        <span class="student-name">นักศึกษา: น.ส. กนิษฐา ใจสร้าง</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="graphic">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/lOBu2S8qOv0?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="Infographic Animation ข้อมูลสิ่งแวดล้อม">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>Infographic Animation "ข้อมูลสิ่งแวดล้อม"</h4>
+                        <p>อินโฟกราฟิกแอนิเมชันที่นำเสนอข้อมูลสิ่งแวดล้อม</p>
+                        <span class="student-name">นักศึกษา: นายธนา เก่งกราฟิก</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container">
+                <button class="load-more-btn">โหลดผลงานเพิ่มเติม</button>
+                <button class="refresh-gallery-btn" onclick="refreshVideoGallery()" style="margin-left: 15px;">
+                    🔄 รีเฟรชแกลเลอรี่
+                </button>
+                <button onclick="verifyYouTubeError153Fix()" style="margin-left: 15px; background: #17a2b8; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    ✅ ตรวจสอบ Error 153
+                </button>
+                <button onclick="window.YouTubeVideoFix.fix()" style="margin-left: 15px; background: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    🚨 แก้ไข "ดูบน YouTube"
+                </button>
+                <button onclick="window.PrivateVideoHandler.check()" style="margin-left: 15px; background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    🔒 ตรวจสอบ Private Video
+                </button>
+                <button onclick="window.open('youtube-video-fix.html', '_blank')" style="margin-left: 15px; background: #6f42c1; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    🔧 เครื่องมือแก้ไข
+                </button>
+                <button onclick="window.open('private-video-manager.html', '_blank')" style="margin-left: 15px; background: #6c757d; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    🔒 จัดการ Private Video
+                </button>
+                <button onclick="window.open('video-test.html', '_blank')" style="margin-left: 15px; background: #007acc; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    🔧 ทดสอบระบบ
+                </button>
+                <button onclick="window.open('youtube-error-153-guide.html', '_blank')" style="margin-left: 15px; background: #dc3545; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    🚨 คู่มือ Error 153
+                </button>
+                <button onclick="window.open('youtube-setup-guide.html', '_blank')" style="margin-left: 15px; background: #667eea; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    🎬 ตั้งค่า YouTube
+                </button>
+                <button onclick="window.open('private-video-guide.html', '_blank')" style="margin-left: 15px; background: #6c757d; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    📚 คู่มือ Private Video
+                </button>
+                <button onclick="window.open('video-troubleshooting.html', '_blank')" style="margin-left: 15px; background: #28a745; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+                    📖 คู่มือทั่วไp
+                </button>
+            </div>
+        </div>
     </div>
+
+
+
+
     <div class="head_section" id="contract" style="height: 200px;">
         <div>ติดต่อสาขาเทคโนโลยีมัลติมีเดีย</div>
     </div>
@@ -675,6 +943,62 @@
         </div>
     </div>
 
+    <!-- Footer Section with Admin Access -->
+    <footer class="website-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo_multimedia.png" alt="Multimedia TRU Logo" style="height: 60px;">
+                        <h4>สาขาเทคโนโลยีมัลติมีเดีย</h4>
+                        <p>มหาวิทยาลัยราชภัฏเทพสตรี</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>ลิงค์ด่วน</h5>
+                    <ul class="footer-links">
+                        <li><a href="#about">เกี่ยวกับสาขา</a></li>
+                        <li><a href="#course">หลักสูตร</a></li>
+                        <li><a href="#workings">ผลงานนักศึกษา</a></li>
+                        <li><a href="#contract">ติดต่อเรา</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>ติดต่อ</h5>
+                    <div class="footer-contact">
+                        <p>📍 อำเภอเมือง จังหวัดลพบุรี 15000</p>
+                        <p>📞 036-427494</p>
+                        <p>✉️ tru.multimedia666@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h5>ระบบจัดการ</h5>
+                    <div class="admin-access">
+                        <a href="admin.html" target="_blank" class="admin-btn">
+                            <span class="admin-icon">🔧</span>
+                            <span class="admin-text">Admin Panel</span>
+                            <span class="admin-desc">จัดการวิดีโอและเนื้อหา</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 สาขาวิชาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี | All rights reserved</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/multimedia.tru" target="_blank" class="social-link">
+                        <span>📘 Facebook</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
         function toggleMobileMenu() {
             const mobileMenu = document.querySelector('.menu_mobile');
@@ -691,6 +1015,112 @@
                 document.querySelector('.hamburger').classList.remove('active');
             });
         });
+
+        // Enhanced Video Gallery Debug Functions
+        function debugVideoGallery() {
+            console.log('=== VIDEO GALLERY DEBUG INFO ===');
+            
+            // Get status from video gallery manager
+            if (window.videoGalleryManager) {
+                const status = window.videoGalleryManager.getStatus();
+                console.log('📊 Gallery Manager Status:', status);
+            }
+            
+            // Check localStorage
+            const stored = localStorage.getItem('multimedia_videos');
+            console.log('� LocalStorage Data:', stored ? 'Found' : 'Empty');
+            
+            if (stored) {
+                try {
+                    const videos = JSON.parse(stored);
+                    console.log(`✅ Videos in storage: ${videos.length}`);
+                    videos.forEach((video, i) => {
+                        console.log(`   ${i+1}. ${video.title} (${video.videoId || video.url})`);
+                    });
+                } catch (e) {
+                    console.error('❌ Error parsing storage:', e);
+                }
+            }
+            
+            // Check DOM elements
+            const videoGrid = document.querySelector('.video-grid');
+            const videoItems = document.querySelectorAll('.video-item');
+            const iframes = document.querySelectorAll('.video-container iframe');
+            
+            console.log('📺 DOM Elements:');
+            console.log(`   - Video Grid: ${videoGrid ? 'Found' : 'Missing'}`);
+            console.log(`   - Video Items: ${videoItems.length}`);
+            console.log(`   - Iframes: ${iframes.length}`);
+            
+            // Check iframe sources
+            if (iframes.length > 0) {
+                console.log('🎬 Video Sources:');
+                iframes.forEach((iframe, i) => {
+                    const src = iframe.src;
+                    const videoId = src.match(/embed\/([^?]+)/)?.[1] || 'Unknown';
+                    console.log(`   ${i+1}. ${videoId} - ${src}`);
+                });
+            }
+            
+            console.log('=== END DEBUG INFO ===');
+        }
+
+        function forceReloadVideos() {
+            console.log('🔄 Force reloading videos...');
+            if (window.videoGalleryManager) {
+                window.videoGalleryManager.forceReload();
+            } else {
+                console.error('❌ Video Gallery Manager not found');
+            }
+        }
+
+        function checkVideoLoadingIssues() {
+            console.log('🔍 Checking for common video loading issues...');
+            
+            const issues = [];
+            
+            // Check if scripts are loaded
+            if (!window.videoGalleryManager) {
+                issues.push('Video Gallery Manager not initialized');
+            }
+            
+            // Check localStorage
+            const stored = localStorage.getItem('multimedia_videos');
+            if (!stored) {
+                issues.push('No videos in localStorage (will show default videos)');
+            } else {
+                try {
+                    const videos = JSON.parse(stored);
+                    if (videos.length === 0) {
+                        issues.push('Empty video list in localStorage');
+                    }
+                } catch (e) {
+                    issues.push('Corrupted data in localStorage');
+                }
+            }
+            
+            // Check DOM
+            const videoGrid = document.querySelector('.video-grid');
+            if (!videoGrid) {
+                issues.push('Video grid container not found');
+            }
+            
+            if (issues.length === 0) {
+                console.log('✅ No obvious issues found');
+            } else {
+                console.log('⚠️ Potential issues found:');
+                issues.forEach((issue, i) => {
+                    console.log(`   ${i+1}. ${issue}`);
+                });
+            }
+            
+            return issues;
+        }
+
+        // Make functions available globally
+        window.debugVideoGallery = debugVideoGallery;
+        window.forceReloadVideos = forceReloadVideos;
+        window.checkVideoLoadingIssues = checkVideoLoadingIssues;
 
         // Form handling for better user experience
         document.addEventListener('DOMContentLoaded', function() {
@@ -719,9 +1149,38 @@
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 5000);
             }
+            
+            // Debug video gallery on load
+            setTimeout(() => {
+                console.log('🔍 Running initial video gallery debug...');
+                debugVideoGallery();
+            }, 2000);
         });
     </script>
 
+    <!-- � Private Video Handler - จัดการวิดีโอ Private (Load First) -->
+    <script src="private-video-handler.js"></script>
+    
+    <!-- �🚨 YouTube Video Fix - แก้ปัญหา "ดูวิดีโอไม่ได้ ดูบน YouTube" (Load First) -->
+    <script src="youtube-video-fix-auto.js"></script>
+    
+    <!-- YouTube Error 153 Auto-Fix (Load First) -->
+    <script src="auto-fix-youtube.js"></script>
+    
+    <!-- YouTube Error 153 Fix (Manual Fix) -->
+    <script src="youtube-error-fix.js"></script>
+    
+    <!-- YouTube Error 153 Verification -->
+    <script src="youtube-verification.js"></script>
+    
+    <!-- Video Gallery Fix (Main Loader) -->
+    <script src="video-gallery-fix.js"></script>
+    
+    <!-- Video Gallery JavaScript (Filters) -->
+    <script src="video-gallery.js"></script>
+    
+    <!-- Debug Tools (Optional) -->
+    <script src="debug-video-loader.js"></script>
 
 </body>
 </html>

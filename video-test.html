@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Test - Multimedia TRU</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 560px;
+            margin: 10px 0;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 315px;
+        }
+        button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #e55a30;
+        }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .status.success { background: #4CAF50; }
+        .status.error { background: #f44336; }
+        .status.warning { background: #ff9800; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Video Gallery Debug Tool</h1>
+    <p>เครื่องมือตรวจสอบและแก้ไขปัญหาการแสดงวิดีโอ YouTube</p>
+
+    <div class="test-section">
+        <h3>📊 ตรวจสอบข้อมูล LocalStorage</h3>
+        <button onclick="checkStorage()">ตรวจสอบ Storage</button>
+        <button onclick="clearStorage()">ลบข้อมูล Storage</button>
+        <button onclick="addTestVideo()">เพิ่มวิดีโอทดสอบ</button>
+        <div id="storage-status" class="status"></div>
+        <div id="storage-log" class="log"></div>
+    </div>
+
+        <div class="test-section">
+            <h3>🎬 ทดสอบการแสดงวิดีโอ</h3>
+            <button onclick="testDirectEmbed()">ทดสอบ Embed โดยตรง</button>
+            <button onclick="loadStorageVideos()">โหลดจาก Storage</button>
+            <button onclick="testError153Fix()">ทดสอบแก้ไข Error 153</button>
+            <div id="video-status" class="status"></div>
+            <div id="video-container"></div>
+        </div>    <div class="test-section">
+        <h3>🔗 ลิงค์และ Admin Panel</h3>
+        <button onclick="window.open('admin.html', '_blank')">เปิด Admin Panel</button>
+        <button onclick="window.open('index.html', '_blank')">เปิดหน้าหลัก</button>
+    </div>
+
+    <div class="test-section">
+        <h3>📝 Console Log</h3>
+        <div id="console-log" class="log"></div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'multimedia_videos';
+        let logElement = document.getElementById('console-log');
+
+        function log(message) {
+            console.log(message);
+            logElement.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function setStatus(elementId, type, message) {
+            const element = document.getElementById(elementId);
+            element.className = `status ${type}`;
+            element.textContent = message;
+        }
+
+        function checkStorage() {
+            log('🔍 Checking localStorage...');
+            
+            const stored = localStorage.getItem(STORAGE_KEY);
+            const logElement = document.getElementById('storage-log');
+            
+            if (stored) {
+                try {
+                    const videos = JSON.parse(stored);
+                    log(`✅ Found ${videos.length} videos in storage`);
+                    setStatus('storage-status', 'success', `พบ ${videos.length} วิดีโอใน Storage`);
+                    
+                    logElement.textContent = JSON.stringify(videos, null, 2);
+                    
+                    videos.forEach((video, index) => {
+                        log(`Video ${index + 1}: ${video.title} (${video.videoId || video.url})`);
+                    });
+                } catch (error) {
+                    log('❌ Error parsing storage: ' + error.message);
+                    setStatus('storage-status', 'error', 'ข้อผิดพลาดในการอ่านข้อมูล');
+                    logElement.textContent = 'Error: ' + error.message + '\n\nRaw data:\n' + stored;
+                }
+            } else {
+                log('⚠️ No videos found in storage');
+                setStatus('storage-status', 'warning', 'ไม่พบข้อมูลวิดีโอใน Storage');
+                logElement.textContent = 'No data found';
+            }
+        }
+
+        function clearStorage() {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem('video_gallery_updated');
+            log('🗑️ Storage cleared');
+            setStatus('storage-status', 'success', 'ลบข้อมูลแล้ว');
+            document.getElementById('storage-log').textContent = 'Storage cleared';
+        }
+
+        function addTestVideo() {
+            const testVideos = [
+                {
+                    title: 'วิดีโอทดสอบ 1',
+                    description: 'วิดีโอทดสอบจากระบบ Debug',
+                    studentName: 'ระบบทดสอบ',
+                    category: 'animation',
+                    videoId: 'aqCBD2qg7b8',
+                    url: 'https://www.youtube.com/watch?v=aqCBD2qg7b8'
+                },
+                {
+                    title: 'วิดีโอทดสอบ 2',
+                    description: 'วิดีโอทดสอบที่ 2',
+                    studentName: 'ระบบทดสอบ 2',
+                    category: 'game',
+                    videoId: 'wKJ9KzGQq0w',
+                    url: 'https://www.youtube.com/watch?v=wKJ9KzGQq0w'
+                }
+            ];
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(testVideos));
+            localStorage.setItem('video_gallery_updated', Date.now().toString());
+            
+            log('✅ Test videos added to storage');
+            setStatus('storage-status', 'success', 'เพิ่มวิดีโอทดสอบแล้ว');
+            checkStorage();
+        }
+
+        function testDirectEmbed() {
+            log('🎬 Testing direct YouTube embed...');
+            
+            const container = document.getElementById('video-container');
+            container.innerHTML = `
+                <h4>Direct YouTube Embed Test</h4>
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/aqCBD2qg7b8?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                        frameborder="0" 
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        loading="lazy"
+                        width="100%"
+                        height="315"
+                        title="Direct Embed Test Video">
+                    </iframe>
+                </div>
+            `;
+            
+            setStatus('video-status', 'success', 'ทดสอบ Direct Embed');
+        }
+
+        function loadStorageVideos() {
+            log('📚 Loading videos from storage...');
+            
+            const stored = localStorage.getItem(STORAGE_KEY);
+            const container = document.getElementById('video-container');
+            
+            if (!stored) {
+                setStatus('video-status', 'warning', 'ไม่พบข้อมูลวิดีโอ');
+                container.innerHTML = '<p>ไม่พบข้อมูลวิดีโอใน Storage</p>';
+                return;
+            }
+            
+            try {
+                const videos = JSON.parse(stored);
+                log(`📚 Loading ${videos.length} videos...`);
+                
+                let html = '<h4>Videos from Storage:</h4>';
+                
+                videos.forEach((video, index) => {
+                    const videoId = extractVideoId(video.videoId || video.url);
+                    log(`Loading video ${index + 1}: ${video.title} - ID: ${videoId}`);
+                    
+                    html += `
+                        <div style="margin: 20px 0; padding: 15px; border: 1px solid #333; border-radius: 5px;">
+                            <h5>${video.title}</h5>
+                            <div class="video-container">
+                                <iframe 
+                                    src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                                    frameborder="0" 
+                                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen
+                                    loading="lazy"
+                                    width="100%"
+                                    height="315"
+                                    title="${video.title}">
+                                </iframe>
+                            </div>
+                            <p>${video.description}</p>
+                            <small>นักศึกษา: ${video.studentName} | หมวดหมู่: ${video.category}</small>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                setStatus('video-status', 'success', `โหลด ${videos.length} วิดีโอสำเร็จ`);
+                
+            } catch (error) {
+                log('❌ Error loading videos: ' + error.message);
+                setStatus('video-status', 'error', 'ข้อผิดพลาดในการโหลด');
+                container.innerHTML = '<p>ข้อผิดพลาด: ' + error.message + '</p>';
+            }
+        }
+
+        function extractVideoId(input) {
+            if (!input) return '';
+            
+            // If it's already an 11-character ID
+            if (input.length === 11 && /^[a-zA-Z0-9_-]+$/.test(input)) {
+                return input;
+            }
+            
+            // Extract from YouTube URLs
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+                /^([a-zA-Z0-9_-]{11})$/
+            ];
+            
+            for (const pattern of patterns) {
+                const match = input.match(pattern);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+            
+            return input;
+        }
+
+        function testError153Fix() {
+            log('🧪 Testing YouTube Error 153 fix...');
+            
+            const container = document.getElementById('video-container');
+            const videoId = 'aqCBD2qg7b8'; // Test video ID
+            
+            // Test with problematic embed (old way that causes Error 153)
+            const problematicEmbed = `
+                <h4>❌ Problematic Embed (May cause Error 153):</h4>
+                <div class="video-container" style="margin: 15px 0;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}?rel=0&showinfo=0&modestbranding=1&enablejsapi=1&autoplay=0&start=0&end=0&loop=0&controls=1&disablekb=0&fs=1&hl=en&iv_load_policy=1&playsinline=0&color=red&cc_load_policy=1" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                
+                <h4>✅ Fixed Embed (Error 153 Safe):</h4>
+                <div class="video-container" style="margin: 15px 0;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                        frameborder="0" 
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        loading="lazy"
+                        width="100%"
+                        height="315"
+                        title="Test Video">
+                    </iframe>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <h5>🔧 What was fixed:</h5>
+                    <ul>
+                        <li>❌ Removed <code>enablejsapi=1</code> (main cause of Error 153)</li>
+                        <li>❌ Removed excessive parameters that can conflict</li>
+                        <li>✅ Used minimal, safe parameter set</li>
+                        <li>✅ Added proper iframe attributes</li>
+                        <li>✅ Removed <code>autoplay</code> from allow policy</li>
+                    </ul>
+                </div>
+            `;
+            
+            container.innerHTML = problematicEmbed;
+            setStatus('video-status', 'success', 'Error 153 fix test loaded');
+            
+            log('✅ Error 153 comparison test ready');
+            log('📊 Check both embeds - the second one should work without Error 153');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 Debug tool initialized');
+            checkStorage();
+        });
+    </script>
+</body>
+</html>
