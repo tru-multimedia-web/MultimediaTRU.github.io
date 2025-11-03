@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Tool</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
+    <link rel="stylesheet" href="css/video-generator.css">
+</head>
+<body>
+    <div class="header-bar"></div>
+    <div class="container">
+        <div style="text-align: center; display: block;">
+            <h1>เพิ่มรายการผลงานนักศึกษา</h1>
+        </div>
+        <p class="subtitle">เครื่องมือสร้างไฟล์ videos.json สำหรับ GitHub Pages</p>
+        
+        <div class="warning-box">
+            <div class="warning-box-content">
+                <div>
+                    <div class="warning-box-title">⚠️ คำแนะนำสำคัญ</div>
+                    <div class="warning-box-text">
+                        หลังดาวน์โหลดไฟล์ <code>videos.json</code> 
+                        ให้วางไฟล์ในโฟลเดอร์ <code>js/</code> ของโปรเจค
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="totalVideos">0</div>
+                <div class="stat-label">วิดีโอทั้งหมด</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="animationCount">0</div>
+                <div class="stat-label">แอนิเมชัน</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="gameCount">0</div>
+                <div class="stat-label">เกม</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="webCount">0</div>
+                <div class="stat-label">เว็บไซต์</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="videoCount">0</div>
+                <div class="stat-label">วิดีโอ</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="graphicCount">0</div>
+                <div class="stat-label">กราฟิก</div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <!-- Left Column: Add Video Form -->
+            <div class="section">
+                <h2>➕ เพิ่มวิดีโอใหม่</h2>
+                
+                <form id="videoForm" onsubmit="addVideo(event)">
+                    <div class="form-group">
+                        <label for="videoUrl">Google Drive URL *</label>
+                        <input type="url" id="videoUrl" required 
+                               placeholder="https://drive.google.com/file/d/xxx/view">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="thumbnailUrl">URL ภาพปก (Thumbnail) - ไม่บังคับ</label>
+                        <input type="url" id="thumbnailUrl" 
+                               placeholder="วาง Google Drive URL หรือ Imgur URL">
+                        <small style="color: #999; display: block; margin-top: 5px; line-height: 1.6;">
+                            💡 <strong>วิธีเพิ่มภาพปก:</strong><br>
+                            <br>
+                            <strong>ตัวเลือก 1: Google Drive (แนะนำ)</strong><br>
+                            1. อัปโหลดภาพไป Google Drive<br>
+                            2. คลิกขวาที่ภาพ > <em>แชร์</em> > <strong>ใครก็ได้ที่มีลิงก์</strong><br>
+                            3. คลิก "คัดลอกลิงก์" แล้ววางที่นี่<br>
+                            4. ระบบจะแสดงภาพผ่าน iframe (หลีกเลี่ยงปัญหา CORS) ✨<br>
+                            <br>
+                            <strong>ตัวเลือก 2: Imgur (แนะนำสำหรับความเร็ว)</strong><br>
+                            1. ไปที่ <code>imgur.com</code> > Upload<br>
+                            2. คลิกขวาที่ภาพ > Copy image address<br>
+                            3. วาง URL (ต้องลงท้ายด้วย .jpg, .png)<br>
+                            <br>
+                            ⚠️ <em>ถ้าไม่ใส่ภาพปก ระบบจะใช้วิดีโอแสดงแทน</em><br>
+                            ✅ <em>รูปภาพควรมีขนาด 1280x720px (16:9) และไม่เกิน 500KB</em>
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">หมวดหมู่ *</label>
+                        <select id="category" required>
+                            <option value="">เลือกหมวดหมู่</option>
+                            <option value="animation">แอนิเมชัน</option>
+                            <option value="game">เกม</option>
+                            <option value="web">เว็บไซต์</option>
+                            <option value="video">วิดีโอ</option>
+                            <option value="graphic">กราฟิก</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="title">ชื่อวิดีโอ *</label>
+                        <input type="text" id="title" required 
+                               placeholder="ชื่อผลงาน">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">รายละเอียด *</label>
+                        <textarea id="description" required 
+                                  placeholder="คำอธิบายผลงาน"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="studentName">ชื่อนักศึกษา *</label>
+                        <input type="text" id="studentName" required 
+                               placeholder="ชื่อผู้สร้างผลงาน">
+                    </div>
+                    
+                    <button type="submit" class="success">เพิ่มวิดีโอ</button>
+                    <button type="button" onclick="clearForm()">ล้างฟอร์ม</button>
+                </form>
+            </div>
+            
+            <!-- Right Column: Video List & Actions -->
+            <div class="section">
+                <h2>รายการวิดีโอ</h2>
+                
+                <div class="toolbar">
+                    <button class="success" onclick="downloadJSON()">
+                        ดาวน์โหลด videos.json
+                    </button>
+                    <button onclick="importJSON()">
+                        นำเข้า JSON
+                    </button>
+                    <button onclick="previewJSON()">
+                        ดูตัวอย่าง JSON
+                    </button>
+                    <button class="danger" onclick="clearAll()">
+                        ลบทั้งหมด
+                    </button>
+                </div>
+                
+                <div class="video-list" id="videoList">
+                    <p class="empty-state">
+                        ยังไม่มีวิดีโอ เริ่มเพิ่มวิดีโอใหม่ทางซ้ายมือ
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- JSON Preview Modal (Hidden by default) -->
+        <div id="jsonModal" class="modal-overlay">
+            <div class="modal-content">
+                <h2 class="modal-title">ตัวอย่าง JSON</h2>
+                <div class="json-preview" id="jsonPreview"></div>
+                <button onclick="closeModal()" style="margin-top: 20px;">ปิด</button>
+                <button class="success" onclick="copyJSON()" style="margin-top: 20px;">Copy JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/video-generator.js"></script>
+</body>
+</html>

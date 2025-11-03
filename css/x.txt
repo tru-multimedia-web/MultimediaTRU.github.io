@@ -1,0 +1,230 @@
+    <!-- Video Gallery Section -->
+    <div class="video-gallery-section">
+        <div class="head_section" id="workings" style="height: 150px; background-color: #0f0f0f;">
+            <div>ผลงานนักศึกษาสาขาเทคโนโลยีมัลติมีเดีย</div>
+        </div>
+        <div class="container">
+            <div class="section-header">
+                <h4>รวมผลงานสร้างสรรค์และโครงการจบการศึกษาของ นักศึกษาสาขาเทคโนโลยีมัลติมีเดีย</h4>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="video-filters">
+                <button class="filter-btn active" data-category="all">ทั้งหมด</button>
+                <button class="filter-btn" data-category="animation">แอนิเมชัน</button>
+                <button class="filter-btn" data-category="game">เกม</button>
+                <button class="filter-btn" data-category="web">เว็บไซต์</button>
+                <button class="filter-btn" data-category="video">วิดีโอ</button>
+                <button class="filter-btn" data-category="graphic">กราฟิก</button>
+            </div>
+
+            <!-- Video Grid -->
+            <div class="video-grid">
+
+                <div class="video-item" data-category="animation">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/wKJ9KzGQq0w?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="แอนิเมชัน 3D "โลกแห่งจินตนาการ"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>แอนิเมชัน 3D "โลกแห่งจินตนาการ"</h4>
+                        <p>ผลงานแอนิเมชัน 3D ที่สร้างขึ้นด้วยโปรแกรม Blender</p>
+                        <span class="student-name">นักศึกษา: นายสมชาย ใจกล้า</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="game">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/loA756y-nLo?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เกมผจญภัย "มหัศจรรย์ป่าไผ่"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เกมผจญภัย "มหัศจรรย์ป่าไผ่"</h4>
+                        <p>เกมผจญภัยแนว RPG ที่พัฒนาด้วย Unity Engine</p>
+                        <span class="student-name">นักศึกษา: น.ส. สุดา เก่งเกม</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="game">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/F2JCjVBcNVs?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เกมปริศนา "ไขรหัสลับ"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เกมปริศนา "ไขรหัสลับ"</h4>
+                        <p>เกมแนวปริศนาที่ผสมผสานความสนุกกับการเรียนรู้</p>
+                        <span class="student-name">นักศึกษา: นายพิทักษ์ ฉลาดเกม</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="web">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/P233BJm6sIg?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เว็บไซต์ "ท่องเที่ยวไทย"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เว็บไซต์ "ท่องเที่ยวไทย"</h4>
+                        <p>เว็บไซต์แนะนำสถานที่ท่องเที่ยวพร้อม Interactive Map</p>
+                        <span class="student-name">นักศึกษา: น.ส. มาลี เก่งเว็บ</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="web">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/HcOc7P5BMi4?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="เว็บแอปพลิเคชัน "บริหารจัดการร้านค้า"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>เว็บแอปพลิเคชัน "บริหารจัดการร้านค้า"</h4>
+                        <p>ระบบจัดการร้านค้าออนไลน์แบบครบวงจร</p>
+                        <span class="student-name">นักศึกษา: นายวิชัย เก่งโค้ด</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/BQ0mxQXmLsk?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="สารคดีสั้น "วิถีชาวบ้าน"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>สารคดีสั้น "วิถีชาวบ้าน"</h4>
+                        <p>สารคดีสั้นที่นำเสนอวิถีชีวิตของคนในท้องถิ่น</p>
+                        <span class="student-name">นักศึกษา: น.ส. สุพิน ใจศิลป์</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/9LfmrkyP81M?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="มิวสิกวิดีโอ "ฝันสีเงิน"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>มิวสิกวิดีโอ "ฝันสีเงิน"</h4>
+                        <p>มิวสิกวิดีโอที่ผลิตขึ้นเองทั้งเพลงและภาพ</p>
+                        <span class="student-name">นักศึกษา: นายสมศักดิ์ เสียงใส</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="graphic">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/rJaYQ7Qx2kE?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="Motion Graphics "อนาคตเทคโนโลยี"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>Motion Graphics "อนาคตเทคโนโลยี"</h4>
+                        <p>ผลงาน Motion Graphics ที่นำเสนอเทคโนโลยีในอนาคต</p>
+                        <span class="student-name">นักศึกษา: น.ส. กนิษฐา ใจสร้าง</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="graphic">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/lOBu2S8qOv0?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="Infographic Animation "ข้อมูลสิ่งแวดล้อม"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>Infographic Animation "ข้อมูลสิ่งแวดล้อม"</h4>
+                        <p>อินโฟกราฟิกแอนิเมชันที่นำเสนอข้อมูลสิ่งแวดล้อม</p>
+                        <span class="student-name">นักศึกษา: นายธนา เก่งกราฟิก</span>
+                    </div>
+                </div>
+
+                <div class="video-item" data-category="animation">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/undefined?rel=0&modestbranding=1&controls=1&fs=1&cc_load_policy=0&iv_load_policy=3" 
+                            frameborder="0" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            loading="lazy"
+                            width="100%"
+                            height="315"
+                            title="แอนิเมชัน 2D "เรื่องเล่าจากอดีต"">
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4>แอนิเมชัน 2D "เรื่องเล่าจากอดีต"</h4>
+                        <p>ผลงานการสร้างแอนิเมชัน 2D ที่เล่าเรื่องราวของประวัติศาสตร์ไทย</p>
+                        <span class="student-name">นักศึกษา: น.ส. สมใจ ใจดี</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container">
+                <button class="load-more-btn">โหลดผลงานเพิ่มเติม</button>
+            </div>
+        </div>
+    </div>

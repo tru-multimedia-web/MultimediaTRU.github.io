@@ -157,6 +157,21 @@ button {
     min-width: 15%;
 }
 
+/* Menu bar links animation */
+.top-fixed-image .menu_bar div a {
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.top-fixed-image .menu_bar div a:hover {
+    /* transform: translateX(5px); */
+    transform: translate(4px, 4px);
+    color: #460f0fb8;
+}
+
 /* Mobile Tab */
 .tab_mobile {
     display: none;
@@ -1403,6 +1418,104 @@ button {
     transform: scale(1.05);
 }
 
+/* Video Thumbnail (สำหรับภาพปก) */
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    background: #000;
+}
+
+.video-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.video-item:hover .video-thumbnail img {
+    transform: scale(1.1);
+    filter: brightness(0.7);
+}
+
+/* Video Thumbnail Iframe (สำหรับภาพปกจาก Google Drive) */
+.video-thumbnail-iframe {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    background: #000;
+}
+
+.video-thumbnail-iframe iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: none; /* ป้องกันการคลิกที่ iframe */
+}
+
+.video-item:hover .video-thumbnail-iframe iframe {
+    transform: scale(1.05);
+    filter: brightness(0.8);
+}
+
+/* Play Button Overlay */
+.play-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.video-item:hover .play-button-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.play-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 4, 4, 0.9);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 32px;
+    padding-left: 6px; /* ปรับให้สัญลักษณ์ ▶ อยู่ตรงกลาง */
+    box-shadow: 0 4px 20px rgba(255, 4, 4, 0.5);
+    transition: all 0.3s ease;
+    animation: pulse-play 2s infinite;
+}
+
+.video-item:hover .play-icon {
+    transform: scale(1.2);
+    background: rgba(255, 4, 4, 1);
+    box-shadow: 0 8px 30px rgba(255, 4, 4, 0.8);
+}
+
+@keyframes pulse-play {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(255, 4, 4, 0.5);
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(255, 4, 4, 0.8);
+    }
+}
+
 /* Video Info */
 .video-info {
     padding: clamp(15px, 3vw, 25px);
@@ -1561,9 +1674,15 @@ button {
 
 .footer-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: clamp(30px, 4vw, 50px);
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: clamp(30px, 4vw, 40px);
     margin-bottom: clamp(30px, 4vw, 40px);
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
 }
 
 .footer-section h5 {
@@ -1573,6 +1692,10 @@ button {
     margin-bottom: clamp(15px, 2vw, 20px);
     border-bottom: 2px solid #333;
     padding-bottom: 8px;
+}
+
+.footer-logo {
+    text-align: center;
 }
 
 .footer-logo h4 {
@@ -1617,6 +1740,14 @@ button {
     font-size: clamp(0.9rem, 1.8vw, 1rem);
     margin-bottom: 8px;
     line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-contact p .material-symbols-outlined {
+    font-size: 20px;
+    color: #ff0404;
 }
 
 /* Admin Access Section */
@@ -1760,6 +1891,7 @@ button {
     width: 100%;
     padding-top: 56.25%; /* 16:9 Aspect Ratio */
     background-color: #000;
+    overflow: hidden;
 }
 
 .player-frame iframe {
@@ -1769,6 +1901,22 @@ button {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* ซ่อนปุ่ม "เปิดในหน้าต่างใหม่" ของ Google Drive ด้วยโลโก้ - Backup Solution */
+.player-frame::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    background: #ff0404 url('../images/logo_multimedia.png') center center no-repeat;
+    background-size: 50px 50px;
+    z-index: 10;
+    pointer-events: all;
+    border-bottom-left-radius: 8px;
+    cursor: default;
 }
 
 .video-details {

@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let visibleItems = 9;
     let allVideos = [];
+    const JSON_URL = './js/videos.json'; // โหลดจากไฟล์ JSON ในโฟลเดอร์ js/
 
     function createVideoCard(video, originalIndex) {
         const videoCard = document.createElement('a');
@@ -28,13 +29,81 @@ document.addEventListener('DOMContentLoaded', () => {
         videoCard.className = 'video-item';
         videoCard.dataset.category = video.category.toLowerCase();
 
-        // Google Drive format only
-        const thumbnailUrl = video.url.replace("/view", "/preview");
+        // ตรวจสอบว่ามีภาพปกหรือไม่
+        let thumbnailHTML = '';
+        if (video.thumbnail && video.thumbnail.trim() !== '') {
+            // แปลง Google Drive URL เป็น Direct Link (รองรับหลายรูปแบบ)
+            let thumbnailUrl = video.thumbnail;
+            
+            if (thumbnailUrl.includes('drive.google.com')) {
+                // ดึง File ID จาก URL
+                let fileId = null;
+                
+                // รูปแบบ 1: https://drive.google.com/file/d/XXXXX/view
+                const match1 = thumbnailUrl.match(/\/file\/d\/([^\/\?]+)/);
+                // รูปแบบ 2: https://drive.google.com/open?id=XXXXX
+                const match2 = thumbnailUrl.match(/[?&]id=([^&]+)/);
+                // รูปแบบ 3: https://drive.google.com/uc?id=XXXXX หรือ thumbnail?id=
+                const match3 = thumbnailUrl.match(/[?&]id=([^&]+)/);
+                
+                if (match1) {
+                    fileId = match1[1];
+                } else if (match2) {
+                    fileId = match2[1];
+                } else if (match3) {
+                    fileId = match3[1];
+                }
+                
+                // ใช้ iframe แทนเพื่อหลีกเลี่ยงปัญหา CORS
+                if (fileId) {
+                    console.log('🖼️ Using Google Drive thumbnail iframe for:', fileId);
+                    // ใช้ Google Drive preview แบบ responsive
+                    thumbnailHTML = `
+                        <div class="video-thumbnail-iframe">
+                            <iframe src="https://drive.google.com/file/d/${fileId}/preview" 
+                                    frameborder="0" 
+                                    allowfullscreen
+                                    loading="lazy"></iframe>
+                            <div class="play-button-overlay">
+                                <div class="play-icon">▶</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // ถ้าหา ID ไม่เจอ ใช้ iframe ของวิดีโอ
+                    const videoPreviewUrl = video.url.replace("/view", "/preview");
+                    thumbnailHTML = `
+                        <div class="video-container">
+                            <iframe src="${videoPreviewUrl}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+                        </div>
+                    `;
+                }
+            } else {
+                // ใช้ภาพปกจาก URL อื่น (Imgur, etc.) พร้อม fallback
+                thumbnailHTML = `
+                    <div class="video-thumbnail">
+                        <img src="${thumbnailUrl}" 
+                             alt="${video.title}"
+                             loading="lazy"
+                             onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>';">
+                        <div class="play-button-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                `;
+            }
+        } else {
+            // ใช้ iframe แบบเดิม (Google Drive preview)
+            const videoPreviewUrl = video.url.replace("/view", "/preview");
+            thumbnailHTML = `
+                <div class="video-container">
+                    <iframe src="${videoPreviewUrl}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+                </div>
+            `;
+        }
         
         videoCard.innerHTML = `
-            <div class="video-container">
-                <iframe src="${thumbnailUrl}" frameborder="0" scrolling="no" allowfullscreen></iframe>
-            </div>
+            ${thumbnailHTML}
             <div class="video-info">
                 <h4>${video.title}</h4>
                 <p>${video.description}</p>
@@ -77,24 +146,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function initialize() {
+    async function loadVideosFromJSON() {
         try {
-            allVideos = JSON.parse(localStorage.getItem('multimedia_videos')) || [];
-            console.log('📹 Loaded videos:', allVideos.length);
-        } catch (e) {
-            console.error('Error loading videos:', e);
-            allVideos = [];
-        }
-        
-        if (allVideos.length === 0) {
-            console.warn('⚠️ No videos found in localStorage');
-            videoGrid.innerHTML = '<p class="no-videos-message">ยังไม่มีผลงานที่เพิ่มเข้ามา<br>กรุณาไปที่หน้า <a href="admin/" style="color: #e74c3c;">Admin Panel</a> เพื่อเพิ่มวิดีโอ</p>';
+            videoGrid.innerHTML = '<p class="no-videos-message">กำลังโหลดข้อมูล...</p>';
+            
+            console.log('🔄 กำลังโหลด videos.json จาก:', JSON_URL);
+            const response = await fetch(JSON_URL);
+            
+            console.log('📡 Response status:', response.status, response.statusText);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const text = await response.text();
+            console.log('📄 Response text (first 200 chars):', text.substring(0, 200));
+            
+            allVideos = JSON.parse(text);
+            console.log('📹 Loaded videos from JSON:', allVideos.length);
+            console.log('🎬 Videos data:', allVideos);
+            
+            if (allVideos.length === 0) {
+                console.warn('⚠️ No videos found');
+                videoGrid.innerHTML = '<p class="no-videos-message">ยังไม่มีผลงานที่เพิ่มเข้ามา</p>';
+                loadMoreBtn.style.display = 'none';
+                return;
+            }
+            
+            renderVideos();
+        } catch (error) {
+            console.error('❌ Error loading videos from JSON:', error);
+            console.error('Error details:', error.message);
+            videoGrid.innerHTML = `<p class="no-videos-message">เกิดข้อผิดพลาดในการโหลดข้อมูล<br><small style="color: #666;">${error.message}</small></p>`;
             loadMoreBtn.style.display = 'none';
-            return;
         }
-        
-        renderVideos();
+    }
+    
+    function initialize() {
+        // Load videos from JSON file
+        loadVideosFromJSON();
 
+        // Setup filter buttons
         filterButtons.forEach(function(button) {
             button.addEventListener('click', function() {
                 filterButtons.forEach(function(btn) {
@@ -107,16 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Setup load more button
         loadMoreBtn.addEventListener('click', function() {
             visibleItems += 9;
             const currentFilter = document.querySelector('.filter-btn.active').dataset.category;
             renderVideos(currentFilter);
-        });
-
-        window.addEventListener('storage', function(event) {
-            if (event.key === 'multimedia_videos') {
-                initialize();
-            }
         });
     }
 
