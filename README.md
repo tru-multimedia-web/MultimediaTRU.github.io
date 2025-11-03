@@ -40,7 +40,7 @@
 
 ## คุณสมบัติหลัก
 
-- ** Responsive Design** - รองรับทุกขนาดหน้าจอ
+** Responsive Design - รองรับทุกขนาดหน้าจอ
 - ** Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
 - ** Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
 - ** Video Generator** - เครื่องมือจัดการวิดีโอ (Development only)
@@ -94,7 +94,7 @@ MultimediaTRU.github.io/
 
 ---
 
-##เริ่มต้นใช้งาน
+## เริ่มต้นใช้งาน
 
 ### วิธีที่ 1: ใช้ Script อัตโนมัติ (แนะนำ) ⭐
 
