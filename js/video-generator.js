@@ -3,19 +3,56 @@
 // ================================================================
 
 let videos = [];
+let currentThumbnailData = null; // เก็บข้อมูลรูปภาพที่อัพโหลด
+let editingVideoId = null; // เก็บ ID ของวิดีโอที่กำลังแก้ไข
 
-// Load from localStorage on start
+// Expose functions to global scope for onclick handlers
+window.editVideo = editVideo;
+window.deleteVideo = deleteVideo;
+window.handleThumbnailUpload = handleThumbnailUpload;
+window.clearForm = clearForm;
+window.downloadJSON = downloadJSON;
+window.importJSON = importJSON;
+window.previewJSON = previewJSON;
+window.closeModal = closeModal;
+window.copyJSON = copyJSON;
+window.clearAll = clearAll;
+window.updateVideosJSON = updateVideosJSON;
+
+// Load from data/videos.json on start
 window.addEventListener('DOMContentLoaded', () => {
-    loadFromStorage();
+    loadFromJSON();
     renderVideoList();
     updateStats();
 });
+
+async function loadFromJSON() {
+    try {
+        const response = await fetch('data/videos.json');
+        if (response.ok) {
+            videos = await response.json();
+            console.log('✅ Loaded', videos.length, 'videos from data/videos.json');
+            showNotification(`✅ โหลดข้อมูลสำเร็จ! พบ ${videos.length} วิดีโอในระบบ`, 'success');
+            // บันทึกไปยัง localStorage เพื่อให้ทำงานได้แบบ offline
+            saveToStorage();
+        } else {
+            console.log('⚠️ ไม่พบไฟล์ data/videos.json เริ่มต้นด้วยข้อมูลว่าง');
+            videos = [];
+            showNotification('ℹ️ ไม่พบข้อมูลวิดีโอ เริ่มต้นด้วยข้อมูลว่าง', 'info');
+        }
+    } catch (error) {
+        console.error('❌ Error loading videos.json:', error);
+        showNotification('❌ ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์ได้', 'error');
+        // ถ้าดึงจาก JSON ไม่ได้ ให้โหลดจาก localStorage แทน
+        loadFromStorage();
+    }
+}
 
 function loadFromStorage() {
     const stored = localStorage.getItem('video_generator_data');
     if (stored) {
         videos = JSON.parse(stored);
-        console.log('Loaded', videos.length, 'videos from storage');
+        console.log('📱 Loaded', videos.length, 'videos from localStorage');
     }
 }
 
@@ -23,52 +60,115 @@ function saveToStorage() {
     localStorage.setItem('video_generator_data', JSON.stringify(videos));
 }
 
+// ฟังก์ชันจัดการการอัพโหลดรูปภาพ
+function handleThumbnailUpload(event) {
+    const file = event.target.files[0];
+    
+    if (!file) {
+        currentThumbnailData = null;
+        document.getElementById('thumbnailPreview').innerHTML = '';
+        return;
+    }
+    
+    // ตรวจสอบขนาดไฟล์ (ไม่เกิน 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        showNotification('⚠️ ไฟล์ใหญ่เกินไป! กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 2MB', 'error');
+        event.target.value = '';
+        return;
+    }
+    
+    // อ่านไฟล์และแสดงตัวอย่าง
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        currentThumbnailData = {
+            filename: file.name,
+            data: e.target.result,
+            size: file.size
+        };
+        
+        // แสดงตัวอย่างรูปภาพ
+        const preview = document.getElementById('thumbnailPreview');
+        preview.innerHTML = `
+            <div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 10px; background: #f0f9f4;">
+                <img src="${e.target.result}" 
+                     style="max-width: 100%; max-height: 200px; border-radius: 4px; display: block; margin: 0 auto;">
+                <p style="margin: 10px 0 0 0; text-align: center; color: #4CAF50; font-size: 14px;">
+                    ✅ รูปภาพพร้อมใช้งาน (${(file.size / 1024).toFixed(1)} KB)
+                </p>
+            </div>
+        `;
+        
+        showNotification('✅ อัพโหลดรูปภาพสำเร็จ!', 'success');
+    };
+    
+    reader.readAsDataURL(file);
+}
+
 function addVideo(event) {
     event.preventDefault();
     
     const videoUrl = document.getElementById('videoUrl').value.trim();
-    let thumbnailUrl = document.getElementById('thumbnailUrl').value.trim();
     const category = document.getElementById('category').value;
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
     const studentName = document.getElementById('studentName').value.trim();
     
-    // แปลง Google Drive thumbnail URL อัตโนมัติ
-    if (thumbnailUrl && thumbnailUrl.includes('drive.google.com')) {
-        let fileId = null;
+    // สร้างชื่อไฟล์รูปภาพจาก title + timestamp
+    let thumbnailPath = '';
+    let thumbnailFilename = '';
+    if (currentThumbnailData) {
+        const timestamp = Date.now();
+        const fileExt = currentThumbnailData.filename.split('.').pop();
+        const safeName = title.replace(/[^a-zA-Z0-9ก-๙]/g, '_').substring(0, 50);
+        thumbnailFilename = `${safeName}_${timestamp}.${fileExt}`;
+        thumbnailPath = `images/cover/${thumbnailFilename}`;
         
-        // ดึง File ID จาก URL (รองรับหลายรูปแบบ)
-        const match1 = thumbnailUrl.match(/\/file\/d\/([^\/\?]+)/);
-        const match2 = thumbnailUrl.match(/[?&]id=([^&]+)/);
-        const match3 = thumbnailUrl.match(/uc\?.*id=([^&]+)/);
+        // ส่งรูปภาพไปยัง Python API เพื่อบันทึกไฟล์จริง
+        saveImageToServer(thumbnailFilename, currentThumbnailData.data);
+    }
+    
+    // ถ้าเป็นการแก้ไข (มี editingVideoId)
+    if (editingVideoId) {
+        const videoIndex = videos.findIndex(v => v.id === editingVideoId || v.id === String(editingVideoId));
         
-        if (match1) {
-            fileId = match1[1];
-        } else if (match2) {
-            fileId = match2[1];
-        } else if (match3) {
-            fileId = match3[1];
-        }
-        
-        if (fileId) {
-            // แปลงเป็น thumbnail URL ที่ใช้งานได้
-            thumbnailUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1280`;
-            console.log('✅ แปลง thumbnail URL:', thumbnailUrl);
+        if (videoIndex !== -1) {
+            // อัปเดตข้อมูลเดิม
+            videos[videoIndex] = {
+                ...videos[videoIndex], // เก็บข้อมูลเดิมไว้
+                url: videoUrl,
+                thumbnail: thumbnailPath || videos[videoIndex].thumbnail, // ใช้รูปเดิมถ้าไม่มีรูปใหม่
+                thumbnailData: currentThumbnailData ? currentThumbnailData.data : videos[videoIndex].thumbnailData,
+                category: category,
+                title: title,
+                description: description,
+                studentName: studentName
+            };
+            
+            saveToStorage();
+            saveVideosToServer(); // บันทึก JSON ไปที่ server
+            renderVideoList();
+            updateStats();
+            clearForm();
+            
+            showNotification('✅ แก้ไขวิดีโอสำเร็จ!', 'success');
+            return;
         }
     }
     
-    // Check duplicate
+    // Check duplicate (เฉพาะตอนเพิ่มใหม่)
     const isDuplicate = videos.some(v => v.url === videoUrl);
     if (isDuplicate) {
         showNotification('วิดีโอนี้มีในระบบอยู่แล้ว', 'warning');
         return;
     }
     
-    // Create video object
+    // Create video object (กรณีเพิ่มใหม่)
     const newVideo = {
         id: Date.now().toString(),
         url: videoUrl,
-        thumbnail: thumbnailUrl || '', // ใช้ URL ที่แปลงแล้ว
+        thumbnail: thumbnailPath, // เก็บเป็น path ของรูปภาพ
+        thumbnailData: currentThumbnailData ? currentThumbnailData.data : null, // เก็บ base64 data
         category: category,
         title: title,
         description: description,
@@ -78,6 +178,7 @@ function addVideo(event) {
     
     videos.push(newVideo);
     saveToStorage();
+    saveVideosToServer(); // บันทึก JSON ไปที่ server
     renderVideoList();
     updateStats();
     clearForm();
@@ -90,7 +191,8 @@ function deleteVideo(id) {
         return;
     }
     
-    videos = videos.filter(v => v.id !== id);
+    videos = videos.filter(v => v.id !== id && v.id !== String(id));
+    
     saveToStorage();
     renderVideoList();
     updateStats();
@@ -99,20 +201,63 @@ function deleteVideo(id) {
 }
 
 function editVideo(id) {
-    const video = videos.find(v => v.id === id);
-    if (!video) return;
+    console.log('📝 editVideo called with ID:', id);
+    console.log('📊 Total videos:', videos.length);
+    console.log('📋 All video IDs:', videos.map(v => v.id));
     
+    const video = videos.find(v => v.id === id || v.id === String(id));
+    
+    if (!video) {
+        console.error('❌ Video not found with ID:', id);
+        showNotification('ไม่พบวิดีโอที่ต้องการแก้ไข', 'error');
+        return;
+    }
+    
+    console.log('✅ Found video:', video.title);
+    
+    // เก็บ ID สำหรับการแก้ไข
+    editingVideoId = String(id); // แปลงเป็น string เสมอ
+    
+    // กรอกข้อมูลลงในฟอร์ม
     document.getElementById('videoUrl').value = video.url;
-    document.getElementById('thumbnailUrl').value = video.thumbnail || '';
     document.getElementById('category').value = video.category;
     document.getElementById('title').value = video.title;
     document.getElementById('description').value = video.description;
     document.getElementById('studentName').value = video.studentName;
     
-    deleteVideo(id);
+    // แสดงตัวอย่างรูปภาพถ้ามี
+    if (video.thumbnailData) {
+        currentThumbnailData = {
+            filename: video.thumbnail,
+            data: video.thumbnailData
+        };
+        
+        const preview = document.getElementById('thumbnailPreview');
+        preview.innerHTML = `
+            <div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 10px; background: #f0f9f4;">
+                <img src="${video.thumbnailData}" 
+                     style="max-width: 100%; max-height: 200px; border-radius: 4px; display: block; margin: 0 auto;">
+                <p style="margin: 10px 0 0 0; text-align: center; color: #4CAF50; font-size: 14px;">
+                    ✅ รูปภาพเดิม (อัพโหลดใหม่ถ้าต้องการเปลี่ยน)
+                </p>
+            </div>
+        `;
+    }
+    
+    // เปลี่ยนป้ายปุ่ม
+    const submitBtn = document.getElementById('submitBtn');
+    if (!submitBtn) {
+        console.error('❌ submitBtn not found!');
+        return;
+    }
+    
+    submitBtn.textContent = '💾 บันทึกการแก้ไข';
+    submitBtn.style.background = 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)';
+    
+    console.log('✅ Button text changed to:', submitBtn.textContent);
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    showNotification('แก้ไขข้อมูล แล้วกด "เพิ่มวิดีโอ" เพื่อบันทึก', 'info');
+    showNotification('📝 แก้ไขข้อมูลแล้วกด "บันทึกการแก้ไข"', 'info');
 }
 
 function renderVideoList() {
@@ -153,6 +298,14 @@ function updateStats() {
 
 function clearForm() {
     document.getElementById('videoForm').reset();
+    currentThumbnailData = null;
+    editingVideoId = null; // รีเซ็ต editing mode
+    document.getElementById('thumbnailPreview').innerHTML = '';
+    
+    // รีเซ็ตปุ่มกลับเป็นปกติ
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.textContent = '➕ เพิ่มวิดีโอ';
+    submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
 }
 
 function downloadJSON() {
@@ -161,7 +314,19 @@ function downloadJSON() {
         return;
     }
     
-    const dataStr = JSON.stringify(videos, null, 2);
+    // สร้าง JSON โดยไม่รวม thumbnailData (เพื่อลดขนาดไฟล์)
+    const exportVideos = videos.map(v => ({
+        id: v.id,
+        url: v.url,
+        thumbnail: v.thumbnail,
+        category: v.category,
+        title: v.title,
+        description: v.description,
+        studentName: v.studentName,
+        createdAt: v.createdAt
+    }));
+    
+    const dataStr = JSON.stringify(exportVideos, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
     
@@ -170,7 +335,16 @@ function downloadJSON() {
     link.download = 'videos.json';
     link.click();
     
-    showNotification('ดาวน์โหลด videos.json สำเร็จ! วางไฟล์ในโฟลเดอร์ js/', 'success');
+    showNotification('✅ ดาวน์โหลด videos.json สำเร็จ!', 'success');
+    
+    // ดาวน์โหลดรูปภาพทั้งหมดเป็น ZIP
+    if (videos.some(v => v.thumbnailData)) {
+        setTimeout(() => {
+            if (confirm('ต้องการดาวน์โหลดรูปภาพปกทั้งหมดด้วยหรือไม่?\n\n⚠️ คุณต้องวางรูปภาพในโฟลเดอร์ images/cover/ ด้วยตัวเอง')) {
+                downloadAllThumbnails();
+            }
+        }, 500);
+    }
 }
 
 function importJSON() {
@@ -259,9 +433,146 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
+// ================================================================
+// PYTHON API INTEGRATION
+// ================================================================
+
+const API_BASE_URL = 'http://localhost:5001/api';
+
+/**
+ * บันทึกรูปภาพไปยัง Python API Server
+ */
+async function saveImageToServer(filename, base64Data) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/upload-image`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: filename,
+                data: base64Data
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Image saved to server:', result.path);
+        return result;
+        
+    } catch (error) {
+        console.warn('⚠️ Cannot connect to Python API:', error.message);
+        console.log('💡 Make sure to run: python3 api-server.py');
+        // ไม่ให้ error หยุดการทำงาน - ยังคงบันทึกใน localStorage ได้
+    }
+}
+
+/**
+ * บันทึกข้อมูลวิดีโอไปยัง js/videos.json ผ่าน Python API
+ */
+async function saveVideosToServer() {
+    try {
+        // ลบ thumbnailData ออกเพื่อลดขนาดไฟล์
+        const cleanVideos = videos.map(v => {
+            const {thumbnailData, ...videoWithoutData} = v;
+            return videoWithoutData;
+        });
+        
+        const response = await fetch(`${API_BASE_URL}/save-videos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cleanVideos)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Videos saved to server:', result.message);
+        return result;
+        
+    } catch (error) {
+        console.warn('⚠️ Cannot save to server:', error.message);
+        console.log('💡 Videos are still saved in localStorage');
+        throw error; // ส่ง error ต่อเพื่อให้ฟังก์ชันที่เรียกรู้ว่าเกิดข้อผิดพลาด
+    }
+}
+
+/**
+ * ฟังก์ชัน Update - อัพเดตข้อมูลไปยัง data/videos.json โดยอัตโนมัติ
+ * เรียกใช้เมื่อกดปุ่ม "Update" ใน UI
+ */
+async function updateVideosJSON() {
+    if (videos.length === 0) {
+        showNotification('⚠️ ไม่มีข้อมูลวิดีโอให้อัพเดต', 'warning');
+        return;
+    }
+    
+    // แสดงข้อความกำลังโหลด
+    showNotification('🔄 กำลังอัพเดตข้อมูลไปยัง data/videos.json...', 'info');
+    
+    try {
+        // เรียก API เพื่อบันทึกข้อมูล
+        await saveVideosToServer();
+        
+        // แสดงข้อความสำเร็จ
+        showNotification(
+            `✅ อัพเดตข้อมูลสำเร็จ!\n📝 บันทึก ${videos.length} วิดีโอไปยัง data/videos.json\n\n🔄 Refresh หน้า video-gallery เพื่อดูข้อมูลใหม่`, 
+            'success'
+        );
+        
+        console.log('✅ Update complete:', {
+            totalVideos: videos.length,
+            file: 'data/videos.json',
+            timestamp: new Date().toISOString()
+        });
+        
+    } catch (error) {
+        // แสดงข้อความ error พร้อมคำแนะนำ
+        showNotification(
+            `❌ ไม่สามารถอัพเดตข้อมูลได้!\n\n⚠️ กรุณาตรวจสอบ:\n1. API Server กำลังทำงานหรือไม่\n2. เปิด Terminal และรัน: node api-server.js\n3. ตรวจสอบ Console (F12) เพื่อดูรายละเอียด`, 
+            'error'
+        );
+        
+        console.error('❌ Update failed:', error);
+    }
+}
+
 // Close modal on Escape key
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeModal();
     }
 });
+
+// ฟังก์ชันดาวน์โหลดรูปภาพทั้งหมด
+function downloadAllThumbnails() {
+    const videosWithThumbnails = videos.filter(v => v.thumbnailData);
+    
+    if (videosWithThumbnails.length === 0) {
+        showNotification('ไม่มีรูปภาพให้ดาวน์โหลด', 'warning');
+        return;
+    }
+    
+    showNotification(`กำลังดาวน์โหลดรูปภาพ ${videosWithThumbnails.length} ภาพ...`, 'info');
+    
+    // ดาวน์โหลดรูปภาพทีละภาพ
+    videosWithThumbnails.forEach((video, index) => {
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = video.thumbnailData;
+            link.download = video.thumbnail.split('/').pop(); // ใช้ชื่อไฟล์จาก path
+            link.click();
+        }, index * 300); // ดาวน์โหลดห่างกัน 300ms
+    });
+    
+    setTimeout(() => {
+        showNotification(`✅ ดาวน์โหลดรูปภาพ ${videosWithThumbnails.length} ภาพเรียบร้อย!\n\n📁 วางรูปภาพในโฟลเดอร์: images/cover/`, 'success');
+    }, videosWithThumbnails.length * 300 + 500);
+}

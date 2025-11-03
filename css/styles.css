@@ -161,20 +161,40 @@ button {
 .top-fixed-image .menu_bar div a {
     color: #000000;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     display: inline-block;
     position: relative;
 }
 
 .top-fixed-image .menu_bar div a:hover {
-    /* transform: translateX(5px); */
-    transform: translate(4px, 4px);
-    color: #460f0fb8;
-}
+    transform: translateY(8px);
+    /* transform: translate(4px, 4px); */
+    color: #00000064;
+} */
 
-/* Mobile Tab */
+/* Mobile Tab - Hidden by default, shown on mobile via @media */
 .tab_mobile {
     display: none;
+}
+
+/* Hamburger - Hidden by default, shown on mobile via @media */
+.hamburger {
+    display: none;
+}
+
+/* Desktop: Force hide mobile elements */
+@media (min-width: 769px) {
+    .tab_mobile,
+    .tab_mobile .tab,
+    .tab_mobile .tab img,
+    .tab_mobile .icon,
+    .tab_mobile .icon img {
+        display: none !important;
+    }
+    
+    .hamburger {
+        display: none !important;
+    }
 }
 
 /* ================================================================ */
@@ -229,13 +249,14 @@ button {
 .hamburger {
     position: fixed;
     top: 80px;
-    right: 20px;
+    right: 5%;
     cursor: pointer;
     z-index: 99999;
     width: 50px;
     height: 50px;
+    border-radius: 5px;
     display: none;
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
     justify-content: center;
     align-items: center;
@@ -930,26 +951,28 @@ button {
     }
 
     /* Mobile Tab Styling */
-    .tab_mobile .tab img {
-        height: 80px;
-        z-index: 1;
-        position: relative;
-    }
-
     .tab_mobile .tab {
+        display: block !important;
         z-index: 1;
         position: relative;
         top: 0;
     }
 
+    .tab_mobile .tab img {
+        display: block !important;
+        height: 80px;
+        z-index: 1;
+        position: relative;
+    }
+
     .tab_mobile .icon {
+        display: flex !important;
         z-index: 10001;
         position: absolute;
         top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        display: flex;
         align-items: center;
         justify-content: center;
         width: auto;
@@ -958,7 +981,7 @@ button {
     }
 
     .tab_mobile .icon img {
-        display: block;
+        display: block !important;
         width: 42px;
         height: 42px;
         object-fit: contain;

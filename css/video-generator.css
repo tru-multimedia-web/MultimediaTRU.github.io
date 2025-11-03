@@ -309,6 +309,10 @@ button.success:hover {
 .btn-small {
     padding: 10px 18px;
     font-size: 14px;
+    position: relative !important;
+    z-index: 100 !important; /* เพิ่ม z-index สูงมาก */
+    cursor: pointer !important;
+    pointer-events: auto !important; /* บังคับให้รับคลิก */
 }
 
 .video-list {
@@ -346,10 +350,17 @@ button.success:hover {
     border: 1px solid #2a2a2a;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
+    overflow: visible; /* เปลี่ยนจาก hidden เป็น visible */
     box-shadow: 
         0 2px 10px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    z-index: 1; /* ให้การ์ดมี z-index */
+}
+
+/* ปิดการใช้งาน pointer-events บนทุก pseudo-element */
+.video-card *::before,
+.video-card *::after {
+    pointer-events: none !important;
 }
 
 .video-card::before {
@@ -363,6 +374,8 @@ button.success:hover {
     transform: scaleY(0);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 10px rgba(255, 4, 4, 0.5);
+    pointer-events: none; /* ไม่บดบังการคลิก */
+    z-index: 0; /* อยู่ด้านหลัง */
 }
 
 .video-card::after {
@@ -375,6 +388,8 @@ button.success:hover {
     background: radial-gradient(circle at center, rgba(255, 4, 4, 0.05), transparent);
     opacity: 0;
     transition: opacity 0.4s ease;
+    pointer-events: none; /* ไม่บดบังการคลิก */
+    z-index: 0; /* อยู่ด้านหลัง */
 }
 
 .video-card:hover {
@@ -430,9 +445,10 @@ button.success:hover {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     position: relative;
-    z-index: 1;
+    z-index: 1 !important;
     box-shadow: 0 2px 8px rgba(255, 4, 4, 0.3);
     transition: all 0.3s ease;
+    pointer-events: auto !important;
 }
 
 .badge:hover {
@@ -454,6 +470,38 @@ button.success:hover {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    position: relative !important;
+    z-index: 100 !important; /* ให้ปุ่มอยู่ด้านบนสุด */
+    pointer-events: auto !important;
+}
+
+/* เพิ่ม CSS เฉพาะปุ่มใน video-card */
+.video-card .btn-small {
+    position: relative !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    display: inline-block !important;
+    background: #ff0404 !important;
+}
+
+.video-card .actions button {
+    position: relative !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* ปิดการ interact กับทุกอย่างใน video-card ยกเว้นปุ่ม */
+.video-card > * {
+    pointer-events: none !important;
+}
+
+.video-card .actions,
+.video-card .actions *,
+.video-card button {
+    pointer-events: auto !important;
 }
 
 .stats {

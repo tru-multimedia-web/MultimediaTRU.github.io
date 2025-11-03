@@ -2,10 +2,6 @@
 node_modules/
 npm-debug.log
 yarn-error.log
-package-lock.json
-
-# Data files (optional - remove this line if you want to track videos.json in git)
-# data/videos.json
 
 # OS files
 .DS_Store
@@ -17,3 +13,13 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Build files (if any)
+dist/
+build/

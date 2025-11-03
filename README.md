@@ -1,48 +1,112 @@
-# Multimedia Technology Website
+# 🎬 MultimediaTRU.github.io
 
-เว็บไซต์แนะนำสาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี
+เว็บไซต์สาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี
 
-## 📖 รายละเอียดโปรเจค
+## 🌐 Live Website
 
-เว็บไซต์นี้เป็นหน้าแนะนำสาขาเทคโนโลยีมัลติมีเดีย ที่ออกแบบมาเพื่อแสดงข้อมูลเกี่ยวกับหลักสูตร ผลงานนักศึกษา และความน่าสนใจของสาขา พร้อมด้วยการออกแบบที่ทันสมัยและ responsive design
+- **หน้าเว็บหลัก**: https://tru-multimedia-web.github.io/MultimediaTRU.github.io/
 
 ## 🌟 คุณสมบัติหลัก
 
-- **Responsive Design** - รองรับทุกขนาดหน้าจอ (Desktop, Tablet, Mobile)
-- **Smooth Scrolling Navigation** - การเลื่อนหน้าที่นุ่มนวลเมื่อคลิกเมนู
-- **Mobile Navigation** - Hamburger menu สำหรับ mobile พร้อม Google Font Icons
-- **Modern Layout** - การจัดวางแบบ banner alternating (ซ้าย-ขวา-ซ้าย)
-- **Clean File Structure** - โครงสร้างไฟล์ที่เป็นระเบียบ
+- **🎨 Responsive Design** - รองรับทุกขนาดหน้าจอ
+- **🎬 Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
+- **🎮 Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
+- **📱 Mobile Navigation** - เมนูนำทางสำหรับมือถือ
+- **⚡ Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
 
-## 🗂️ โครงสร้างไฟล์
+## 📁 โครงสร้างโปรเจค
 
 ```
-demo/
-├── index.html                 # หน้าหลัก
-├── styles.css                 # Stylesheet หลัก
-├── README.md                  # เอกสารนี้
-└── images/                    # โฟลเดอร์รูปภาพ
-    ├── 01_hero_banner.jpg     # Banner หลักของเว็บไซต์
-    ├── 02_creative_digital_art.png    # ภาพส่วน Creative & Digital Art
-    ├── 03_graphic_design.png          # ภาพส่วน Graphic Design
-    ├── 04_2d_animation.png            # ภาพส่วน 2D Animation
-    ├── 05_3d_animation.png            # ภาพส่วน 3D Animation
-    ├── 06_video_production.png        # ภาพส่วน Video Production
-    ├── 07_game_development.png        # ภาพส่วน Game Development
-    ├── 08_virtual_reality.png         # ภาพส่วน Virtual Reality
-    ├── logo_multimedia.png            # โลโก้สาขา
-    └── mobile_tab_background.png      # พื้นหลัง Mobile Tab
+MultimediaTRU.github.io/
+├── index.html                 # หน้าแรกของเว็บไซต์
+├── player.html                # หน้าเล่นวิดีโอ
+├── video-generator.html       # เครื่องมือจัดการวิดีโอ
+├── css/                       # ไฟล์สไตล์ชีต
+│   ├── styles.css
+│   └── video-generator.css
+├── js/                        # ไฟล์ JavaScript
+│   ├── video-gallery.js
+│   ├── video-generator.js
+│   └── player.js
+├── images/                    # รูปภาพและไฟล์สื่อ
+├── data/
+│   └── videos.json            # ข้อมูลวิดีโอทั้งหมด
+├── server/
+│   └── api-server.js          # Node.js Express API Server
+├── scripts/                   # สคริปต์จัดการเซิร์ฟเวอร์
+├── build-web.sh               # Build script สำหรับ production
+├── package.json
+└── README.md
 ```
 
-## 📱 หน้าที่แสดง
+## 🚀 วิธีใช้งาน
 
-### Desktop Navigation
-- **เกี่ยวกับ** - ข้อมูลเกี่ยวกับสาขาเทคโนโลยีมัลติมีเดีย
-- **หลักสูตร** - รายละเอียดหลักสูตรที่เปิดสอน
-- **ผลงาน** - ผลงานของนักศึกษา
-- **ติดต่อเรา** - ข้อมูลการติดต่อ
+### สำหรับพัฒนา (Development)
 
-### เนื้อหาหลัก
+```bash
+# เริ่มเซิร์ฟเวอร์
+./scripts/start-servers.sh
+
+# เปิดหน้าเว็บ
+# http://localhost:8080 (Web)
+# http://localhost:5001 (API)
+```
+
+### สำหรับ Deploy (Production)
+
+```bash
+# สร้างไฟล์สำหรับ Deploy
+./build-web.sh
+
+# อัพโหลดโฟลเดอร์ dist/ ไปยัง GitHub Pages
+```
+
+## 🌐 GitHub Pages Structure
+
+### Project Site Structure
+```
+tru-multimedia-web.github.io/
+└── MultimediaTRU.github.io/          # Project repository
+    ├── index.html                     # หน้าแรก (root)
+    ├── player.html                    # หน้าเล่นวิดีโอ
+    ├── css/                          # สไตล์ชีต
+    ├── js/                           # JavaScript files
+    ├── images/                       # รูปภาพและสื่อ
+    └── data/                         # ข้อมูล JSON
+```
+
+### URL Structure
+- **Base URL**: `https://tru-multimedia-web.github.io/MultimediaTRU.github.io/`
+- **หน้าแรก**: `https://tru-multimedia-web.github.io/MultimediaTRU.github.io/`
+- **หน้าเล่น**: `https://tru-multimedia-web.github.io/MultimediaTRU.github.io/player.html`
+
+### การตั้งค่า GitHub Pages
+1. เข้า **Settings** → **Pages**
+2. เลือก **Source**: `Deploy from a branch`
+3. เลือก **Branch**: `main` และโฟลเดอร์ `/docs` หรือ `/root`
+4. คลิก **Save**
+
+### ไฟล์ที่ Deploy
+- ✅ รวม: HTML, CSS, JS, Images, Data files
+- ❌ ไม่รวม: Server files, Scripts, Development tools
+
+##  เทคโนโลยีที่ใช้
+
+### Frontend
+- **HTML5** - โครงสร้างหน้าเว็บ
+- **CSS3** - การออกแบบและ styling
+- **Vanilla JavaScript** - การทำงานแบบไดนามิก
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+
+### Tools
+- **Git** - Version control
+- **GitHub Pages** - Hosting
+
+## 📖 เนื้อหาหลัก
+
 1. **Creative & Digital Art** - ความคิดสร้างสรรค์และศิลปะดิจิทัล
 2. **Graphic Design** - การออกแบบกราฟิก
 3. **2D Animation** - แอนิเมชัน 2 มิติ
@@ -51,75 +115,11 @@ demo/
 6. **Game Design & Development** - การออกแบบและพัฒนาเกม
 7. **Virtual & Extended Reality** - เทคโนโลยีเสมือนและโลกใหม่
 
-## 🎨 เทคโนโลยีที่ใช้
-
-- **HTML5** - โครงสร้างหน้าเว็บ
-- **CSS3** - การออกแบบและ styling
-  - Flexbox layout
-  - CSS Grid
-  - Media Queries (Responsive)
-  - CSS Animations & Transitions
-- **JavaScript** - การทำงานแบบ interactive
-- **Google Fonts** - Material Symbols สำหรับ icons
-
-## 📋 คุณสมบัติพิเศษ
-
-### Responsive Design
-- **Desktop** (> 768px): แสดง navigation bar แบบเต็ม
-- **Mobile/Tablet** (≤ 768px): แสดง hamburger menu และ mobile layout
-
-### Navigation Features
-- **Smooth Scrolling** - การเลื่อนที่นุ่มนวล
-- **Scroll Offset** - ปรับตำแหน่งให้ไม่ถูกบังโดย fixed header
-- **Active States** - สถานะเมื่อ hover และ active
-
-### Mobile Features
-- **Hamburger Menu** - เมนูแบบ slide-in จากซ้าย
-- **Touch Friendly** - ปุ่มและลิงก์ที่เหมาะสำหรับการสัมผัส
-- **Auto-close Menu** - ปิดเมนูอัตโนมัติเมื่อคลิกลิงก์
-
-## 🚀 การใช้งาน
-
-### เปิดเว็บไซต์
-1. เปิดไฟล์ `index.html` ในเบราว์เซอร์
-2. หรือใช้ local server เช่น Live Server extension ใน VS Code
-
-### การแก้ไข
-1. **เปลี่ยนรูปภาพ**: แทนที่ไฟล์ในโฟลเดอร์ `images/`
-2. **แก้ไขเนื้อหา**: แก้ไขใน `index.html`
-3. **ปรับแต่งสไตล์**: แก้ไขใน `styles.css`
-
-## 🎯 Browser Support
-
-- ✅ Chrome (แนะนำ)
-- ✅ Firefox
-- ✅ Safari
-- ✅ Edge
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
-
-## 📐 Responsive Breakpoints
-
-- **Mobile First Design**
-- **Tablet/Mobile**: ≤ 768px
-- **Desktop**: > 768px
-
-## 🎨 Color Scheme
-
-- **Background**: `#000000` (Black)
-- **Content Background**: `#0f0f0f` (Dark Gray)
-- **Text**: `#ffffff` (White)
-- **Accent**: Various gradients and transparencies
-
-## 📝 หมายเหตุ
-
-- เว็บไซต์นี้ใช้ Google Fonts Material Symbols สำหรับ icons
-- รูปภาพทั้งหมดได้รับการจัดระเบียบและตั้งชื่อใหม่ให้สอดคล้อง
-- โค้ดได้รับการปรับปรุงให้ clean และ maintainable
-
 ## 👨‍💻 ผู้พัฒนา
 
-สร้างสรรค์โดย GitHub Copilot สำหรับสาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี
+**สาขาเทคโนโลยีมัลติมีเดีย**  
+**มหาวิทยาลัยราชภัฏเทพสตรี**
 
 ---
 
-**อัพเดทล่าสุด**: October 2025
+*อัพเดทล่าสุด: November 2025*

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let visibleItems = 9;
     let allVideos = [];
-    const JSON_URL = './js/videos.json'; // โหลดจากไฟล์ JSON ในโฟลเดอร์ js/
+    const JSON_URL = './data/videos.json'; // โหลดจากไฟล์ JSON ในโฟลเดอร์ data/
 
     function createVideoCard(video, originalIndex) {
         const videoCard = document.createElement('a');
@@ -32,11 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // ตรวจสอบว่ามีภาพปกหรือไม่
         let thumbnailHTML = '';
         if (video.thumbnail && video.thumbnail.trim() !== '') {
-            // แปลง Google Drive URL เป็น Direct Link (รองรับหลายรูปแบบ)
-            let thumbnailUrl = video.thumbnail;
-            
-            if (thumbnailUrl.includes('drive.google.com')) {
-                // ดึง File ID จาก URL
+            // ถ้ามี path ของรูปภาพ (เช่น images/cover/xxx.jpg)
+            if (video.thumbnail.startsWith('images/cover/')) {
+                // ใช้รูปภาพจากโฟลเดอร์โดยตรง
+                console.log('🖼️ Using local image thumbnail:', video.thumbnail);
+                thumbnailHTML = `
+                    <div class="video-thumbnail">
+                        <img src="${video.thumbnail}" 
+                             alt="${video.title}"
+                             loading="lazy"
+                             onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>';">
+                        <div class="play-button-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                `;
+            } else if (video.thumbnail.includes('drive.google.com')) {
+                // แปลง Google Drive URL เป็น Direct Link (รองรับหลายรูปแบบ)
+                let thumbnailUrl = video.thumbnail;
                 let fileId = null;
                 
                 // รูปแบบ 1: https://drive.google.com/file/d/XXXXX/view
@@ -82,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // ใช้ภาพปกจาก URL อื่น (Imgur, etc.) พร้อม fallback
                 thumbnailHTML = `
                     <div class="video-thumbnail">
-                        <img src="${thumbnailUrl}" 
+                        <img src="${video.thumbnail}" 
                              alt="${video.title}"
                              loading="lazy"
                              onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>';">

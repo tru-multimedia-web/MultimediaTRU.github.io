@@ -67,26 +67,19 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="thumbnailUrl">URL ภาพปก (Thumbnail) - ไม่บังคับ</label>
-                        <input type="url" id="thumbnailUrl" 
-                               placeholder="วาง Google Drive URL หรือ Imgur URL">
+                        <label for="thumbnailFile">อัพโหลดภาพปก (Thumbnail) - ไม่บังคับ</label>
+                        <input type="file" id="thumbnailFile" accept="image/jpeg,image/png,image/webp"
+                               onchange="handleThumbnailUpload(event)">
                         <small style="color: #999; display: block; margin-top: 5px; line-height: 1.6;">
                             💡 <strong>วิธีเพิ่มภาพปก:</strong><br>
-                            <br>
-                            <strong>ตัวเลือก 1: Google Drive (แนะนำ)</strong><br>
-                            1. อัปโหลดภาพไป Google Drive<br>
-                            2. คลิกขวาที่ภาพ > <em>แชร์</em> > <strong>ใครก็ได้ที่มีลิงก์</strong><br>
-                            3. คลิก "คัดลอกลิงก์" แล้ววางที่นี่<br>
-                            4. ระบบจะแสดงภาพผ่าน iframe (หลีกเลี่ยงปัญหา CORS) ✨<br>
-                            <br>
-                            <strong>ตัวเลือก 2: Imgur (แนะนำสำหรับความเร็ว)</strong><br>
-                            1. ไปที่ <code>imgur.com</code> > Upload<br>
-                            2. คลิกขวาที่ภาพ > Copy image address<br>
-                            3. วาง URL (ต้องลงท้ายด้วย .jpg, .png)<br>
+                            1. คลิก "Choose File" แล้วเลือกภาพจากคอมพิวเตอร์<br>
+                            2. รองรับไฟล์ .jpg, .png, .webp<br>
+                            3. ระบบจะบันทึกภาพไว้ใน <code>images/cover/</code><br>
                             <br>
                             ⚠️ <em>ถ้าไม่ใส่ภาพปก ระบบจะใช้วิดีโอแสดงแทน</em><br>
-                            ✅ <em>รูปภาพควรมีขนาด 1280x720px (16:9) และไม่เกิน 500KB</em>
+                            ✅ <em>รูปภาพควรมีขนาด 1280x720px (16:9) และไม่เกิน 2MB</em>
                         </small>
+                        <div id="thumbnailPreview" style="margin-top: 10px;"></div>
                     </div>
                     
                     <div class="form-group">
@@ -119,7 +112,7 @@
                                placeholder="ชื่อผู้สร้างผลงาน">
                     </div>
                     
-                    <button type="submit" class="success">เพิ่มวิดีโอ</button>
+                    <button type="submit" class="success" id="submitBtn">➕ เพิ่มวิดีโอ</button>
                     <button type="button" onclick="clearForm()">ล้างฟอร์ม</button>
                 </form>
             </div>
@@ -129,17 +122,20 @@
                 <h2>รายการวิดีโอ</h2>
                 
                 <div class="toolbar">
-                    <button class="success" onclick="downloadJSON()">
-                        ดาวน์โหลด videos.json
+                    <button class="success" onclick="updateVideosJSON()">
+                        🔄 Update
+                    </button>
+                    <button onclick="downloadJSON()">
+                        📥 ดาวน์โหลด JSON
                     </button>
                     <button onclick="importJSON()">
-                        นำเข้า JSON
+                        📂 นำเข้า JSON
                     </button>
                     <button onclick="previewJSON()">
-                        ดูตัวอย่าง JSON
+                        👁️ ดูตัวอย่าง JSON
                     </button>
                     <button class="danger" onclick="clearAll()">
-                        ลบทั้งหมด
+                        🗑️ ลบทั้งหมด
                     </button>
                 </div>
                 

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // โหลดวิดีโอจากไฟล์ JSON (ใช้วิธีเดียวกับ video-gallery.js)
-        const response = await fetch('./js/videos.json');
+        const response = await fetch('./data/videos.json');
         if (!response.ok) {
             throw new Error('Failed to load videos');
         }
