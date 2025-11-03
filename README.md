@@ -8,11 +8,11 @@
 
 ## คุณสมบัติหลัก
 
-- ** Responsive Design** - รองรับทุกขนาดหน้าจอ
-- ** Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
-- ** Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
-- ** Mobile Navigation** - เมนูนำทางสำหรับมือถือ
-- ** Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
+- **Responsive Design** - รองรับทุกขนาดหน้าจอ
+- **Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
+- **Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
+- **Mobile Navigation** - เมนูนำทางสำหรับมือถือ
+- **Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
 
 ## โครงสร้างโปรเจค
 
@@ -40,12 +40,12 @@
 
 ## คุณสมบัติหลัก
 
-** Responsive Design - รองรับทุกขนาดหน้าจอ
-- ** Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
-- ** Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
-- ** Video Generator** - เครื่องมือจัดการวิดีโอ (Development only)
-- ** Mobile Navigation** - เมนูนำทางสำหรับมือถือ
-- ** Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
+- **Responsive Design** - รองรับทุกขนาดหน้าจอ
+- **Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
+- **Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
+- **Video Generator** - เครื่องมือจัดการวิดีโอ (Development only)
+- **Mobile Navigation** - เมนูนำทางสำหรับมือถือ
+- **Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
 
 ---
 
@@ -53,28 +53,28 @@
 
 ```
 MultimediaTRU.github.io/
-├── 📄 index.html                 # หน้าแรกของเว็บไซต์
-├── 📄 player.html                # หน้าเล่นวิดีโอ
-├── 📄 video-generator.html       # เครื่องมือจัดการวิดีโอ (Dev only)
-├── 📁 css/                       # ไฟล์สไตล์ชีต
-│   ├── styles.css               # สไตล์หลักของเว็บไซต์
-│   └── video-generator.css      # สไตล์สำหรับ video-generator
-├── 📁 js/                        # ไฟล์ JavaScript
-│   ├── video-gallery.js         # จัดการแกลเลอรี่วิดีโอ
-│   ├── player.js                # ควบคุมการเล่นวิดีโอ
-│   └── video-generator.js       # เครื่องมือจัดการวิดีโอ
-├── 📁 images/                    # รูปภาพและไฟล์สื่อ
-│   ├── cover/                   # รูปภาพปกวิดีโอที่อัพโหลด
-│   └── *.jpg, *.png            # รูปภาพทั่วไป
-├── 📁 data/                      # ฐานข้อมูล
-│   └── videos.json              # ข้อมูลวิดีโอทั้งหมด
-├── 📁 server/                    # Backend API
-│   └── api-server.js            # Node.js Express API Server
-├── 📁 scripts/                   # สคริปต์จัดการ
-│   ├── start-servers.sh         # เริ่มเซิร์ฟเวอร์ทั้งสอง
-│   ├── stop-servers.sh          # ปิดเซิร์ฟเวอร์
-│   └── build-web.sh             # Build สำหรับ production
-├── 📁 dist/                      # Build output (ignored by git)
+├── index.html                    # หน้าแรกของเว็บไซต์
+├── player.html                   # หน้าเล่นวิดีโอ
+├── video-generator.html          # เครื่องมือจัดการวิดีโอ (Dev only)
+├── css/                          # ไฟล์สไตล์ชีต
+│   ├── styles.css                # สไตล์หลักของเว็บไซต์
+│   └── video-generator.css       # สไตล์สำหรับ video-generator
+├── js/                           # ไฟล์ JavaScript
+│   ├── video-gallery.js          # จัดการแกลเลอรี่วิดีโอ
+│   ├── player.js                 # ควบคุมการเล่นวิดีโอ
+│   └── video-generator.js        # เครื่องมือจัดการวิดีโอ
+├── images/                       # รูปภาพและไฟล์สื่อ
+│   ├── cover/                    # รูปภาพปกวิดีโอที่อัพโหลด
+│   └── *.jpg, *.png              # รูปภาพทั่วไป
+├── data/                         # ฐานข้อมูล
+│   └── videos.json               # ข้อมูลวิดีโอทั้งหมด
+├── server/                       # Backend API
+│   └── api-server.js             # Node.js Express API Server
+├── scripts/                      # สคริปต์จัดการ
+│   ├── start-servers.sh          # เริ่มเซิร์ฟเวอร์ทั้งสอง
+│   ├── stop-servers.sh           # ปิดเซิร์ฟเวอร์
+│   └── build-web.sh              # Build สำหรับ production
+├── dist/                         # Build output (ignored by git)
 ├── 📄 package.json               # Dependencies และ scripts
 ├── 📄 README.md                  # เอกสารหลัก (ไฟล์นี้)
 └── 📄 START.md                   # คู่มือเริ่มต้นแบบย่อ
