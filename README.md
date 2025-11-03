@@ -1,32 +1,32 @@
-# 🎬 MultimediaTRU.github.io
+# MultimediaTRU.github.io
 
 เว็บไซต์สาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี
 
-## 🌐 Live Website
+## Live Website
 
 - **หน้าเว็บหลัก**: https://tru-multimedia-web.github.io/MultimediaTRU.github.io/
 
-## 🌟 คุณสมบัติหลัก
+## คุณสมบัติหลัก
 
-- **🎨 Responsive Design** - รองรับทุกขนาดหน้าจอ
-- **🎬 Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
-- **🎮 Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
-- **📱 Mobile Navigation** - เมนูนำทางสำหรับมือถือ
-- **⚡ Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
+- ** Responsive Design** - รองรับทุกขนาดหน้าจอ
+- ** Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
+- ** Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
+- ** Mobile Navigation** - เมนูนำทางสำหรับมือถือ
+- ** Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
 
-## 📁 โครงสร้างโปรเจค
+## โครงสร้างโปรเจค
 
-# 🎬 MultimediaTRU.github.io
+# MultimediaTRU.github.io
 
 เว็บไซต์สาขาเทคโนโลยีมัลติมีเดีย มหาวิทยาลัยราชภัฏเทพสตรี
 
-## 🌐 Live Website
+## Live Website
 
 **Production**: https://tru-multimedia-web.github.io/MultimediaTRU.github.io/
 
 ---
 
-## 📑 สารบัญ
+## สารบัญ
 
 - [คุณสมบัติหลัก](#-คุณสมบัติหลัก)
 - [โครงสร้างโปรเจค](#-โครงสร้างโปรเจค)
@@ -38,18 +38,18 @@
 
 ---
 
-## 🌟 คุณสมบัติหลัก
+## คุณสมบัติหลัก
 
-- **🎨 Responsive Design** - รองรับทุกขนาดหน้าจอ
-- **🎬 Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
-- **🎮 Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
-- **🔧 Video Generator** - เครื่องมือจัดการวิดีโอ (Development only)
-- **📱 Mobile Navigation** - เมนูนำทางสำหรับมือถือ
-- **⚡ Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
+- ** Responsive Design** - รองรับทุกขนาดหน้าจอ
+- ** Video Gallery** - แสดงผลงานวิดีโอของนักศึกษา
+- ** Interactive Player** - ตัวเล่นวิดีโอพร้อมควบคุม
+- ** Video Generator** - เครื่องมือจัดการวิดีโอ (Development only)
+- ** Mobile Navigation** - เมนูนำทางสำหรับมือถือ
+- ** Fast Loading** - โหลดเร็วและมีประสิทธิภาพ
 
 ---
 
-## 📁 โครงสร้างโปรเจค
+## โครงสร้างโปรเจค
 
 ```
 MultimediaTRU.github.io/
@@ -94,7 +94,7 @@ MultimediaTRU.github.io/
 
 ---
 
-## 🚀 เริ่มต้นใช้งาน
+##เริ่มต้นใช้งาน
 
 ### วิธีที่ 1: ใช้ Script อัตโนมัติ (แนะนำ) ⭐
 
@@ -132,7 +132,7 @@ node server/api-server.js
 
 ---
 
-## 💻 การพัฒนา
+## การพัฒนา
 
 ### วิธีเพิ่มวิดีโอใหม่
 
@@ -164,7 +164,7 @@ node server/api-server.js
 
 ---
 
-## 🌐 การ Deploy
+## การ Deploy
 
 ### สร้างไฟล์สำหรับ Production
 
@@ -200,7 +200,7 @@ git push origin main
 
 ---
 
-## 🔧 แก้ไขปัญหา
+## แก้ไขปัญหา
 
 ### API Server ไม่ทำงาน
 
@@ -252,7 +252,7 @@ A: เป็นเครื่องมือสำหรับ development เ�
 
 ---
 
-## 📖 เนื้อหาหลัก
+## เนื้อหาหลัก
 
 1. **Creative & Digital Art** - ความคิดสร้างสรรค์และศิลปะดิจิทัล
 2. **Graphic Design** - การออกแบบกราฟิก
@@ -264,7 +264,7 @@ A: เป็นเครื่องมือสำหรับ development เ�
 
 ---
 
-## 🚀 วิธีใช้งาน
+## วิธีใช้งาน
 
 ### สำหรับพัฒนา (Development)
 
@@ -286,7 +286,7 @@ A: เป็นเครื่องมือสำหรับ development เ�
 # อัพโหลดโฟลเดอร์ dist/ ไปยัง GitHub Pages
 ```
 
-## 🌐 GitHub Pages Structure
+## GitHub Pages Structure
 
 ### Project Site Structure
 ```
@@ -330,7 +330,7 @@ tru-multimedia-web.github.io/
 - **Git** - Version control
 - **GitHub Pages** - Hosting
 
-## 📖 เนื้อหาหลัก
+## เนื้อหาหลัก
 
 1. **Creative & Digital Art** - ความคิดสร้างสรรค์และศิลปะดิจิทัล
 2. **Graphic Design** - การออกแบบกราฟิก
@@ -340,7 +340,7 @@ tru-multimedia-web.github.io/
 6. **Game Design & Development** - การออกแบบและพัฒนาเกม
 7. **Virtual & Extended Reality** - เทคโนโลยีเสมือนและโลกใหม่
 
-## 👨‍💻 ผู้พัฒนา
+## ผู้พัฒนา
 
 **สาขาเทคโนโลยีมัลติมีเดีย**  
 **มหาวิทยาลัยราชภัฏเทพสตรี**
