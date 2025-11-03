@@ -75,9 +75,9 @@ MultimediaTRU.github.io/
 │   ├── stop-servers.sh           # ปิดเซิร์ฟเวอร์
 │   └── build-web.sh              # Build สำหรับ production
 ├── dist/                         # Build output (ignored by git)
-├── 📄 package.json               # Dependencies และ scripts
-├── 📄 README.md                  # เอกสารหลัก (ไฟล์นี้)
-└── 📄 START.md                   # คู่มือเริ่มต้นแบบย่อ
+├── package.json                  # Dependencies และ scripts
+├── README.md                     # เอกสารหลัก (ไฟล์นี้)
+└── START.md                      # คู่มือเริ่มต้นแบบย่อ
 ```
 
 ### หน้าที่ของแต่ละส่วน
@@ -96,7 +96,7 @@ MultimediaTRU.github.io/
 
 ## เริ่มต้นใช้งาน
 
-### วิธีที่ 1: ใช้ Script อัตโนมัติ (แนะนำ) ⭐
+### วิธีที่ 1: ใช้ Script อัตโนมัติ (แนะนำ)
 
 ```bash
 # เริ่มเซิร์ฟเวอร์ทั้งสอง
@@ -292,8 +292,8 @@ A: เป็นเครื่องมือสำหรับ development เ�
 ```
 tru-multimedia-web.github.io/
 └── MultimediaTRU.github.io/          # Project repository
-    ├── index.html                     # หน้าแรก (root)
-    ├── player.html                    # หน้าเล่นวิดีโอ
+    ├── index.html                    # หน้าแรก (root)
+    ├── player.html                   # หน้าเล่นวิดีโอ
     ├── css/                          # สไตล์ชีต
     ├── js/                           # JavaScript files
     ├── images/                       # รูปภาพและสื่อ
