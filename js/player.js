@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         
         const videos = await response.json();
+        
+        // เรียงลำดับวิดีโอจากล่าสุดไปเก่าสุด (เหมือนหน้าหลัก)
+        videos.sort(function(a, b) {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        console.log('✅ Videos sorted by date (newest first) for player');
 
         if (videoIndex >= 0 && videoIndex < videos.length) {
             const video = videos[videoIndex];

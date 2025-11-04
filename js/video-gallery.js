@@ -141,12 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const videosToRender = filteredVideos.slice(0, visibleItems);
             
-            videosToRender.forEach(function(video) {
-                const originalIndex = allVideos.findIndex(function(v) {
+            videosToRender.forEach(function(video, displayIndex) {
+                // ใช้ index จาก allVideos (sorted array) แทน originalIndex
+                const sortedIndex = allVideos.findIndex(function(v) {
                     return v.url === video.url && v.title === video.title;
                 });
-                if (originalIndex !== -1) {
-                    const videoCard = createVideoCard(video, originalIndex);
+                if (sortedIndex !== -1) {
+                    const videoCard = createVideoCard(video, sortedIndex);
                     videoGrid.appendChild(videoCard);
                 }
             });
