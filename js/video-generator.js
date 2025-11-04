@@ -33,11 +33,32 @@ async function loadFromJSON() {
         console.log('🌐 Fetch response status:', response.status);
 
         if (response.ok) {
-            videos = await response.json();
-            console.log('✅ Loaded', videos.length, 'videos from data/videos.json');
-            console.log('📋 Videos data:', videos);
+            const loadedVideos = await response.json();
+            console.log('✅ Loaded', loadedVideos.length, 'videos from data/videos.json');
+            console.log('📋 Videos data:', loadedVideos);
             
-            // บันทึกไปยัง localStorage เพื่อให้ทำงานได้แบบ offline
+            // รวมข้อมูลจาก localStorage กับข้อมูลจาก JSON
+            const storedVideos = loadStoredVideos();
+            
+            // สร้าง Map เพื่อรวมข้อมูล (ใช้ id เป็น key)
+            const videoMap = new Map();
+            
+            // เพิ่มข้อมูลจาก JSON ก่อน
+            loadedVideos.forEach(video => {
+                videoMap.set(video.id, video);
+            });
+            
+            // เพิ่มข้อมูลจาก localStorage (ถ้ามี id ซ้ำจะถูกเขียนทับ)
+            storedVideos.forEach(video => {
+                videoMap.set(video.id, video);
+            });
+            
+            // แปลง Map กลับเป็น Array
+            videos = Array.from(videoMap.values());
+            
+            console.log('✅ Total videos after merge:', videos.length);
+            
+            // บันทึกข้อมูลรวมไปยัง localStorage
             saveToStorage();
             
             // อัพเดทการแสดงผลทันที
@@ -48,33 +69,55 @@ async function loadFromJSON() {
             return true;
         } else {
             console.error('❌ HTTP Error:', response.status, response.statusText);
-            showNotification('❌ ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์ได้', 'error');
+            console.log('⚠️ Falling back to localStorage only');
             // ถ้าดึงจาก JSON ไม่ได้ ให้โหลดจาก localStorage แทน
-            loadFromStorage();
+            videos = loadStoredVideos();
             renderVideoList();
             updateStats();
+            
+            if (videos.length > 0) {
+                showNotification(`ℹ️ โหลดจาก localStorage: ${videos.length} วิดีโอ`, 'info');
+            } else {
+                showNotification('ℹ️ ไม่พบข้อมูลวิดีโอ', 'info');
+            }
             return false;
         }
     } catch (error) {
         console.error('❌ Error loading videos.json:', error);
-        showNotification('❌ ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์ได้', 'error');
+        console.log('⚠️ Falling back to localStorage only');
         // ถ้าดึงจาก JSON ไม่ได้ ให้โหลดจาก localStorage แทน
-        loadFromStorage();
+        videos = loadStoredVideos();
         renderVideoList();
         updateStats();
+        
+        if (videos.length > 0) {
+            showNotification(`ℹ️ โหลดจาก localStorage: ${videos.length} วิดีโอ`, 'info');
+        } else {
+            showNotification('ℹ️ ไม่พบข้อมูลวิดีโอ', 'info');
+        }
         return false;
     }
 }
 
-function loadFromStorage() {
+function loadStoredVideos() {
     const stored = localStorage.getItem('video_generator_data');
     if (stored) {
-        videos = JSON.parse(stored);
-        console.log('📱 Loaded', videos.length, 'videos from localStorage');
+        try {
+            const parsedVideos = JSON.parse(stored);
+            console.log('📱 Found', parsedVideos.length, 'videos in localStorage');
+            return parsedVideos;
+        } catch (e) {
+            console.error('❌ Error parsing localStorage data:', e);
+            return [];
+        }
     } else {
         console.log('📱 No data in localStorage');
-        videos = [];
+        return [];
     }
+}
+
+function loadFromStorage() {
+    videos = loadStoredVideos();
 }
 
 function saveToStorage() {
