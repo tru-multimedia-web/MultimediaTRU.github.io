@@ -167,9 +167,9 @@ button {
 }
 
 .top-fixed-image .menu_bar div a:hover {
-    transform: translateY(8px);
-    /* transform: translate(4px, 4px); */
-    color: #00000064;
+    /* transform: translateY(8px); */
+    transform: translate(7px, 2px);
+    color: #ffffff76;
 } */
 
 /* Mobile Tab - Hidden by default, shown on mobile via @media */
