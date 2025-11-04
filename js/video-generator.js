@@ -20,25 +20,32 @@ window.clearAll = clearAll;
 window.updateVideosJSON = updateVideosJSON;
 
 // Load from data/videos.json on start
-window.addEventListener('DOMContentLoaded', () => {
-    loadFromJSON();
+window.addEventListener('DOMContentLoaded', async () => {
+    console.log('🎬 Video Generator: DOM Content Loaded');
+    await loadFromJSON();
     renderVideoList();
     updateStats();
 });
 
 async function loadFromJSON() {
+    console.log('📂 Attempting to load videos from data/videos.json...');
     try {
         const response = await fetch('data/videos.json');
+        console.log('🌐 Fetch response status:', response.status);
+
         if (response.ok) {
             videos = await response.json();
             console.log('✅ Loaded', videos.length, 'videos from data/videos.json');
+            console.log('📋 Videos data:', videos);
+            alert(`✅ โหลดข้อมูลสำเร็จ! พบ ${videos.length} วิดีโอในระบบ`);
             showNotification(`✅ โหลดข้อมูลสำเร็จ! พบ ${videos.length} วิดีโอในระบบ`, 'success');
             // บันทึกไปยัง localStorage เพื่อให้ทำงานได้แบบ offline
             saveToStorage();
         } else {
-            console.log('⚠️ ไม่พบไฟล์ data/videos.json เริ่มต้นด้วยข้อมูลว่าง');
-            videos = [];
-            showNotification('ℹ️ ไม่พบข้อมูลวิดีโอ เริ่มต้นด้วยข้อมูลว่าง', 'info');
+            console.error('❌ HTTP Error:', response.status, response.statusText);
+            showNotification('❌ ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์ได้', 'error');
+            // ถ้าดึงจาก JSON ไม่ได้ ให้โหลดจาก localStorage แทน
+            loadFromStorage();
         }
     } catch (error) {
         console.error('❌ Error loading videos.json:', error);
