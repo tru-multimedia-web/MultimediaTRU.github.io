@@ -326,15 +326,22 @@ function renderVideoList() {
     let html = '';
     
     sortedVideos.forEach((video, index) => {
-        console.log(`  Rendering video ${index + 1}:`, video.title);
+        console.log(`  Rendering video ${index + 1}:`, video.title, '| Thumbnail:', video.thumbnail);
         
         // แปลง URL Google Drive เป็น embed URL
         const embedUrl = video.url.replace('/view?usp=sharing', '/preview').replace('/view?usp=drive_link', '/preview');
 
-        // แสดง thumbnail ถ้ามี
-        const thumbnailHtml = video.thumbnail
-            ? `<img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOUI5QkE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPk5vIEltYWdlPC90ZXh0Pgo8L3N2Zz4='">`
-            : '<div class="no-thumbnail">🎬</div>';
+        // แสดง thumbnail ถ้ามี - ใช้ path สัมพัทธ์จาก root
+        let thumbnailHtml;
+        if (video.thumbnail && video.thumbnail.trim() !== '') {
+            const thumbnailPath = video.thumbnail.startsWith('/') ? video.thumbnail : '/' + video.thumbnail;
+            console.log(`  📸 Thumbnail path: ${thumbnailPath}`);
+            thumbnailHtml = `<img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail" 
+                onerror="console.error('❌ Failed to load:', this.src); this.parentElement.innerHTML='<div class=\\'no-thumbnail\\'>🎬</div>';">`;
+        } else {
+            console.log(`  ⚠️ No thumbnail for: ${video.title}`);
+            thumbnailHtml = '<div class="no-thumbnail">🎬</div>';
+        }
 
         html += `
             <div class="video-card">
