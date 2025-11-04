@@ -334,7 +334,7 @@ function renderVideoList() {
                         <h3>${video.title}</h3>
                         <p class="video-description">${video.description}</p>
                         <p class="video-meta">
-                            <span class="student">👤 ${video.studentName}</span>
+                            <span class="student"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">person</span> ${video.studentName}</span>
                             <span class="category-badge badge-${video.category}">${getCategoryName(video.category)}</span>
                         </p>
                     </div>
@@ -342,15 +342,21 @@ function renderVideoList() {
                 <div class="video-details">
                     <div class="video-url">
                         <strong>URL:</strong>
-                        <a href="${video.url}" target="_blank" title="${video.url}">🔗 เปิดวิดีโอ</a>
+                        <a href="${video.url}" target="_blank" title="${video.url}">
+                            <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">link</span> เปิดวิดีโอ
+                        </a>
                     </div>
                     <div class="video-date">
                         <strong>วันที่สร้าง:</strong> ${new Date(video.createdAt).toLocaleDateString('th-TH')}
                     </div>
                 </div>
                 <div class="actions">
-                    <button class="btn-small" onclick="editVideo('${video.id}')">✏️ แก้ไข</button>
-                    <button class="btn-small danger" onclick="deleteVideo('${video.id}')">🗑️ ลบ</button>
+                    <button class="btn-small" onclick="editVideo('${video.id}')">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">edit</span> แก้ไข
+                    </button>
+                    <button class="btn-small danger" onclick="deleteVideo('${video.id}')">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">delete</span> ลบ
+                    </button>
                 </div>
             </div>
         `;
@@ -499,7 +505,7 @@ function clearAll() {
     renderVideoList();
     updateStats();
     
-    showNotification('🗑️ ลบข้อมูลทั้งหมดเรียบร้อย', 'success');
+    showNotification('ลบข้อมูลทั้งหมดเรียบร้อย', 'success');
 }
 
 function showNotification(message, type = 'info') {

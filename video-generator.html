@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Tool</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="css/video-generator.css">
 </head>
 <body>
@@ -16,9 +17,11 @@
         <p class="subtitle">เครื่องมือสร้างไฟล์ videos.json สำหรับ GitHub Pages</p>
         
         <div class="warning-box">
-            <div class="warning-box-content">
+                <div class="warning-box-content">
                 <div>
-                    <div class="warning-box-title">⚠️ คำแนะนำสำคัญ</div>
+                    <div class="warning-box-title">
+                        <span class="material-symbols-outlined" style="vertical-align: middle;">warning</span> คำแนะนำสำคัญ
+                    </div>
                     <div class="warning-box-text">
                         หลังดาวน์โหลดไฟล์ <code>videos.json</code> 
                         ให้วางไฟล์ในโฟลเดอร์ <code>js/</code> ของโปรเจค
@@ -112,8 +115,12 @@
                                placeholder="ชื่อผู้สร้างผลงาน">
                     </div>
                     
-                    <button type="submit" class="success" id="submitBtn">➕ เพิ่มวิดีโอ</button>
-                    <button type="button" onclick="clearForm()">ล้างฟอร์ม</button>
+                    <button type="submit" class="success" id="submitBtn">
+                        <span class="material-symbols-outlined">add</span> เพิ่มวิดีโอ
+                    </button>
+                    <button type="button" onclick="clearForm()">
+                        <span class="material-symbols-outlined">restart_alt</span> ล้างฟอร์ม
+                    </button>
                 </form>
             </div>
             
@@ -123,19 +130,19 @@
                 
                 <div class="toolbar">
                     <button class="success" onclick="updateVideosJSON()">
-                        🔄 Update
+                        <span class="material-symbols-outlined">refresh</span> Update
                     </button>
                     <button onclick="downloadJSON()">
-                        📥 ดาวน์โหลด JSON
+                        <span class="material-symbols-outlined">download</span> ดาวน์โหลด JSON
                     </button>
                     <button onclick="importJSON()">
-                        📂 นำเข้า JSON
+                        <span class="material-symbols-outlined">upload_file</span> นำเข้า JSON
                     </button>
                     <button onclick="previewJSON()">
-                        👁️ ดูตัวอย่าง JSON
+                        <span class="material-symbols-outlined">visibility</span> ดูตัวอย่าง JSON
                     </button>
                     <button class="danger" onclick="clearAll()">
-                        🗑️ ลบทั้งหมด
+                        <span class="material-symbols-outlined">delete</span> ลบทั้งหมด
                     </button>
                 </div>
                 
