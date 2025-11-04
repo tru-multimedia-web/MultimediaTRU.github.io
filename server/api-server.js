@@ -10,9 +10,10 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Paths
-const COVER_FOLDER = path.join(__dirname, 'images', 'cover');
-const VIDEOS_JSON = path.join(__dirname, 'data', 'videos.json');
+// Paths - ใช้ path จาก root ของโปรเจค ไม่ใช่จาก server/
+const PROJECT_ROOT = path.join(__dirname, '..');
+const COVER_FOLDER = path.join(PROJECT_ROOT, 'images', 'cover');
+const VIDEOS_JSON = path.join(PROJECT_ROOT, 'data', 'videos.json');
 
 // Ensure folders exist
 if (!fs.existsSync(COVER_FOLDER)) {
@@ -20,7 +21,7 @@ if (!fs.existsSync(COVER_FOLDER)) {
 }
 
 // Ensure data folder exists
-const DATA_FOLDER = path.join(__dirname, 'data');
+const DATA_FOLDER = path.join(PROJECT_ROOT, 'data');
 if (!fs.existsSync(DATA_FOLDER)) {
     fs.mkdirSync(DATA_FOLDER, { recursive: true });
 }
