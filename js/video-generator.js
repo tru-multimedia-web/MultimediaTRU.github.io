@@ -313,9 +313,17 @@ function renderVideoList() {
     }
 
     console.log('✅ Rendering', videos.length, 'videos');
+    
+    // เรียงลำดับวิดีโอจากใหม่ไปเก่า (ตาม createdAt)
+    const sortedVideos = [...videos].sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return dateB - dateA; // ใหม่ก่อน
+    });
+    
     let html = '';
     
-    videos.forEach((video, index) => {
+    sortedVideos.forEach((video, index) => {
         console.log(`  Rendering video ${index + 1}:`, video.title);
         
         // แปลง URL Google Drive เป็น embed URL
