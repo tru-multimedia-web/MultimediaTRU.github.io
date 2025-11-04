@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let visibleItems = 9;
     let allVideos = [];
-    const JSON_URL = './data/videos.json'; // โหลดจากไฟล์ JSON ในโฟลเดอร์ data/
+    const JSON_URL = './data/videos.json?v=' + Date.now(); // โหลดจากไฟล์ JSON พร้อม cache buster
 
     function createVideoCard(video, originalIndex) {
         const videoCard = document.createElement('a');
