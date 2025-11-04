@@ -262,29 +262,65 @@ function editVideo(id) {
 
 function renderVideoList() {
     const list = document.getElementById('videoList');
-    
+
     if (videos.length === 0) {
         list.innerHTML = '<p class="empty-state">ยังไม่มีวิดีโอ เริ่มเพิ่มวิดีโอใหม่ทางซ้ายมือ</p>';
         return;
     }
-    
+
     let html = '';
     videos.forEach(video => {
+        // แปลง URL Google Drive เป็น embed URL
+        const embedUrl = video.url.replace('/view?usp=sharing', '/preview').replace('/view?usp=drive_link', '/preview');
+
+        // แสดง thumbnail ถ้ามี
+        const thumbnailHtml = video.thumbnail
+            ? `<img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOUI5QkE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPk5vIEltYWdlPC90ZXh0Pgo8L3N2Zz4='">`
+            : '<div class="no-thumbnail">🎬</div>';
+
         html += `
             <div class="video-card">
-                <h3>${video.title}</h3>
-                <p>${video.description}</p>
-                <p class="video-card-meta">👤 ${video.studentName}</p>
-                <span class="badge badge-${video.category}">${video.category}</span>
+                <div class="video-header">
+                    ${thumbnailHtml}
+                    <div class="video-info">
+                        <h3>${video.title}</h3>
+                        <p class="video-description">${video.description}</p>
+                        <p class="video-meta">
+                            <span class="student">👤 ${video.studentName}</span>
+                            <span class="category-badge badge-${video.category}">${getCategoryName(video.category)}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="video-details">
+                    <div class="video-url">
+                        <strong>URL:</strong>
+                        <a href="${video.url}" target="_blank" title="${video.url}">🔗 เปิดวิดีโอ</a>
+                    </div>
+                    <div class="video-date">
+                        <strong>วันที่สร้าง:</strong> ${new Date(video.createdAt).toLocaleDateString('th-TH')}
+                    </div>
+                </div>
                 <div class="actions">
-                    <button class="btn-small" onclick="editVideo('${video.id}')">แก้ไข</button>
-                    <button class="btn-small danger" onclick="deleteVideo('${video.id}')">ลบ</button>
+                    <button class="btn-small" onclick="editVideo('${video.id}')">✏️ แก้ไข</button>
+                    <button class="btn-small danger" onclick="deleteVideo('${video.id}')">🗑️ ลบ</button>
                 </div>
             </div>
         `;
     });
-    
+
     list.innerHTML = html;
+}
+
+// ฟังก์ชันช่วยแปลงชื่อหมวดหมู่เป็นภาษาไทย
+function getCategoryName(category) {
+    const categoryNames = {
+        'animation': 'แอนิเมชัน',
+        'game': 'เกม',
+        'web': 'เว็บไซต์',
+        'video': 'วิดีโอ',
+        'graphic': 'กราฟิก'
+    };
+    return categoryNames[category] || category;
 }
 
 function updateStats() {
