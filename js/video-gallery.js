@@ -186,6 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            // เรียงลำดับวิดีโอจากล่าสุดไปเก่าสุด (ตาม createdAt)
+            allVideos.sort(function(a, b) {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
+            console.log('✅ Videos sorted by date (newest first)');
+            
             renderVideos();
         } catch (error) {
             console.error('❌ Error loading videos from JSON:', error);
