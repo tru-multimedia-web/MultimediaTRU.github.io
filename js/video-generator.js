@@ -34,11 +34,20 @@ async function autoLoadVideosJSON() {
         if (response.ok) {
             const loadedVideos = await response.json();
             console.log('✅ Loaded', loadedVideos.length, 'videos from data/videos.json');
+            console.log('📋 Video data:', JSON.stringify(loadedVideos, null, 2));
             
             // ใช้ตรรกะเดียวกับ importJSON() - แทนที่ข้อมูลเดิมทั้งหมด
             videos = loadedVideos;
+            console.log('📦 videos array now has:', videos.length, 'items');
+            
             saveToStorage();
+            console.log('💾 Saved to localStorage');
+            
+            // เรียก render และ update stats
+            console.log('🎨 Calling renderVideoList()...');
             renderVideoList();
+            
+            console.log('📊 Calling updateStats()...');
             updateStats();
             
             showNotification(`✅ โหลดข้อมูลอัตโนมัติ: ${videos.length} วิดีโอ`, 'success');
@@ -284,11 +293,16 @@ function editVideo(id) {
 }
 
 function renderVideoList() {
-    console.log('🎨 renderVideoList() called, videos count:', videos.length);
+    console.log('🎨 renderVideoList() called');
+    console.log('📊 videos.length:', videos.length);
+    console.log('📋 videos array:', videos);
+    
     const list = document.getElementById('videoList');
+    console.log('🔍 videoList element:', list);
 
     if (!list) {
         console.error('❌ videoList element not found!');
+        alert('ERROR: videoList element not found in HTML!');
         return;
     }
 
@@ -300,7 +314,10 @@ function renderVideoList() {
 
     console.log('✅ Rendering', videos.length, 'videos');
     let html = '';
-    videos.forEach(video => {
+    
+    videos.forEach((video, index) => {
+        console.log(`  Rendering video ${index + 1}:`, video.title);
+        
         // แปลง URL Google Drive เป็น embed URL
         const embedUrl = video.url.replace('/view?usp=sharing', '/preview').replace('/view?usp=drive_link', '/preview');
 
@@ -339,8 +356,10 @@ function renderVideoList() {
         `;
     });
 
+    console.log('📝 Generated HTML length:', html.length, 'characters');
     list.innerHTML = html;
-    console.log('✅ Rendered HTML updated');
+    console.log('✅ Rendered HTML updated in DOM');
+    console.log('🔍 videoList.innerHTML length after update:', list.innerHTML.length);
 }
 
 // ฟังก์ชันช่วยแปลงชื่อหมวดหมู่เป็นภาษาไทย
