@@ -99,6 +99,40 @@ app.post('/api/save-videos', (req, res) => {
     }
 });
 
+// Delete image
+app.delete('/api/delete-image', (req, res) => {
+    try {
+        const { filename } = req.body;
+        
+        if (!filename) {
+            return res.status(400).json({ error: 'Missing filename' });
+        }
+        
+        const filepath = path.join(COVER_FOLDER, filename);
+        
+        // ตรวจสอบว่าไฟล์มีอยู่จริง
+        if (fs.existsSync(filepath)) {
+            fs.unlinkSync(filepath);
+            console.log(`✅ Deleted image: ${filepath}`);
+            
+            res.json({
+                success: true,
+                message: 'Image deleted successfully'
+            });
+        } else {
+            console.log(`⚠️ Image not found: ${filepath}`);
+            res.json({
+                success: true,
+                message: 'Image not found (already deleted)'
+            });
+        }
+        
+    } catch (error) {
+        console.error(`❌ Error:`, error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log('============================================================');

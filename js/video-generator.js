@@ -220,18 +220,37 @@ function addVideo(event) {
     showNotification('✅ เพิ่มวิดีโอสำเร็จ!', 'success');
 }
 
-function deleteVideo(id) {
+async function deleteVideo(id) {
     if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบวิดีโอนี้?')) {
         return;
     }
     
+    // หาวิดีโอที่จะลบเพื่อเอา thumbnail filename
+    const videoToDelete = videos.find(v => v.id === id || v.id === String(id));
+    
+    if (videoToDelete && videoToDelete.thumbnail && videoToDelete.thumbnail.startsWith('images/cover/')) {
+        // ดึงชื่อไฟล์จาก path
+        const filename = videoToDelete.thumbnail.replace('images/cover/', '');
+        console.log('🗑️ Attempting to delete thumbnail:', filename);
+        
+        // เรียก API เพื่อลบไฟล์รูปภาพ
+        try {
+            await deleteImageFromServer(filename);
+            console.log('✅ Thumbnail deleted successfully');
+        } catch (error) {
+            console.warn('⚠️ Failed to delete thumbnail:', error.message);
+            // ไม่ให้ error หยุดการลบวิดีโอ
+        }
+    }
+    
+    // ลบวิดีโอออกจาก array
     videos = videos.filter(v => v.id !== id && v.id !== String(id));
     
     saveToStorage();
     renderVideoList();
     updateStats();
     
-    showNotification('ลบวิดีโอเรียบร้อย', 'success');
+    showNotification('ลบวิดีโอและรูปภาพปกเรียบร้อย', 'success');
 }
 
 function editVideo(id) {
@@ -577,6 +596,35 @@ async function saveImageToServer(filename, base64Data) {
         console.warn('⚠️ Cannot connect to Python API:', error.message);
         console.log('💡 Make sure to run: python3 api-server.py');
         // ไม่ให้ error หยุดการทำงาน - ยังคงบันทึกใน localStorage ได้
+    }
+}
+
+/**
+ * ลบรูปภาพจาก API Server
+ */
+async function deleteImageFromServer(filename) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/delete-image`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: filename
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Image deleted from server:', filename);
+        return result;
+        
+    } catch (error) {
+        console.warn('⚠️ Cannot delete image from server:', error.message);
+        throw error;
     }
 }
 
