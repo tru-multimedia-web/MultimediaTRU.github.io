@@ -442,7 +442,7 @@ function downloadJSON() {
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'videos.json';
+    link.download = 'data/videos.json';
     link.click();
     
     showNotification('✅ ดาวน์โหลด videos.json สำเร็จ!', 'success');
@@ -619,26 +619,27 @@ async function saveVideosToServer() {
  * เรียกใช้เมื่อกดปุ่ม "Update" ใน UI
  */
 async function updateVideosJSON() {
-    if (videos.length === 0) {
-        showNotification('⚠️ ไม่มีข้อมูลวิดีโอให้อัพเดต', 'warning');
-        return;
-    }
-    
     // แสดงข้อความกำลังโหลด
-    showNotification('🔄 กำลังอัพเดตข้อมูลไปยัง data/videos.json...', 'info');
+    const videoCount = videos.length;
+    const message = videoCount === 0 
+        ? '🔄 กำลังอัพเดตข้อมูล (ล้างรายการวิดีโอทั้งหมด)...'
+        : `🔄 กำลังอัพเดตข้อมูล ${videoCount} วิดีโอไปยัง data/videos.json...`;
+    
+    showNotification(message, 'info');
     
     try {
-        // เรียก API เพื่อบันทึกข้อมูล
+        // เรียก API เพื่อบันทึกข้อมูล (รองรับการบันทึก array ว่างด้วย)
         await saveVideosToServer();
         
         // แสดงข้อความสำเร็จ
-        showNotification(
-            `✅ อัพเดตข้อมูลสำเร็จ!\n📝 บันทึก ${videos.length} วิดีโอไปยัง data/videos.json\n\n🔄 Refresh หน้า video-gallery เพื่อดูข้อมูลใหม่`, 
-            'success'
-        );
+        const successMessage = videoCount === 0
+            ? `✅ ล้างข้อมูลสำเร็จ!\n📝 ไฟล์ data/videos.json ถูกล้างเรียบร้อย\n\n🔄 Refresh หน้า video-gallery เพื่อดูการเปลี่ยนแปลง`
+            : `✅ อัพเดตข้อมูลสำเร็จ!\n📝 บันทึก ${videoCount} วิดีโอไปยัง data/videos.json\n\n🔄 Refresh หน้า video-gallery เพื่อดูข้อมูลใหม่`;
+        
+        showNotification(successMessage, 'success');
         
         console.log('✅ Update complete:', {
-            totalVideos: videos.length,
+            totalVideos: videoCount,
             file: 'data/videos.json',
             timestamp: new Date().toISOString()
         });
@@ -646,7 +647,7 @@ async function updateVideosJSON() {
     } catch (error) {
         // แสดงข้อความ error พร้อมคำแนะนำ
         showNotification(
-            `❌ ไม่สามารถอัพเดตข้อมูลได้!\n\n⚠️ กรุณาตรวจสอบ:\n1. API Server กำลังทำงานหรือไม่\n2. เปิด Terminal และรัน: node api-server.js\n3. ตรวจสอบ Console (F12) เพื่อดูรายละเอียด`, 
+            `❌ ไม่สามารถอัพเดตข้อมูลได้!\n\n⚠️ กรุณาตรวจสอบ:\n1. API Server กำลังทำงานหรือไม่\n2. เปิด Terminal และรัน: node server/api-server.js\n3. ตรวจสอบ Console (F12) เพื่อดูรายละเอียด`, 
             'error'
         );
         
