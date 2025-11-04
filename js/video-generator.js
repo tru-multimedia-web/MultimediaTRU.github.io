@@ -606,8 +606,11 @@ async function saveVideosToServer() {
 }
 
 /**
- * ฟังก์ชัน Update - อัพเดตข้อมูลไปยัง data/videos.json โดยอัตโนมัติ
+ * ฟังก์ชัน Update - ดาวน์โหลดไฟล์ videos.json เพื่อนำไปอัพเดตใน data/videos.json
  * เรียกใช้เมื่อกดปุ่ม "Update" ใน UI
+ * 
+ * หมายเหตุ: เนื่องจากโปรเจคนี้ใช้ GitHub Pages ที่ไม่มี backend
+ * ฟังก์ชันนี้จะดาวน์โหลดไฟล์ JSON ให้ผู้ใช้นำไปแทนที่ data/videos.json เอง
  */
 async function updateVideosJSON() {
     if (videos.length === 0) {
@@ -615,33 +618,46 @@ async function updateVideosJSON() {
         return;
     }
     
-    // แสดงข้อความกำลังโหลด
-    showNotification('🔄 กำลังอัพเดตข้อมูลไปยัง data/videos.json...', 'info');
-    
     try {
-        // เรียก API เพื่อบันทึกข้อมูล
-        await saveVideosToServer();
+        // ลบ thumbnailData ออกเพื่อลดขนาดไฟล์
+        const cleanVideos = videos.map(v => {
+            const {thumbnailData, ...videoWithoutData} = v;
+            return videoWithoutData;
+        });
+        
+        // สร้างไฟล์ JSON
+        const jsonString = JSON.stringify(cleanVideos, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        // ดาวน์โหลดไฟล์
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'videos.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
         
         // แสดงข้อความสำเร็จ
         showNotification(
-            `✅ อัพเดตข้อมูลสำเร็จ!\n📝 บันทึก ${videos.length} วิดีโอไปยัง data/videos.json\n\n🔄 Refresh หน้า video-gallery เพื่อดูข้อมูลใหม่`, 
+            `✅ ดาวน์โหลด videos.json สำเร็จ!\n\n📝 มี ${videos.length} วิดีโอ\n\n⚠️ กรุณานำไฟล์ที่ดาวน์โหลดไปแทนที่:\n📂 data/videos.json\n\nจากนั้นทำการ commit และ push ไปยัง GitHub`, 
             'success'
         );
         
-        console.log('✅ Update complete:', {
+        console.log('✅ Downloaded videos.json:', {
             totalVideos: videos.length,
-            file: 'data/videos.json',
+            filename: 'videos.json',
             timestamp: new Date().toISOString()
         });
         
     } catch (error) {
-        // แสดงข้อความ error พร้อมคำแนะนำ
         showNotification(
-            `❌ ไม่สามารถอัพเดตข้อมูลได้!\n\n⚠️ กรุณาตรวจสอบ:\n1. API Server กำลังทำงานหรือไม่\n2. เปิด Terminal และรัน: node api-server.js\n3. ตรวจสอบ Console (F12) เพื่อดูรายละเอียด`, 
+            `❌ ไม่สามารถดาวน์โหลดไฟล์ได้!\n\n⚠️ Error: ${error.message}\n\n💡 กรุณาลองใช้ปุ่ม "Download JSON" แทน`, 
             'error'
         );
         
-        console.error('❌ Update failed:', error);
+        console.error('❌ Download failed:', error);
     }
 }
 
