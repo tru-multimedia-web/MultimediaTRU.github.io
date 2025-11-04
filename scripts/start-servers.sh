@@ -12,6 +12,14 @@ echo "✅ Web Server เริ่มทำงาน (PID: $WEB_SERVER_PID)"
 
 # เริ่ม API Server (Port 5001)
 echo "🚀 เริ่ม API Server (Port 5001)..."
+
+# ตรวจสอบว่าติดตั้ง node_modules แล้วหรือยัง
+if [ ! -d "node_modules" ]; then
+    echo "📦 ติดตั้ง Node.js dependencies..."
+    npm install --silent
+    echo "✅ ติดตั้ง dependencies เรียบร้อย"
+fi
+
 node server/api-server.js > /dev/null 2>&1 &
 API_SERVER_PID=$!
 echo "✅ API Server เริ่มทำงาน (PID: $API_SERVER_PID)"
