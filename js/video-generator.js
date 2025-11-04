@@ -23,8 +23,7 @@ window.updateVideosJSON = updateVideosJSON;
 window.addEventListener('DOMContentLoaded', async () => {
     console.log('🎬 Video Generator: DOM Content Loaded');
     await loadFromJSON();
-    renderVideoList();
-    updateStats();
+    // renderVideoList และ updateStats จะถูกเรียกใน loadFromJSON แล้ว
 });
 
 async function loadFromJSON() {
@@ -37,21 +36,33 @@ async function loadFromJSON() {
             videos = await response.json();
             console.log('✅ Loaded', videos.length, 'videos from data/videos.json');
             console.log('📋 Videos data:', videos);
-            alert(`✅ โหลดข้อมูลสำเร็จ! พบ ${videos.length} วิดีโอในระบบ`);
-            showNotification(`✅ โหลดข้อมูลสำเร็จ! พบ ${videos.length} วิดีโอในระบบ`, 'success');
+            
             // บันทึกไปยัง localStorage เพื่อให้ทำงานได้แบบ offline
             saveToStorage();
+            
+            // อัพเดทการแสดงผลทันที
+            renderVideoList();
+            updateStats();
+            
+            showNotification(`✅ โหลดข้อมูลสำเร็จ! พบ ${videos.length} วิดีโอในระบบ`, 'success');
+            return true;
         } else {
             console.error('❌ HTTP Error:', response.status, response.statusText);
             showNotification('❌ ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์ได้', 'error');
             // ถ้าดึงจาก JSON ไม่ได้ ให้โหลดจาก localStorage แทน
             loadFromStorage();
+            renderVideoList();
+            updateStats();
+            return false;
         }
     } catch (error) {
         console.error('❌ Error loading videos.json:', error);
         showNotification('❌ ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์ได้', 'error');
         // ถ้าดึงจาก JSON ไม่ได้ ให้โหลดจาก localStorage แทน
         loadFromStorage();
+        renderVideoList();
+        updateStats();
+        return false;
     }
 }
 
@@ -60,6 +71,9 @@ function loadFromStorage() {
     if (stored) {
         videos = JSON.parse(stored);
         console.log('📱 Loaded', videos.length, 'videos from localStorage');
+    } else {
+        console.log('📱 No data in localStorage');
+        videos = [];
     }
 }
 
@@ -268,13 +282,21 @@ function editVideo(id) {
 }
 
 function renderVideoList() {
+    console.log('🎨 renderVideoList() called, videos count:', videos.length);
     const list = document.getElementById('videoList');
 
+    if (!list) {
+        console.error('❌ videoList element not found!');
+        return;
+    }
+
     if (videos.length === 0) {
+        console.log('📭 No videos to display');
         list.innerHTML = '<p class="empty-state">ยังไม่มีวิดีโอ เริ่มเพิ่มวิดีโอใหม่ทางซ้ายมือ</p>';
         return;
     }
 
+    console.log('✅ Rendering', videos.length, 'videos');
     let html = '';
     videos.forEach(video => {
         // แปลง URL Google Drive เป็น embed URL
@@ -316,6 +338,7 @@ function renderVideoList() {
     });
 
     list.innerHTML = html;
+    console.log('✅ Rendered HTML updated');
 }
 
 // ฟังก์ชันช่วยแปลงชื่อหมวดหมู่เป็นภาษาไทย
