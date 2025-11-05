@@ -45,7 +45,9 @@ button {
 
 /* Banner and Content Wrapper */
 .banner {
+    margin-top: 0.5vh;
     width: 100%;
+    height: 700px;
     background-color: #0f0f0f;
     padding: 4vw 0; 
     color: white;
@@ -439,8 +441,13 @@ button {
     text-align: left;
     padding-right: 20px;
     padding-left: 0;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
+    display: block;
+}
+
+.banner_left .content-wrapper {
+    align-items: center;
 }
 
 .banner_left .image-section {
@@ -483,7 +490,7 @@ button {
 
 .title-en {
     font-size: clamp(20px, 3.5vw, 60px);
-    font-weight: 900;
+    font-weight: bold;
     line-height: 1.1;
     margin-bottom: 1.5vw;
     color: #ff0000;
@@ -526,6 +533,28 @@ button {
 /* ================================================================ */
 /* 9. COURSE SECTION                                                */
 /* ================================================================ */
+
+.course-subtitle-before {
+    margin-bottom: 50px;
+    color: white;
+    text-align: center;
+    font-size: clamp(16px, 2vw, 26px);
+    font-family: 'Athiti';
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+
+.course-subtitle-before div {
+    width: 70%;
+    margin: 0 auto;
+    min-width: 300px; 
+    display: flex;
+    flex-direction: column;
+}
+
 .course-content {
     background-color: #000000;
     max-width: 1200px;
@@ -540,16 +569,16 @@ button {
 .course-title {
     color: #ff0000;
     font-family: 'Athiti', sans-serif;
-    font-size: clamp(24px, 2.5vw, 36px);
+    font-size: clamp(24px, 2.5vw, 32px);
     font-weight: bold;
     margin-bottom: 2vw;
-    text-align: left;
+    text-align: center;
 }
 
 .credit-info {
     color: #ffffff;
     font-weight: normal;
-    font-size: clamp(18px, 2vw, 28px);
+    font-size: clamp(18px, 2vw, 26px);
 }
 
 /* Course Tables */
@@ -660,6 +689,10 @@ button {
     background-color: #2a2a2a;
     border-left: 4px solid #ff0000;
     border-radius: 4px;
+}
+
+.before-cw {
+    margin-top: 8dvh;
 }
 
 .plan-section {
@@ -1573,7 +1606,7 @@ button {
 }
 
 .load-more-btn {
-    background: linear-gradient(145deg, #4ecdc4, #45b7aa);
+    background: linear-gradient(145deg, #ee0000, #fb2121);
     color: #ffffff;
     border: none;
     padding: clamp(12px, 2.5vw, 16px) clamp(25px, 4vw, 40px);
@@ -1582,13 +1615,13 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+    box-shadow: 0 5px 15px rgba(205, 110, 78, 0.3);
 }
 
 .load-more-btn:hover {
-    background: linear-gradient(145deg, #45b7aa, #3da095);
+    background: linear-gradient(145deg, #ed0404, #fa2525);
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(78, 205, 196, 0.5);
+    box-shadow: 0 10px 20px rgba(205, 105, 78, 0.5);
 }
 
 .refresh-gallery-btn {
