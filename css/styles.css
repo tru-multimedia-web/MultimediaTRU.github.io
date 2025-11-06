@@ -96,7 +96,7 @@ button {
 
 /* Header Section */
 .head_section {
-    height: 15vw;
+    height: 22dvh;
     background-color: rgb(0, 0, 0);
     display: flex;
     align-items: center;
@@ -197,6 +197,12 @@ button {
     .hamburger {
         display: none !important;
     }
+
+    .head_section {
+        margin-top: 0;
+        height: 160px;
+    }
+
 }
 
 /* ================================================================ */
@@ -1406,6 +1412,20 @@ button {
     font-weight: 500;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn .icon {
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.2rem;
+    display: none;
+    color: #ffffff;
+}
+
+.filter-btn .text {
+    display: inline;
 }
 
 .filter-btn:hover {
@@ -1701,13 +1721,83 @@ button {
     }
     
     .video-filters {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 8px;
+        padding: 10px 0;
+        margin-bottom: 20px;
     }
     
     .filter-btn {
-        min-width: 120px;
+        min-width: 50px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        position: relative;
     }
+    
+    /* Hide text and show icons on mobile */
+    .filter-btn span.text {
+        display: none;
+    }
+    
+    .filter-btn .icon {
+        display: block !important;
+        font-family: 'Material Symbols Outlined';
+        font-size: 1.4rem;
+        font-weight: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        color: #ffffff !important;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .filter-btn.active .icon {
+        color: #ffffff !important;
+        z-index: 10;
+    }
+}
+
+@media (max-width: 480px) {
+    .head_section{
+        height: 80px;   
+    }
+    .head_section div{
+        top: 10px;
+        position: relative;
+    }
+
+    .icon-red{
+        /* margin-bottom: 5px;    */
+        width: 100px; 
+    }
+
+    .con-icon-red{
+        padding-top: 200px;   
+        position: relative;
+        display: block;
+    }   
+}
+
+.con-icon-red{
+    text-align: center; 
+    background-color: #0f0f0f; 
+    padding-top: 80px;
 }
 
 /* ================================================================ */
@@ -2018,6 +2108,10 @@ button {
         padding: 20px;
     }
 }
+
+
+
+
 
 /* ================================================================ */
 /* END OF ORGANIZED CSS                                             */
