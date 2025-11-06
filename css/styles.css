@@ -197,12 +197,6 @@ button {
     .hamburger {
         display: none !important;
     }
-
-    .head_section {
-        margin-top: 0;
-        height: 160px;
-    }
-
 }
 
 /* ================================================================ */
