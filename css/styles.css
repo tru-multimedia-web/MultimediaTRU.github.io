@@ -1747,7 +1747,7 @@ button {
     }
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
     .video-grid {
         grid-template-columns: 1fr;
         gap: 15px;
@@ -1767,13 +1767,13 @@ button {
         margin-bottom: 20px;
     }
     
-    .filter-btn {
+    .video-filters .filter-btn {
         min-width: 50px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        padding: 0;
-        display: flex;
+        padding: 0 !important;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         font-size: 1.2rem;
@@ -1782,14 +1782,16 @@ button {
     }
     
     /* Hide text and show icons on mobile */
-    .filter-btn span.text {
-        display: none;
+    .video-filters .filter-btn span.text,
+    .video-filters .filter-btn .text {
+        display: none !important;
     }
     
-    .filter-btn .icon {
+    .video-filters .filter-btn .icon,
+    .video-filters .filter-btn span.icon {
         display: block !important;
-        font-family: 'Material Symbols Outlined';
-        font-size: 1.4rem;
+        font-family: 'Material Symbols Outlined' !important;
+        font-size: 1.4rem !important;
         font-weight: normal;
         font-style: normal;
         line-height: 1;
@@ -1804,7 +1806,9 @@ button {
         z-index: 10;
     }
     
-    .filter-btn.active .icon {
+    .video-filters .filter-btn.active .icon,
+    .video-filters .filter-btn.active span.icon {
+        display: block !important;
         color: #ffffff !important;
         z-index: 10;
     }
