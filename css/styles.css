@@ -184,6 +184,22 @@ button {
     display: none;
 }
 
+
+.objective-text {
+    text-align: center;
+    margin: 2vw auto;
+    max-width: 100%;
+    display: block;
+    position: relative;
+}
+
+.objective-text div{
+    text-align: center;
+    color: white;
+    font-size: clamp(18px, 2vw, 32px);
+    margin: 50px;
+}
+
 /* Desktop: Force hide mobile elements */
 @media (min-width: 769px) {
     .tab_mobile,
@@ -515,11 +531,12 @@ button {
 }
 
 .about-paragraph {
+    /* width: 70%; */
     background-color: none;
     max-width: 1200px;
     color: #ffffff;
     font-family: 'Athiti', sans-serif;
-    font-size: clamp(18px, 2vw, 32px);
+    font-size: clamp(16px, 2vw, 26px);
     line-height: 1.6;
     margin: 0 auto 1.5vw auto;
     padding: 1vw 2vw;
@@ -580,6 +597,32 @@ button {
     font-weight: normal;
     font-size: clamp(18px, 2vw, 26px);
 }
+
+.width-obj {
+    width: 70%;
+}
+
+.obj-head {
+    align-items: center;
+    /* width: 0%; */
+    margin: 0 auto;
+    margin-top: 52px;
+    font-size: 3pc;
+    /* border: 2px solid #ff0000; */
+    /* border-radius: 10px; */
+    overflow: hidden;
+    /* background-color: #ff0000; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); */
+    position: relative;
+    display: block;
+    color: red;
+}
+.obj-paragraph {
+    font-size: clamp(16px, 2vw, 26px);
+    /* margin-top: 5%; */
+    /* margin-bottom: 5%; */
+}
+
 
 /* Course Tables */
 .course-table {
