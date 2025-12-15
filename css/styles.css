@@ -618,7 +618,7 @@ button {
     color: red;
 }
 .obj-paragraph {
-    font-size: clamp(16px, 2vw, 26px);
+    font-size: clamp(17px, 1.8vw, 26px);
     /* margin-top: 5%; */
     /* margin-bottom: 5%; */
 }
