@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const videoDescription = document.getElementById('video-description');
 
     try {
-        // โหลดวิดีโอจากไฟล์ JSON (ใช้วิธีเดียวกับ video-gallery.js)
-        const response = await fetch('./data/videos.json');
+        // โหลดวิดีโอจากไฟล์ JSON ผ่าน API (เพื่อรองรับข้อมูลล่าสุดจาก R2)
+        const response = await fetch('api/get-videos');
         if (!response.ok) {
             throw new Error('Failed to load videos');
         }
@@ -27,19 +27,42 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Update page title
             document.title = `${video.title} - Multimedia TRU`;
 
-            // Create iframe for the video (Google Drive) with autoplay and hidden controls
-            const iframe = document.createElement('iframe');
-            const videoUrl = video.url.replace("/view", "/preview");
-            // เพิ่ม rm=minimal เพื่อซ่อนปุ่มเปิดหน้าต่างใหม่
-            iframe.src = videoUrl + "?autoplay=1&rm=minimal";
-            iframe.width = "100%";
-            iframe.height = "100%";
-            iframe.allow = "autoplay";
-            iframe.frameBorder = "0";
-            iframe.allowFullscreen = true;
-            iframe.sandbox = "allow-same-origin allow-scripts allow-popups allow-forms";
+            // ตรวจสอบว่าเป็น Link แบบไหน (Google Drive หรือ Direct Link/R2)
+            if (video.url.includes('drive.google.com')) {
+                // Create iframe for the video (Google Drive)
+                const iframe = document.createElement('iframe');
+                const videoUrl = video.url.replace("/view", "/preview");
+                // เพิ่ม rm=minimal เพื่อซ่อนปุ่มเปิดหน้าต่างใหม่
+                iframe.src = videoUrl + "?autoplay=1&rm=minimal";
+                iframe.width = "100%";
+                iframe.height = "100%";
+                iframe.allow = "autoplay";
+                iframe.frameBorder = "0";
+                iframe.allowFullscreen = true;
+                iframe.sandbox = "allow-same-origin allow-scripts allow-popups allow-forms";
+                playerFrame.appendChild(iframe);
+            } else {
+                // กรณีเป็น Direct Link (Cloudflare R2, อื่นๆ) ใช้ <video> tag
+                const videoEl = document.createElement('video');
+                videoEl.src = video.url;
+                videoEl.controls = true;
+                videoEl.autoplay = true;
+                videoEl.id = 'main-video-player';
+                videoEl.style.width = "100%";
+                videoEl.style.height = "100%";
+                videoEl.style.backgroundColor = "#000"; // พื้นหลังสีดำ
+                
+                // ป้องกันการ download (ถ้าต้องการ)
+                videoEl.controlsList = "nodownload";
+                
+                // Error handling
+                videoEl.onerror = function() {
+                    console.error('Video load error');
+                    playerFrame.innerHTML = '<div style="color:white;text-align:center;padding:20px;">ไม่สามารถเล่นวิดีโอนี้ได้ (Format not supported or Link broken)</div>';
+                };
 
-            playerFrame.appendChild(iframe);
+                playerFrame.appendChild(videoEl);
+            }
 
             // Set video details
             videoTitle.textContent = video.title;

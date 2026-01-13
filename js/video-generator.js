@@ -26,9 +26,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function autoLoadVideosJSON() {
-    console.log('📂 Auto-loading videos from data/videos.json...');
+    console.log('📂 Auto-loading videos from API...');
     try {
-        const response = await fetch('data/videos.json');
+        // Change from directly fetch 'data/videos.json' to use the API function (which checks R2)
+        const response = await fetch('api/get-videos');
         console.log('🌐 Fetch response status:', response.status);
 
         if (response.ok) {
@@ -566,10 +567,10 @@ function showNotification(message, type = 'info') {
 // PYTHON API INTEGRATION
 // ================================================================
 
-const API_BASE_URL = 'http://localhost:5001/api';
+const API_BASE_URL = 'api';
 
 /**
- * บันทึกรูปภาพไปยัง Python API Server
+ * บันทึกรูปภาพไปยัง Cloudflare Functions API
  */
 async function saveImageToServer(filename, base64Data) {
     try {
@@ -593,9 +594,8 @@ async function saveImageToServer(filename, base64Data) {
         return result;
         
     } catch (error) {
-        console.warn('⚠️ Cannot connect to Python API:', error.message);
-        console.log('💡 Make sure to run: python3 api-server.py');
-        // ไม่ให้ error หยุดการทำงาน - ยังคงบันทึกใน localStorage ได้
+        console.warn('⚠️ Cannot connect to API:', error.message);
+        showNotification('❌ API Error: ' + error.message, 'error');
     }
 }
 
@@ -624,12 +624,12 @@ async function deleteImageFromServer(filename) {
         
     } catch (error) {
         console.warn('⚠️ Cannot delete image from server:', error.message);
-        throw error;
+        // throw error;
     }
 }
 
 /**
- * บันทึกข้อมูลวิดีโอไปยัง js/videos.json ผ่าน Python API
+ * บันทึกข้อมูลวิดีโอไปยัง R2 ผ่าน Cloudflare Functions
  */
 async function saveVideosToServer() {
     try {

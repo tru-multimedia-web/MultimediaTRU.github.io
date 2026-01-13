@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let visibleItems = 9;
     let allVideos = [];
-    const JSON_URL = './data/videos.json?v=' + Date.now(); // โหลดจากไฟล์ JSON พร้อม cache buster
+    const JSON_URL = 'api/get-videos?v=' + Date.now(); // โหลดจาก API แทน Static Json
 
     function createVideoCard(video, originalIndex) {
         const videoCard = document.createElement('a');
@@ -36,12 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (video.thumbnail.startsWith('images/cover/')) {
                 // ใช้รูปภาพจากโฟลเดอร์โดยตรง
                 console.log('🖼️ Using local image thumbnail:', video.thumbnail);
+                
+                // เตรียม Fallback HTML กรณีโหลดภาพไม่สำเร็จ
+                const isDrive = video.url.includes('drive.google.com');
+                const fallbackHtml = isDrive 
+                    ? `<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>` 
+                    : `<div class=video-container style=\\'background:#333;display:flex;align-items:center;justify-content:center;height:100%;color:#fff;\\'><span>Video</span></div>`;
+
                 thumbnailHTML = `
                     <div class="video-thumbnail">
                         <img src="${video.thumbnail}" 
                              alt="${video.title}"
                              loading="lazy"
-                             onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>';">
+                             onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='${fallbackHtml}';">
                         <div class="play-button-overlay">
                             <div class="play-icon">▶</div>
                         </div>
@@ -93,12 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 // ใช้ภาพปกจาก URL อื่น (Imgur, etc.) พร้อม fallback
+                const isDrive = video.url.includes('drive.google.com');
+                const fallbackHtml = isDrive 
+                    ? `<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>` 
+                    : `<div class=video-container style=\\'background:#333;display:flex;align-items:center;justify-content:center;height:100%;color:#fff;\\'><span>Video</span></div>`;
+
                 thumbnailHTML = `
                     <div class="video-thumbnail">
                         <img src="${video.thumbnail}" 
                              alt="${video.title}"
                              loading="lazy"
-                             onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='<div class=video-container><iframe src=\\'${video.url.replace("/view", "/preview")}\\' frameborder=0 allowfullscreen></iframe></div>';">
+                             onerror="console.error('❌ Image load failed:', this.src); this.parentElement.innerHTML='${fallbackHtml}';">
                         <div class="play-button-overlay">
                             <div class="play-icon">▶</div>
                         </div>
@@ -106,13 +118,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
         } else {
-            // ใช้ iframe แบบเดิม (Google Drive preview)
-            const videoPreviewUrl = video.url.replace("/view", "/preview");
-            thumbnailHTML = `
-                <div class="video-container">
-                    <iframe src="${videoPreviewUrl}" frameborder="0" scrolling="no" allowfullscreen></iframe>
-                </div>
-            `;
+            // กรณีไม่มีภาพปก
+            if (video.url.includes('drive.google.com')) {
+                // ถ้าเป็น Google Drive ใช้ iframe preview
+                const videoPreviewUrl = video.url.replace("/view", "/preview");
+                thumbnailHTML = `
+                    <div class="video-container">
+                        <iframe src="${videoPreviewUrl}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+                    </div>
+                `;
+            } else {
+                // ถ้าเป็น Link ทั่วไป/R2 ให้แสดง Placeholder หรือ Video Tag
+                // การใช้ video tag หลายตัวอาจทำให้หน้าเว็บช้า แต่ช่วยให้เห็นภาพได้
+                thumbnailHTML = `
+                    <div class="video-container">
+                        <video src="${video.url}" 
+                               preload="metadata" 
+                               style="width:100%; height:100%; object-fit: cover; background: #000;"
+                               muted>
+                        </video>
+                        <div class="play-button-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                `;
+            }
         }
         
         videoCard.innerHTML = `

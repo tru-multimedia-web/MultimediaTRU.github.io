@@ -7,6 +7,35 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="css/video-generator.css">
+    <style id="auth-hide">body{display:none !important;}</style>
+    <script>
+        // Simple Client-Side Protection
+        (function() {
+            // ตั้งรหัสผ่านที่นี่ (แนะนำให้เปลี่ยน)
+            const ADMIN_PASSWORD = "admin";
+            
+            function checkAuth() {
+                if (sessionStorage.getItem('admin_access') === 'true') {
+                    return true;
+                }
+                const input = prompt("🔒 Restricted Access\nกรุณากรอกรหัสผ่าน Admin:");
+                if (input === ADMIN_PASSWORD) {
+                    sessionStorage.setItem('admin_access', 'true');
+                    return true;
+                }
+                return false;
+            }
+
+            if (!checkAuth()) {
+                window.location.href = "index.html";
+            } else {
+                window.addEventListener('DOMContentLoaded', () => {
+                    const style = document.getElementById('auth-hide');
+                    if(style) style.remove();
+                });
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="header-bar"></div>
@@ -24,7 +53,7 @@
                     </div>
                     <div class="warning-box-text">
                         หลังดาวน์โหลดไฟล์ <code>videos.json</code> 
-                        ให้วางไฟล์ในโฟลเดอร์ <code>js/</code> ของโปรเจค
+                        ให้วางไฟล์ในโฟลเดอร์ <code>data/</code> ของโปรเจค
                     </div>
                 </div>
             </div>
@@ -64,9 +93,9 @@
                 
                 <form id="videoForm" onsubmit="addVideo(event)">
                     <div class="form-group">
-                        <label for="videoUrl">Google Drive URL *</label>
+                        <label for="videoUrl">Video URL (Google Drive หรือ R2/Direct Link) *</label>
                         <input type="url" id="videoUrl" required 
-                               placeholder="https://drive.google.com/file/d/xxx/view">
+                               placeholder="https://drive.google.com/... หรือ https://.../video.mp4">
                     </div>
                     
                     <div class="form-group">
